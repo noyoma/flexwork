@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KPIA 성과 및 업무 관리 시스템</title>
+<title>KPIA 성과 및 업무 통합 관리 시스템</title>
 <link rel="icon" type="image/png" href="https://www.k-mca.or.kr/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@100;300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0d0f14; --bg2: #141720; --bg3: #1c2030;
@@ -21,89 +21,86 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Pretendard', sans-serif; height: 100vh; overflow: hidden; }
 
-/* 로그인 */
+/* 로그인 화면 */
 #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-.login-box { background: var(--bg2); border: 1px solid var(--border); padding: 50px; border-radius: 24px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+.login-box { background: var(--bg2); border: 1px solid var(--border); padding: 55px; border-radius: 28px; width: 400px; text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.7); }
 
-/* SVG 로고 (ce72a7 원본 디자인 복제) */
-.kpia-logo-svg { width: 105px; height: auto; display: block; margin: 0 auto 12px; }
-.kpia-logo-svg text { font-family: 'Pretendard', sans-serif; font-weight: 200; fill: #ffffff; letter-spacing: -1px; }
+/* 무왜곡 고화질 SVG 로고 */
+.kpia-logo-svg { width: 110px; height: auto; display: block; margin: 0 auto 15px; overflow: visible; }
+.kpia-logo-svg text { font-family: 'Pretendard', sans-serif; font-weight: 200; fill: #ffffff; letter-spacing: -1.8px; }
 .kpia-logo-svg circle { fill: var(--orange); }
 
 #main-app { display: none; height: 100vh; }
 .app-container { display: flex; height: 100vh; }
 
 /* 사이드바 아코디언 */
-.sidebar { width: 260px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
-.main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; }
-.logo-section { padding: 30px 20px; border-bottom: 1px solid var(--border); text-align: center; }
-.logo-sub { font-size: 9px; font-weight: 700; color: var(--text3); letter-spacing: 1.5px; margin-top: 5px; }
+.sidebar { width: 265px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
+.main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; scroll-behavior: smooth; }
+.logo-section { padding: 35px 20px; border-bottom: 1px solid var(--border); text-align: center; }
+.logo-sub { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 1.5px; margin-top: 8px; }
 
 .nav { padding: 10px 0; flex: 1; overflow-y: auto; }
-.nav-group { margin-bottom: 4px; }
+.nav-group { margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.03); }
 .nav-group-header { 
-  padding: 14px 20px; font-size: 12px; font-weight: 900; color: var(--text3); 
+  padding: 16px 20px; font-size: 13px; font-weight: 900; color: var(--text3); 
   display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-  background: rgba(255,255,255,0.02); transition: 0.2s; border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.01); transition: 0.2s;
 }
-.nav-group-header:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-group-header:hover { color: var(--text); background: rgba(255,255,255,0.04); }
 .nav-group-header i { font-style: normal; font-size: 10px; transition: transform 0.3s; }
 .nav-group.closed .nav-group-content { display: none; }
 .nav-group.closed .nav-group-header i { transform: rotate(-90deg); }
 
-.nav-item { 
-  display: flex; align-items: center; gap: 10px; padding: 12px 25px; 
-  font-size: 13px; color: var(--text2); cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; 
-}
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 13px 25px; font-size: 13.5px; color: var(--text2); cursor: pointer; transition: 0.2s; border-left: 4px solid transparent; }
 .nav-item:hover { background: var(--bg3); color: var(--text); }
-.nav-item.active { background: rgba(91,124,255,0.1); color: var(--accent2); border-left-color: var(--accent); font-weight: 700; }
+.nav-item.active { background: rgba(91,124,255,0.1); color: var(--accent2); border-left-color: var(--accent); font-weight: 800; }
 
 /* 상단바 */
-.topbar { 
-  padding: 15px 30px; border-bottom: 1px solid var(--border); 
-  display: grid; grid-template-columns: 1.2fr auto 1.2fr; align-items: center; 
-  background: var(--bg); position: sticky; top: 0; z-index: 100; 
-}
-.topbar h2 { font-size: 16px; font-weight: 800; color: var(--text); white-space: nowrap; }
-.date-selectors { display: flex; gap: 10px; position: relative; justify-content: center; }
-.grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 15px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text); }
+.topbar { padding: 18px 30px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: var(--bg); position: sticky; top: 0; z-index: 100; }
+.topbar h2 { font-size: 18px; font-weight: 800; color: var(--text); }
+.date-selectors { display: flex; gap: 12px; position: relative; justify-content: center; }
+.grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text); border: 1px solid var(--border); }
 
-/* 월 배지 디자인 */
-.month-badge { font-size: 10px; color: var(--accent2); font-weight: 800; margin-left: 8px; padding: 2px 6px; background: rgba(91,124,255,0.15); border-radius: 4px; border: 1px solid rgba(91,124,255,0.2); vertical-align: middle; }
+/* 월(Month) 배지 */
+.month-badge { font-size: 11px; color: var(--accent); font-weight: 800; margin-left: 8px; padding: 2px 8px; background: rgba(91,124,255,0.12); border-radius: 5px; vertical-align: middle; border: 1px solid rgba(91,124,255,0.2); }
 
-/* 컨텐츠 공통 */
-.content { padding: 25px 30px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
-.panel-header { padding: 15px 20px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+/* 업무 바로가기 */
+.shortcut-wrapper { margin-bottom: 30px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid var(--border); }
+.shortcut-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.shortcut-btn { padding: 14px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); border-radius: 12px; font-size: 12px; font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; }
+.shortcut-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
 
-/* 로그 상세 스타일 */
-.log-item { background: var(--bg3); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--text3); border: 1px solid var(--border); }
-.log-header { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-.log-tag { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 900; }
+.content { padding: 30px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 25px; overflow: hidden; }
+.panel-header { padding: 18px 22px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
+
+/* 로그 카드 */
+.log-item { background: var(--bg3); border-radius: 14px; padding: 22px; margin-bottom: 18px; border-left: 5px solid var(--text3); border: 1px solid var(--border); }
+.log-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.log-tag { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 900; }
 .tag-등록 { background: rgba(34,197,94,0.15); color: var(--green); }
 .tag-수정 { background: rgba(91,124,255,0.15); color: var(--accent2); }
 .tag-삭제 { background: rgba(239,68,68,0.15); color: var(--red); }
-.log-detail-box { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 12px; white-space: pre-wrap; color: var(--text2); font-size: 12px; line-height: 1.8; }
+.log-detail-box { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 18px; white-space: pre-wrap; color: var(--text2); font-size: 13.5px; line-height: 1.8; }
 .log-diff-label { color: var(--orange); font-weight: 800; font-size: 11px; display: block; }
 
-/* 테이블 규격 */
-.kpi-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 850px; }
-.kpi-table th, .kpi-table td { padding: 14px 10px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: center; word-break: keep-all; }
-.col-item { text-align: left !important; width: 160px; }
-
-.tracking-card { background: var(--bg3); border-radius: 10px; padding: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; }
-.tracking-card:hover { transform: translateX(5px); background: #252a40; }
+.tracking-card { background: var(--bg3); border-radius: 12px; padding: 22px; margin-bottom: 12px; border-left: 5px solid var(--accent); cursor: pointer; transition: 0.2s; }
+.tracking-card:hover { transform: translateX(8px); background: #252a40; }
 .tracking-card.locked { cursor: default; opacity: 0.6; border-left-style: dotted; }
 
-.history-team-btn { padding: 18px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; font-size: 14px; }
+.history-team-btn { padding: 20px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; font-size: 14px; }
 .history-team-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
 /* 모달 */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1500; backdrop-filter: blur(5px); }
-.modal { background: var(--bg2); width: 620px; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 40px 80px rgba(0,0,0,0.5); overflow: hidden; }
-.modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); margin-bottom: 15px; outline: none; }
-.btn-reg { background: var(--accent); color: white; padding: 7px 12px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; font-size: 11px; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1500; backdrop-filter: blur(6px); }
+.modal { background: var(--bg2); width: 640px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 50px 100px rgba(0,0,0,0.6); overflow: hidden; }
+.modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; color: var(--text); margin-bottom: 15px; outline: none; }
+.btn-reg { background: var(--accent); color: white; padding: 8px 16px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; font-size: 12px; }
+
+.selector-grid-popup { position: absolute; top: 48px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 15px; display: none; grid-template-columns: repeat(4, 1fr); gap: 10px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); z-index: 1000; width: 280px; }
+.grid-item { padding: 12px; text-align: center; border-radius: 8px; background: var(--bg3); cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text2); }
+.grid-item.active { background: var(--accent); color: white; }
 </style>
 </head>
 <body onclick="closeAllPopups(event)">
@@ -111,10 +108,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 <div id="login-screen">
   <div class="login-box">
     <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
-    <div style="font-size:16px; font-weight:900; margin-bottom:25px; color:var(--text); letter-spacing: 1px;">MANAGEMENT SYSTEM LOGIN</div>
+    <div style="font-size:16px; font-weight:900; margin-bottom:25px; color:var(--text); opacity: 0.8;">INTEGRATED SYSTEM LOGIN</div>
     <input type="text" id="login-id" class="modal-input" placeholder="ID">
     <input type="password" id="login-pw" class="modal-input" placeholder="PASSWORD">
-    <button class="btn-reg" style="width:100%; padding:16px; font-size:14px;" onclick="handleLogin()">AUTHENTICATE</button>
+    <button class="btn-reg" style="width:100%; padding:18px; font-size:14px; font-weight:900;" onclick="handleLogin()">AUTHENTICATE</button>
   </div>
 </div>
 
@@ -124,9 +121,8 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
       <div class="logo-section">
         <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
         <div class="logo-sub">PERFORMANCE & TASKS</div>
-        <button class="btn-reg" style="font-size:10px; margin-top:25px; width:100%; opacity:0.7;" onclick="exportToExcel()">📊 EXCEL EXPORT</button>
+        <button class="btn-reg" style="font-size:10px; margin-top:25px; width:100%; opacity:0.8; font-weight:900;" onclick="exportToExcel()">📊 EXCEL EXPORT</button>
       </div>
-      
       <div class="nav">
         <div class="nav-group" id="group-kpi">
           <div class="nav-group-header" onclick="toggleNavGroup('group-kpi')"><span>KPI 성과 관리</span> <i>▼</i></div>
@@ -137,7 +133,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
             <div id="m-kpi-logs" class="nav-item" onclick="showView('logs', 'kpi')">📜 변경 로그 (History)</div>
           </div>
         </div>
-
         <div class="nav-group" id="group-task">
           <div class="nav-group-header" onclick="toggleNavGroup('group-task')"><span>연간 주요 업무</span> <i>▼</i></div>
           <div class="nav-group-content">
@@ -146,23 +141,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
             <div id="m-task-logs" class="nav-item" onclick="showView('logs', 'task')">📜 변경 로그 (History)</div>
           </div>
         </div>
-
-        <div class="nav-item" onclick="handleLogout()" style="margin-top: 20px; color: var(--red); font-weight: 800;">🔓 LOGOUT</div>
+        <div class="nav-item" onclick="handleLogout()" style="margin-top: 30px; color: var(--red); font-weight: 800;">🔓 LOGOUT</div>
       </div>
     </nav>
 
-    <div class="main">
+    <div class="main" id="scroll-root">
       <div class="topbar">
         <h2 id="page-title">월별 트래킹</h2>
         <div class="date-selectors" id="date-controls">
-          <div style="position: relative;">
-            <div class="grid-trigger" onclick="togglePopup(event, 'year-grid')"><span id="display-year">2026</span>년 ▾</div>
-            <div id="year-grid" class="selector-grid-popup" style="position: absolute; top: 45px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 1000; width: 260px;"></div>
-          </div>
-          <div style="position: relative;">
-            <div class="grid-trigger" onclick="togglePopup(event, 'month-grid')"><span id="display-month">4월</span> ▾</div>
-            <div id="month-grid" class="selector-grid-popup" style="position: absolute; top: 45px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 1000; width: 260px;"></div>
-          </div>
+          <div style="position: relative;"><div class="grid-trigger" onclick="togglePopup(event, 'year-grid')"><span id="display-year">2026</span>년 ▾</div><div id="year-grid" class="selector-grid-popup"></div></div>
+          <div style="position: relative;"><div class="grid-trigger" onclick="togglePopup(event, 'month-grid')"><span id="display-month">4월</span> ▾</div><div id="month-grid" class="selector-grid-popup"></div></div>
         </div>
         <div></div>
       </div>
@@ -173,33 +161,24 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 
 <div id="modal" class="modal-overlay">
   <div class="modal">
-    <div class="panel-header" style="padding:18px 25px;">
-      <h3 id="modal-title" style="font-size:16px;">데이터 입력/수정</h3>
-      <button onclick="closeModal()" style="background:none; border:none; color:var(--text3); cursor:pointer; font-size:24px;">✕</button>
-    </div>
+    <div class="panel-header" style="padding:20px 25px;"><h3 id="modal-title">데이터 입력/수정</h3><button onclick="closeModal()" style="background:none; border:none; color:var(--text3); cursor:pointer; font-size:24px;">✕</button></div>
     <div class="modal-body" style="padding:28px;">
       <input type="hidden" id="f-id">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
         <div><label style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">대상 월</label><select id="f-month" class="modal-input" style="margin-bottom:0;" onchange="updateModalLabels()"></select></div>
         <div><label id="label-team-type" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">분류</label><select id="f-team" class="modal-input" style="margin-bottom:0;" onchange="updateKpiOptions()"></select></div>
       </div>
-      <div style="margin-bottom:25px;">
-        <label id="label-item-type" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">항목</label>
-        <select id="f-kpi" class="modal-input" style="margin-bottom:0; border:1px solid var(--accent); font-weight:700; color:var(--accent2);"></select>
-      </div>
+      <div style="margin-bottom:25px;"><label id="label-item-type" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">항목</label><select id="f-kpi" class="modal-input" style="margin-bottom:0; border:1px solid var(--accent); font-weight:700; color:var(--accent2);"></select></div>
       <div style="margin-bottom:25px;"><label id="label-last" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">실적</label><textarea id="f-last" class="modal-input" style="height:110px; margin-bottom:0; line-height:1.6;"></textarea></div>
       <div style="margin-bottom:25px;"><label id="label-this" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">계획</label><textarea id="f-this" class="modal-input" style="height:110px; margin-bottom:0; line-height:1.6;"></textarea></div>
-      <div id="modal-footer" style="display:flex; gap:12px;">
-        <button class="btn-reg" style="flex:2; padding:16px; background:var(--accent); color:white; border:none; border-radius:8px; font-weight:800; cursor:pointer;" onclick="saveData()">SAVE CHANGES</button>
-        <button id="del-btn" class="btn-reg" style="flex:1; background:var(--red);" onclick="deleteData()">DELETE</button>
-      </div>
+      <div id="modal-footer" style="display:flex; gap:12px;"><button class="btn-reg" style="flex:2; padding:18px; font-size:14px; font-weight:900;" onclick="saveData()">SAVE CHANGES</button><button id="del-btn" class="btn-reg" style="flex:1; background:var(--red); font-weight:900;" onclick="deleteData()">DELETE</button></div>
       <div id="lock-msg" style="display:none; color:var(--red); font-size:13px; font-weight:700; text-align:center;">마감된 월은 수정이 불가합니다.</div>
     </div>
   </div>
 </div>
 
 <script>
-/** 보안 및 기초 데이터 **/
+/** 보안 인증 **/
 const _0xV1 = [108, 119, 110, 102, 88, 108, 119, 110];
 const _0xV2 = [108, 119, 110, 53, 55, 53, 49, 38]; 
 const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
@@ -207,71 +186,38 @@ const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
 function handleLogin() {
   const i = document.getElementById('login-id').value.toLowerCase();
   const p = document.getElementById('login-pw').value;
-  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) { sessionStorage.setItem('k_uid', i); sessionStorage.setItem('k_token_v3', btoa(Date.now())); checkAuth(); } else { alert("인증 실패"); }
+  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) {
+    sessionStorage.setItem('k_uid', i); sessionStorage.setItem('k_v5_token', btoa(Date.now())); checkAuth();
+  } else { alert("인증 실패: 아이디 혹은 비밀번호가 틀립니다."); }
 }
-function checkAuth() { if (sessionStorage.getItem('k_token_v3')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
+function checkAuth() { if (sessionStorage.getItem('k_v5_token')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
 
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
 const KPI_TEAMS = ['기획홍보팀', '대외정책팀', '차트운영팀', '개발파트'];
 const KPI_DATA_FULL = {
-  '기획홍보팀': [{ item:'신규 사업 개발', weight:0.35, goal:'런칭', s:'300↑', a:'200-299', b:'100-199', c:'100↓' }, { item:'협회 언론 대응', weight:0.25, goal:'보도자료', s:'16↑', a:'13-15', b:'10-12', c:'9↓' }, { item:'최소 보도량 달성률', weight:0.05, goal:'보조지표', s:'80%↑', a:'70-80', b:'60-70', c:'60↓' }, { item:'MWM 콘퍼런스', weight:0.20, goal:'만족도', s:'90↑', a:'80-90', b:'70-80', c:'70↓' }, { item:'써클차트 브랜딩', weight:0.15, goal:'유입증가', s:'30%↑', a:'15%', b:'0', c:'감소' }],
-  '대외정책팀': [{ item:'정책파트너십 강화', weight:0.2, goal:'리포트', s:'주 2회', a:'1.5', b:'1', c:'미달' }, { item:'이슈 공론화', weight:0.3, goal:'공청회', s:'3건', a:'2', b:'1', c:'0' }, { item:'법안 입법관리', weight:0.2, goal:'입법대응', s:'2↑', a:'1', b:'0', c:'마이너스' }, { item:'정책 아이템 개발', weight:0.3, goal:'이슈발굴', s:'2↑', a:'2', b:'1', c:'0' }],
-  '차트운영팀': [{ item:'클린 데이터 선행관리', weight:0.3, goal:'오류감소', s:'20↓', a:'26', b:'32', c:'38' }, { item:'운영 효율화', weight:0.3, goal:'업무량감소', s:'2.5FTE', a:'3.0', b:'3.5', c:'전년동' }, { item:'브랜딩', weight:0.15, goal:'유입증가', s:'30%↑', a:'15%', b:'0', c:'감소' }, { item:'파트너십 수익 증대', weight:0.25, goal:'차트매출', s:'+25%', a:'+10%', b:'0%', c:'감소' }],
-  '개발파트': [{ item:'시스템 안정 운영', weight:0.3, goal:'장애복구', s:'0건', a:'2h↓', b:'4h↓', c:'4h↑' }, { item:'시스템 개선', weight:0.2, goal:'SLA준수', s:'4↑', a:'3', b:'2', c:'1↓' }, { item:'시스템 클라우드 이전', weight:0.25, goal:'마일스톤', s:'완료', a:'테스트', b:'기획서', c:'정체' }, { item:'정산분배 시스템 런칭', weight:0.25, goal:'납기/안정', s:'0건', a:'3↓', b:'적기', c:'지연' }]
+  '기획홍보팀': [{ item:'신규 사업 개발' }, { item:'협회 언론 대응' }, { item:'최소 보도량 달성률' }, { item:'MWM 콘퍼런스' }, { item:'써클차트 브랜딩' }],
+  '대외정책팀': [{ item:'정책파트너십 강화' }, { item:'이슈 공론화' }, { item:'법안 입법관리' }, { item:'정책 아이템 개발' }],
+  '차트운영팀': [{ item:'클린 데이터 선행관리' }, { item:'운영 효율화' }, { item:'브랜딩' }, { item:'파트너십 수익 증대' }],
+  '개발파트': [{ item:'시스템 안정 운영' }, { item:'시스템 개선' }, { item:'시스템 클라우드 이전' }, { item:'정산분배 시스템 런칭' }]
 };
 
+// 최광호 삭제 및 29개 항목 전체 반영
 const TASK_TEAMS = ['음악산업 지원확대', '입법 대응', '정책 기능 강화', '회원사 권익보호', '써클차트 활성화', '협회 운영 소통', '신규 수익 개발'];
 const TASK_DATA_FULL = {
-  '음악산업 지원확대': [
-    { item:'정부의 대중음악 전담 조직 추진', owner:'우승현, 최태영' },
-    { item:'K-뮤직 펀드 조성 추진', owner:'우승현, 전종봉' },
-    { item:'음악관련 예산 증대 및 아이템 발굴', owner:'임숙형, 전종봉' },
-    { item:'음반·MD 수출 관련 지원 정책 개발', owner:'우승현, 김창규' }
-  ],
-  '입법 대응': [
-    { item:'대중법 일부개정 등 규제 강화 대응', owner:'최태영, 전종봉' },
-    { item:'안무저작권 표준계약서 제정 지원', owner:'최태영, 전종봉' },
-    { item:'음악산업 제작비 세액 공제 적용 추진', owner:'최태영, 전종봉' },
-    { item:'AI 저작권 관련 업계 가이드 및 대응', owner:'최태영, 김창규' }
-  ],
-  '정책 기능 강화': [
-    { item:'협회 내 정책연구소 설립 추진', owner:'우승현, 최태영' },
-    { item:'MWM 콘퍼런스 품질 및 만족도 개선', owner:'임숙형' },
-    { item:'국회 정책제안 포럼 정례 개최', owner:'최태영, 전종봉' },
-    { item:'정책 리포트 정례 발행 시스템 구축', owner:'우승현, 전종봉' }
-  ],
-  '회원사 권익보호': [
-    { item:'근로시간 52시간 유연 적용 정책 대응', owner:'최광호, 김창규' },
-    { item:'회원사 실무자 워크숍 및 전문 교육', owner:'임숙형, 최태영' },
-    { item:'회원사 현장 애로사항 발굴 및 해결', owner:'최광호, 전종봉' },
-    { item:'회원사 분쟁 조정 및 법률 지원 강화', owner:'최태영, 김창규' }
-  ],
-  '써클차트 활성화': [
-    { item:'써클차트 브랜드 인지도 홍보 확산', owner:'김창규' },
-    { item:'해외 차트 데이터 파트너십 확장', owner:'최광호, 우승현' },
-    { item:'차트 시상식(CMA) 성공적 기획 운영', owner:'임숙형, 최광호' },
-    { item:'데이터 정합성 및 선행 관리 고도화', owner:'김창규, 전종봉' },
-    { item:'차트 유료 데이터 서비스 모델 확장', owner:'우승현' }
-  ],
-  '협회 운영 소통': [
-    { item:'이사회 및 정기 총회 운영 관리', owner:'전종봉' },
-    { item:'대언론 소통 강화 및 보도자료 관리', owner:'김창규' },
-    { item:'사무국 조직 효율화 및 성과 관리', owner:'최광호' },
-    { item:'내부 전산 시스템 및 보안 고도화', owner:'전종봉, 우승현' }
-  ],
-  '신규 수익 개발': [
-    { item:'협회 자립을 위한 신규 사업 발굴', owner:'우승현, 최광호' },
-    { item:'기부금 및 자산 운용 효율화', owner:'전종봉' },
-    { item:'정부 부처 과제 수주 및 집행 관리', owner:'임숙형, 전종봉' },
-    { item:'산업 지원 협력 네트워크 강화', owner:'최광호, 최태영' }
-  ]
+  '음악산업 지원확대': [{ item:'정부의 대중음악 전담 조직 추진', owner:'우승현, 최태영' }, { item:'K-뮤직 펀드 조성 추진', owner:'우승현, 전종봉' }, { item:'음악관련 예산 증대 및 아이템 발굴', owner:'임숙형, 전종봉' }, { item:'음반·MD 수출 관련 지원 정책 개발', owner:'우승현, 김창규' }],
+  '입법 대응': [{ item:'대중법 일부개정 등 규제 강화 대응', owner:'최태영, 전종봉' }, { item:'안무저작권 표준계약서 제정 지원', owner:'최태영, 전종봉' }, { item:'음악산업 제작비 세액 공제 적용 추진', owner:'최태영, 전종봉' }, { item:'AI 저작권 관련 업계 가이드 및 대응', owner:'최태영, 김창규' }],
+  '정책 기능 강화': [{ item:'협회 내 정책연구소 설립 추진', owner:'우승현, 최태영' }, { item:'MWM 콘퍼런스 품질 및 만족도 개선', owner:'임숙형' }, { item:'국회 정책제안 포럼 정례 개최', owner:'최태영, 전종봉' }, { item:'정책 리포트 정례 발행 시스템 구축', owner:'우승현, 전종봉' }],
+  '회원사 권익보호': [{ item:'근로시간 52시간 유연 적용 대응', owner:'김창규' }, { item:'회원사 실무자 워크숍 및 전문 교육', owner:'임숙형, 최태영' }, { item:'회원사 현장 애로사항 발굴 및 해결', owner:'전종봉' }, { item:'회원사 분쟁 조정 및 법률 지원 강화', owner:'최태영, 김창규' }],
+  '써클차트 활성화': [{ item:'써클차트 브랜드 인지도 홍보 확산', owner:'김창규' }, { item:'해외 차트 데이터 파트너십 확장', owner:'우승현' }, { item:'차트 시상식(CMA) 성공적 기획 운영', owner:'임숙형' }, { item:'데이터 정합성 선행 관리 고도화', owner:'김창규, 전종봉' }, { item:'차트 유료 데이터 서비스 모델 확장', owner:'우승현' }],
+  '협회 운영 소통': [{ item:'이사회 및 정기 총회 운영 관리', owner:'전종봉' }, { item:'대언론 소통 강화 및 보도자료 관리', owner:'김창규' }, { item:'사무국 조직 효율화 및 성과 관리', owner:'Admin' }, { item:'내부 전산 시스템 및 보안 고도화', owner:'전종봉, 우승현' }],
+  '신규 수익 개발': [{ item:'협회 자립을 위한 신규 사업 발굴', owner:'우승현' }, { item:'기부금 및 자산 운용 효율화', owner:'전종봉' }, { item:'정부 부처 과제 수주 및 집행 관리', owner:'임숙형, 전종봉' }, { item:'산업 지원 협력 네트워크 강화', owner:'최태영' }]
 };
 
 let currentYear = 2026, currentMonth = new Date().getMonth();
 let currentView = 'tracking', currentCategory = 'kpi', currentHistoryTeam = KPI_TEAMS[0];
-let db = JSON.parse(localStorage.getItem('k_combined_db') || '[]');
-let logs = JSON.parse(localStorage.getItem('k_combined_logs') || '[]');
+let db = JSON.parse(localStorage.getItem('k_combined_db_vfinal') || '[]');
+let logs = JSON.parse(localStorage.getItem('k_combined_logs_vfinal') || '[]');
 
 const rNow = new Date(), rY = rNow.getFullYear(), rM = rNow.getMonth();
 
@@ -279,20 +225,21 @@ function toggleNavGroup(id) { document.getElementById(id).classList.toggle('clos
 
 function addHistoryLog(action, category, team, item, details) {
   const now = new Date(), uid = sessionStorage.getItem('k_uid') || 'Admin';
-  const time = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  logs.unshift({ time, action, category: category.toUpperCase(), team, item, details, user: uid });
-  localStorage.setItem('k_combined_logs', JSON.stringify(logs));
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  logs.unshift({ time: timeStr, action, category: category.toUpperCase(), team, item, details, user: uid });
+  localStorage.setItem('k_combined_logs_vfinal', JSON.stringify(logs));
 }
 
 function updateDateDisplays() {
   document.getElementById('display-year').textContent = currentYear;
   document.getElementById('display-month').textContent = MONTHS[currentMonth];
-  const yg = document.getElementById('year-grid'); yg.innerHTML = "";
+  const yg = document.getElementById('year-grid'), mg = document.getElementById('month-grid');
+  yg.innerHTML = ""; mg.innerHTML = "";
   for(let y=2024; y<=2030; y++) {
     const d = document.createElement('div'); d.className=`grid-item ${y===currentYear?'active':''}`; d.textContent=y+"년";
     d.onclick=(e)=>{e.stopPropagation();currentYear=y;updateDateDisplays();render();}; yg.appendChild(d);
   }
-  document.getElementById('month-grid').innerHTML = MONTHS.map((m,i)=>`<div class="grid-item ${i===currentMonth?'active':''}" onclick="event.stopPropagation();currentMonth=${i};updateDateDisplays();render();">${m}</div>`).join('');
+  mg.innerHTML = MONTHS.map((m,i)=>`<div class="grid-item ${i===currentMonth?'active':''}" onclick="event.stopPropagation();currentMonth=${i};updateDateDisplays();render();">${m}</div>`).join('');
 }
 
 function showView(view, category) {
@@ -300,43 +247,33 @@ function showView(view, category) {
   currentHistoryTeam = (category === 'kpi' ? KPI_TEAMS[0] : TASK_TEAMS[0]);
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   const btn = document.getElementById(`m-${category}-${view}`); if(btn) btn.classList.add('active');
-  const prefix = category === 'kpi' ? '[KPI]' : '[주요업무]';
   const titles = { 'tracking':'월별 트래킹', 'history':'연간 누적 현황', 'kpilist':'지표 가이드', 'logs':'변경 로그' };
-  document.getElementById('page-title').innerHTML = `${prefix} ${titles[view]}`;
+  document.getElementById('page-title').innerHTML = `[${category === 'kpi' ? 'KPI' : '주요업무'}] ${titles[view]}`;
   document.getElementById('date-controls').style.display = (view === 'tracking') ? 'flex' : 'none';
   render();
 }
 
 function render() {
-  if (!sessionStorage.getItem('k_v2_token')) return;
+  if (!sessionStorage.getItem('k_v5_token')) { sessionStorage.setItem('k_v5_token', btoa(Date.now())); }
   const container = document.getElementById('main-content');
-  const isPast = (currentYear < rY) || (currentYear === rY && currentMonth < rM);
-  const dataList = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
   const teams = (currentCategory === 'kpi' ? KPI_TEAMS : TASK_TEAMS);
+  const dataList = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
+  const isPast = (currentYear < rY) || (currentYear === rY && currentMonth < rM);
 
   if (currentView === 'logs') {
     const filtered = logs.filter(l => l.category === currentCategory.toUpperCase());
     container.innerHTML = filtered.length > 0 ? filtered.map(l => `
       <div class="log-item"><div class="log-header"><div><span class="log-tag tag-${l.action}">${l.action}</span> <span style="color:var(--text3); font-size:11px; margin-left:10px;">${l.time}</span></div><span class="log-user">UID: ${l.user}</span></div>
-      <div style="font-weight:800; font-size:14px; margin: 10px 0; color:var(--text);">${l.team} - ${l.item}</div><div class="log-detail-box">${l.details}</div></div>`).join('') : '<div style="text-align:center; padding:100px; color:var(--text3);">변경 기록이 없습니다.</div>';
-    return;
-  }
-
-  if (currentView === 'kpilist') {
-    container.innerHTML = KPI_TEAMS.map(team => `
-      <div class="panel"><div class="panel-header"><strong>${team} 지표 가이드</strong></div><div class="panel-body" style="overflow-x:auto;">
-      <table class="kpi-table"><thead><tr><th style="width:160px;">항목</th><th style="width:60px;">가중치</th><th>목표</th><th>S</th><th>A</th><th>B</th><th>C</th></tr></thead>
-      <tbody>${KPI_DATA_FULL[team].map(k => `<tr><td style="font-weight:700; text-align:left;">${k.item}</td><td style="color:var(--orange); font-weight:700;">${Math.round(k.weight*100)}%</td><td style="text-align:left;">${k.goal}</td><td>${k.s}</td><td>${k.a}</td><td>${k.b}</td><td>${k.c}</td></tr>`).join('')}</tbody></table>
-      </div></div>`).join('');
+      <div style="font-weight:800; font-size:14px; margin: 10px 0; color:var(--text);">${l.team} - ${l.item}</div><div class="log-detail-box">${l.details}</div></div>`).join('') : '<div style="text-align:center; padding:100px; color:var(--text3);">기록이 없습니다.</div>';
     return;
   }
 
   if (currentView === 'history') {
-    let html = `<div style="max-width: 1100px; margin: 0 auto;"><div class="history-team-grid">${teams.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}</div>`;
+    let html = `<div style="max-width: 1100px; margin: 0 auto;"><div class="history-team-grid" style="display:grid; grid-template-columns: repeat(${teams.length > 4 ? 4 : teams.length}, 1fr); gap:10px; margin-bottom:30px;">${teams.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}</div>`;
     for(let m = 0; m < 12; m++) {
-      const historyData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === m && d.team === currentHistoryTeam);
-      if(historyData.length > 0) {
-        html += `<div style="border-left:3px solid var(--orange); padding-left:25px; margin-bottom:40px;"><h3 style="color:var(--orange); margin-bottom:20px; font-size:18px; font-weight:900;">${MONTHS[m]} <span class="month-badge">RECORD</span></h3><div class="grid-2">${historyData.map(d => `
+      const hData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === m && d.team === currentHistoryTeam);
+      if(hData.length > 0) {
+        html += `<div style="border-left:3px solid var(--orange); padding-left:25px; margin-bottom:40px;"><h3 style="color:var(--orange); margin-bottom:20px; font-size:18px; font-weight:900;">${MONTHS[m]} <span class="month-badge">RECORD</span></h3><div class="grid-2">${hData.map(d => `
           <div class="panel"><div class="panel-header" style="border-bottom:none; font-size:13px; color:var(--accent2);">${d.item}</div><div class="panel-body" onclick="${(currentYear < rY || (currentYear === rY && m < rM)) ? '' : `openModal('${d.id}')`}" style="cursor:pointer; padding:0 20px 20px;">
           <div style="margin-bottom:12px;"><div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:5px;">✓ 실적</div><div style="font-size:13px; line-height:1.6;">${d.lastDone}</div></div>
           <div><div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:5px;">→ 계획</div><div style="font-size:13px; line-height:1.6;">${d.thisPlan}</div></div></div></div>`).join('')}</div></div>`;
@@ -346,20 +283,28 @@ function render() {
     return;
   }
 
-  const monthData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === currentMonth);
-  container.innerHTML = `<div class="grid-2">${teams.map(team => `
-    <div class="panel" style="border-top: 3px solid var(--color-${team} || var(--accent));">
+  let trackingHtml = "";
+  if (currentCategory === 'task') {
+    trackingHtml += `<div class="shortcut-wrapper"><div class="shortcut-grid" style="grid-template-columns: repeat(4, 1fr);">${teams.map((t, i) => `<div class="shortcut-btn" onclick="document.getElementById('sec-${i}').scrollIntoView({behavior:'smooth', block:'center'})">${t}</div>`).join('')}</div></div>`;
+  }
+
+  const mData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === currentMonth);
+  trackingHtml += `<div class="grid-2">${teams.map((team, idx) => `
+    <div class="panel" id="sec-${idx}" style="border-top: 3px solid var(--color-${team} || var(--accent));">
       <div class="panel-header"><span>${team} <span class="month-badge">${MONTHS[currentMonth]}</span></span><button class="btn-reg" onclick="openModal(null, '${team}')">+ 등록</button></div>
       <div class="panel-body">
         ${dataList[team].map(k => {
-          const entry = monthData.find(d => d.team === team && d.item === k.item);
+          const entry = mData.find(d => String(d.team) === String(team) && String(d.item) === String(k.item));
           return `<div class="tracking-card ${isPast ? 'locked' : ''}" onclick="${isPast ? '' : `openModal('${entry?entry.id:''}','${team}','${k.item}')`}">
             <div style="font-size:13px; font-weight:900; color:var(--accent2); margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px;">${k.item} ${k.owner ? `<span style="font-weight:400; font-size:10px; color:var(--text3); float:right;">[${k.owner}]</span>` : ''}</div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; font-size:12px;">
               <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${currentMonth === 0 ? '12월' : currentMonth + '월'} 실적:</span>${entry?entry.lastDone:'-'}</div>
               <div><span style="color:var(--accent); font-weight:700; display:block; margin-bottom:4px;">${MONTHS[currentMonth]} 계획:</span>${entry?entry.thisPlan:'-'}</div>
             </div></div>`;
-        }).join('')}</div></div>`).join('')}</div>`;
+        }).join('')}
+      </div></div>`).join('')}</div>`;
+  
+  container.innerHTML = trackingHtml;
 }
 
 function openModal(id = null, teamHint = null, itemHint = null) {
@@ -369,8 +314,7 @@ function openModal(id = null, teamHint = null, itemHint = null) {
   fMonth.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
   fTeam.innerHTML = teams.map(t => `<option value="${t}">${t}</option>`).join('');
   document.getElementById('label-team-type').textContent = (currentCategory === 'kpi' ? '팀명' : '분류');
-  document.getElementById('label-item-type').textContent = (currentCategory === 'kpi' ? '연계 KPI 항목' : '업무 항목');
-
+  document.getElementById('label-item-type').textContent = (currentCategory === 'kpi' ? '항목' : '세부 업무');
   if (id && id !== '') {
     const d = db.find(x => String(x.id) === String(id));
     document.getElementById('f-id').value = d.id; fMonth.value = d.month; fTeam.value = d.team;
@@ -392,22 +336,42 @@ function updateModalLabels() { const m = parseInt(document.getElementById('f-mon
 function updateKpiOptions() { const t = document.getElementById('f-team').value; const list = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL); document.getElementById('f-kpi').innerHTML = list[t].map(k => `<option value="${k.item}">${k.item}</option>`).join(''); }
 
 function saveData() {
-  const id = document.getElementById('f-id').value, team = document.getElementById('f-team').value, kpi = document.getElementById('f-kpi').value;
+  const id = document.getElementById('f-id').value, team = document.getElementById('f-team').value, item = document.getElementById('f-kpi').value;
   const last = document.getElementById('f-last').value, plan = document.getElementById('f-this').value, m = parseInt(document.getElementById('f-month').value);
   const old = db.find(x => String(x.id) === String(id));
   if (old) {
     let diff = "";
     if(old.lastDone !== last) diff += `<span class="log-diff-label">[실적 변경]</span> ${old.lastDone} → ${last}\n`;
     if(old.thisPlan !== plan) diff += `<span class="log-diff-label">[계획 변경]</span> ${old.thisPlan} → ${plan}`;
-    addHistoryLog('수정', currentCategory, team, kpi, diff || "변경사항 없음");
-  } else {
-    addHistoryLog('등록', currentCategory, team, kpi, `[초기] 실적: ${last} / 계획: ${plan}`);
-  }
-  const entry = { id: id || Date.now(), type: currentCategory, year: currentYear, month: m, team, item: kpi, lastDone: last, thisPlan: plan };
+    addHistoryLog('수정', currentCategory, team, item, diff || "내용 변경 없음");
+  } else { addHistoryLog('등록', currentCategory, team, item, `[초기 실적] ${last}\n[초기 계획] ${plan}`); }
+  const entry = { id: id || Date.now(), type: currentCategory, year: currentYear, month: m, team, item, lastDone: last, thisPlan: plan };
   db = db.filter(d => String(d.id) !== String(entry.id)); db.push(entry);
-  localStorage.setItem('k_combined_db', JSON.stringify(db));
-  currentMonth = m; updateDateDisplays(); closeModal(); render();
+  localStorage.setItem('k_combined_db_vfinal', JSON.stringify(db)); currentMonth = m; updateDateDisplays(); closeModal(); render();
 }
 
 function deleteData() {
-  const id = document.getElementById('
+  const id = document.getElementById('f-id').value, d = db.find(x => String(x.id) === String(id));
+  if(confirm('삭제하시겠습니까?')) {
+    addHistoryLog('삭제', currentCategory, d.team, d.item, `[삭제 시 실적] ${d.lastDone}\n[삭제 시 계획] ${d.thisPlan}`);
+    db = db.filter(x => String(x.id) !== String(id)); localStorage.setItem('k_combined_db_vfinal', JSON.stringify(db));
+    closeModal(); render();
+  }
+}
+
+function exportToExcel() {
+  let csv = "Category,Year,Month,Team,Item,Result,Plan\n";
+  db.sort((a,b)=>a.month-b.month).forEach(d => { csv += `${d.type.toUpperCase()},${d.year},${d.month+1},${d.team},"${d.item}","${d.lastDone.replace(/"/g,'""')}","${d.thisPlan.replace(/"/g,'""')}"\n`; });
+  const b = new Blob(["\ufeff"+csv], { type:'text/csv;charset=utf-8;' });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `KPIA_MGMT_EXPORT.csv`; a.click();
+}
+
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function handleLogout() { sessionStorage.clear(); location.reload(); }
+function togglePopup(e, id) { e.stopPropagation(); const target = document.getElementById(id); const isVisible = target.style.display === 'grid'; document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); target.style.display = isVisible ? 'none' : 'grid'; }
+function closeAllPopups(e) { if (!e.target.closest('.date-selectors')) document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); }
+
+window.onload = checkAuth;
+</script>
+</body>
+</html>
