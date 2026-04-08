@@ -15,8 +15,8 @@
   --accent: #5b7cff; --accent2: #7b9aff;
   --orange: #ff6b00;
   --green: #22c55e; --red: #ef4444;
-  --color-기획홍보: #ff9f0a; --color-대외정책: #ffd60a;
-  --color-차트운영: #ff375f; --color-개발파트: #bf5af2;
+  --color-기획홍보팀: #ff9f0a; --color-대외정책팀: #ffd60a;
+  --color-차트운영팀: #ff375f; --color-개발파트: #bf5af2;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Pretendard', sans-serif; height: 100vh; overflow: hidden; }
@@ -25,14 +25,12 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
 .login-box { background: var(--bg2); border: 1px solid var(--border); padding: 50px; border-radius: 20px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
 
-.kpia-logo-svg { width: 105px; height: auto; display: block; margin: 0 auto 10px; }
-.kpia-logo-svg text { font-family: 'Pretendard', sans-serif; font-weight: 200; fill: #ffffff; letter-spacing: -1px; }
-.kpia-logo-svg circle { fill: var(--orange); }
+.kpia-logo-img { width: 100px; height: auto; filter: brightness(0) invert(1); image-rendering: -webkit-optimize-contrast; margin-bottom: 10px; }
 
 #main-app { display: none; height: 100vh; }
 .app-container { display: flex; height: 100vh; }
 
-/* 사이드바 */
+/* 사이드바 메뉴 그룹핑 */
 .sidebar { width: 250px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
 .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; }
 
@@ -40,16 +38,15 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .logo-sub { font-size: 9px; font-weight: 700; color: var(--text3); letter-spacing: 1.5px; margin-top: 5px; }
 
 .nav { padding: 10px 0; flex: 1; overflow-y: auto; }
-.nav-group { margin-bottom: 5px; }
+.nav-group { margin-bottom: 2px; }
 .nav-group-header { 
-  padding: 12px 20px; font-size: 12px; font-weight: 800; color: var(--text3); 
+  padding: 14px 20px; font-size: 12px; font-weight: 900; color: var(--text3); 
   display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-  background: rgba(255,255,255,0.02); transition: 0.2s;
+  background: rgba(255,255,255,0.02); transition: 0.2s; border-bottom: 1px solid var(--border);
 }
 .nav-group-header:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-.nav-group-header i { font-style: normal; font-size: 10px; transition: transform 0.3s; }
+.nav-group-header span { letter-spacing: 1px; }
 .nav-group.closed .nav-group-content { display: none; }
-.nav-group.closed .nav-group-header i { transform: rotate(-90deg); }
 
 .nav-item { 
   display: flex; align-items: center; gap: 10px; padding: 12px 25px; 
@@ -72,26 +69,27 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .grid-item { padding: 10px; text-align: center; border-radius: 6px; background: var(--bg3); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text2); }
 .grid-item.active { background: var(--accent); color: white; }
 
-/* 컨텐츠 영역 */
+/* 컨텐츠 공통 */
 .content { padding: 25px 30px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
 .panel-header { padding: 15px 20px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
 
-/* 요청: 월(Month) 표시 스타일 */
-.month-text { font-size: 11px; color: var(--accent2); font-weight: 600; margin-left: 6px; opacity: 0.9; }
+/* 요청: 타이틀 월(Month) 표시 스타일 */
+.month-badge { font-size: 11px; color: var(--accent2); font-weight: 700; margin-left: 6px; padding: 1px 6px; background: rgba(91,124,255,0.1); border-radius: 4px; }
 
 /* 로그 카드 */
-.log-item { background: var(--bg3); border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--text3); }
+.log-item { background: var(--bg3); border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--text3); border: 1px solid var(--border); }
 .log-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 .log-tag { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 900; }
 .tag-등록 { background: rgba(34,197,94,0.15); color: var(--green); }
 .tag-수정 { background: rgba(91,124,255,0.15); color: var(--accent2); }
 .tag-삭제 { background: rgba(239,68,68,0.15); color: var(--red); }
-.log-detail-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px; white-space: pre-wrap; color: var(--text2); font-size: 12px; line-height: 1.7; }
+.log-detail-box { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 12px; white-space: pre-wrap; color: var(--text2); font-size: 12px; line-height: 1.8; }
+.log-diff-label { color: var(--orange); font-weight: 800; font-size: 11px; display: block; }
 
 /* 테이블 및 카드 */
-.kpi-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 800px; }
+.kpi-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 850px; }
 .kpi-table th, .kpi-table td { padding: 12px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: center; }
 .tracking-card { background: var(--bg3); border-radius: 10px; padding: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; }
 .tracking-card:hover { transform: translateX(5px); background: #252a40; }
@@ -111,7 +109,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 
 <div id="login-screen">
   <div class="login-box">
-    <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
+    <img src="https://i.ibb.co/LzhZ3N0/image-ce72a7.png" class="kpia-logo-img">
     <div style="font-size:15px; font-weight:900; margin-bottom:25px; color:var(--text); letter-spacing: 1px;">MANAGEMENT SYSTEM LOGIN</div>
     <input type="text" id="login-id" class="modal-input" placeholder="ID">
     <input type="password" id="login-pw" class="modal-input" placeholder="PASSWORD">
@@ -123,7 +121,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
   <div class="app-container">
     <nav class="sidebar">
       <div class="logo-section">
-        <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
+        <img src="https://i.ibb.co/LzhZ3N0/image-ce72a7.png" class="kpia-logo-img">
         <div class="logo-sub">PERFORMANCE & TASKS</div>
         <button class="btn-reg" style="font-size:10px; margin-top:20px; width:100%; opacity:0.7;" onclick="exportToExcel()">📊 EXCEL EXPORT</button>
       </div>
@@ -135,7 +133,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
             <div id="m-kpi-tracking" class="nav-item active" onclick="showView('tracking', 'kpi')">📊 월별 트래킹</div>
             <div id="m-kpi-history" class="nav-item" onclick="showView('history', 'kpi')">📅 연간 누적 현황</div>
             <div id="m-kpi-list" class="nav-item" onclick="showView('kpilist', 'kpi')">📋 KPI 지표 가이드</div>
-            <div id="m-kpi-logs" class="nav-item" onclick="showView('logs', 'kpi')">📜 변경 로그</div>
+            <div id="m-kpi-logs" class="nav-item" onclick="showView('logs', 'kpi')">📜 변경 로그 (History)</div>
           </div>
         </div>
 
@@ -144,7 +142,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
           <div class="nav-group-content">
             <div id="m-task-tracking" class="nav-item" onclick="showView('tracking', 'task')">📊 월별 트래킹</div>
             <div id="m-task-history" class="nav-item" onclick="showView('history', 'task')">📅 연간 누적 현황</div>
-            <div id="m-task-logs" class="nav-item" onclick="showView('logs', 'task')">📜 변경 로그</div>
+            <div id="m-task-logs" class="nav-item" onclick="showView('logs', 'task')">📜 변경 로그 (History)</div>
           </div>
         </div>
 
@@ -200,7 +198,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 </div>
 
 <script>
-/** 보안 및 기초 데이터 **/
+/** 보안 인증 (kpia_kpi / kpi2026!) **/
 const _0xV1 = [108, 119, 110, 102, 88, 108, 119, 110];
 const _0xV2 = [108, 119, 110, 53, 55, 53, 49, 38]; 
 const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
@@ -208,45 +206,30 @@ const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
 function handleLogin() {
   const i = document.getElementById('login-id').value.toLowerCase();
   const p = document.getElementById('login-pw').value;
-  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) { sessionStorage.setItem('k_auth_id', i); sessionStorage.setItem('k_token', btoa(Date.now())); checkAuth(); } else { alert("인증 실패"); }
+  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) {
+    sessionStorage.setItem('k_auth_id', i);
+    sessionStorage.setItem('k_token_v2', btoa(Date.now()));
+    checkAuth();
+  } else { alert("아이디 혹은 비밀번호가 일치하지 않습니다."); }
 }
-function checkAuth() { if (sessionStorage.getItem('k_token')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
+function checkAuth() { if (sessionStorage.getItem('k_token_v2')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
 
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
-const KPI_TEAMS = ['기획홍보', '대외정책', '차트운영', '개발파트'];
+const KPI_TEAMS = ['기획홍보팀', '대외정책팀', '차트운영팀', '개발파트'];
 const KPI_DATA_FULL = {
-  '기획홍보': [{ item:'신규 사업 개발', weight:0.35, goal:'신규 사업 런칭', s:'300점↑', a:'200-299', b:'100-199', c:'100↓' }, { item:'협회 언론 대응', weight:0.25, goal:'보도자료 배포', s:'16건↑', a:'13-15', b:'10-12', c:'9↓' }, { item:'최소 보도량 달성률', weight:0.05, goal:'보조지표', s:'80%↑', a:'70-80', b:'60-70', c:'60↓' }, { item:'MWM 콘퍼런스', weight:0.20, goal:'만족도 제고', s:'90점↑', a:'80-90', b:'70-80', c:'70↓' }, { item:'써클차트 브랜딩', weight:0.15, goal:'유입량 증가', s:'30%↑', a:'15%', b:'0', c:'감소' }],
-  '대외정책': [{ item:'정책파트너십 강화', weight:0.2, goal:'파트너십 리포트', s:'주 2회', a:'1.5회', b:'1회', c:'미달' }, { item:'이슈 공론화', weight:0.3, goal:'공청회 개최', s:'3건', a:'2건', b:'1건', c:'0건' }, { item:'법안 입법관리', weight:0.2, goal:'입법 대응', s:'2건↑', a:'1건', b:'0건', c:'마이너스' }, { item:'정책 아이템 개발', weight:0.3, goal:'이슈 발굴', s:'2건↑', a:'2건', b:'1건', c:'0건' }],
-  '차트운영': [{ item:'클린 데이터 선행관리', weight:0.3, goal:'오류 감소', s:'20건↓', a:'26건', b:'32건', c:'38건' }, { item:'운영 효율화', weight:0.3, goal:'업무량 감소', s:'2.5FTE', a:'3.0', b:'3.5', c:'전년동일' }, { item:'브랜딩', weight:0.15, goal:'유입 증가', s:'30%↑', a:'15%', b:'0', c:'감소' }, { item:'파트너십 수익 증대', weight:0.25, goal:'차트 매출', s:'+25%', a:'+10%', b:'0%', c:'감소' }],
+  '기획홍보팀': [{ item:'신규 사업 개발', weight:0.35, goal:'신규 사업 런칭', s:'300점↑', a:'200-299', b:'100-199', c:'100↓' }, { item:'협회 언론 대응', weight:0.25, goal:'보도자료 배포', s:'16건↑', a:'13-15', b:'10-12', c:'9↓' }, { item:'최소 보도량 달성률', weight:0.05, goal:'보조지표', s:'80%↑', a:'70-80', b:'60-70', c:'60↓' }, { item:'MWM 콘퍼런스', weight:0.20, goal:'만족도 제고', s:'90점↑', a:'80-90', b:'70-80', c:'70↓' }, { item:'써클차트 브랜딩', weight:0.15, goal:'유입량 증가', s:'30%↑', a:'15%', b:'0', c:'감소' }],
+  '대외정책팀': [{ item:'정책파트너십 강화', weight:0.2, goal:'파트너십 리포트', s:'주 2회', a:'1.5회', b:'1회', c:'미달' }, { item:'이슈 공론화', weight:0.3, goal:'공청회 개최', s:'3건', a:'2건', b:'1건', c:'0건' }, { item:'법안 입법관리', weight:0.2, goal:'입법 대응', s:'2건↑', a:'1건', b:'0건', c:'마이너스' }, { item:'정책 아이템 개발', weight:0.3, goal:'이슈 발굴', s:'2건↑', a:'2건', b:'1건', c:'0건' }],
+  '차트운영팀': [{ item:'클린 데이터 선행관리', weight:0.3, goal:'오류 감소', s:'20건↓', a:'26건', b:'32건', c:'38건' }, { item:'운영 효율화', weight:0.3, goal:'업무량 감소', s:'2.5FTE', a:'3.0', b:'3.5', c:'전년동일' }, { item:'브랜딩', weight:0.15, goal:'유입 증가', s:'30%↑', a:'15%', b:'0', c:'감소' }, { item:'파트너십 수익 증대', weight:0.25, goal:'차트 매출', s:'+25%', a:'+10%', b:'0%', c:'감소' }],
   '개발파트': [{ item:'시스템 안정 운영', weight:0.3, goal:'장애복구/SOP', s:'0건', a:'2h↓', b:'4h↓', c:'4h↑' }, { item:'시스템 개선', weight:0.2, goal:'SLA 준수', s:'4건↑', a:'3건', b:'2건', c:'1건↓' }, { item:'시스템 클라우드 이전', weight:0.25, goal:'마일스톤', s:'완료', a:'테스트', b:'기획서', c:'정체' }, { item:'정산분배 시스템 런칭', weight:0.25, goal:'납기/안정화', s:'0건', a:'3건↓', b:'적기', c:'지연' }]
 };
 
-// 요청: 주요태스크 데이터 완비 (이미지 및 CSV 기반)
 const TASK_TEAMS = ['사업개발', '입법대응', '정책역량', '회원사지원'];
 const TASK_DATA_FULL = {
-  '사업개발': [
-    { item:'정부의 대중음악 전담 조직 추진', owner:'우승현, 최태영' },
-    { item:'K-뮤직 펀드 조성 추진', owner:'우승현, 전종봉' },
-    { item:'음악관련 예산 증대 및 아이템 발굴', owner:'임숙형, 전종봉' },
-    { item:'음반·MD 수출 관련 지원 정책 개발', owner:'우승현, 김창규' }
-  ],
-  '입법대응': [
-    { item:'대중법 일부개정 등 규제 강화 대응', owner:'최태영, 전종봉' },
-    { item:'안무저작권 표준계약서 제정 지원', owner:'최태영, 전종봉' },
-    { item:'음악산업 제작비 세액 공제 적용 추진', owner:'최태영, 전종봉' },
-    { item:'AI 저작권 관련 업계 가이드 및 대응', owner:'최태영, 김창규' }
-  ],
-  '정책역량': [
-    { item:'협회 내 정책연구소 설립 추진', owner:'우승현, 최태영' },
-    { item:'MWM 콘퍼런스 품질 및 만족도 개선', owner:'임숙형' },
-    { item:'국회 정책제안 포럼 정례 개최', owner:'최태영, 전종봉' }
-  ],
-  '회원사지원': [
-    { item:'근로시간/노사관계 유연화 정책 대응', owner:'최광호, 김창규' },
-    { item:'회원사 실무자 워크숍 및 전문 교육', owner:'임숙형, 최태영' },
-    { item:'회원사 현장 애로사항 발굴 및 해결', owner:'최광호, 전종봉' }
-  ]
+  '사업개발': [{ item:'정부의 대중음악 전담 조직 추진', owner:'우승현, 최태영' }, { item:'K-뮤직 펀드 조성 추진', owner:'우승현, 전종봉' }, { item:'음악관련 예산 증대 및 아이템 발굴', owner:'임숙형, 전종봉' }, { item:'음반·MD 수출 관련 지원 정책 개발', owner:'우승현, 김창규' }],
+  '입법대응': [{ item:'대중법 일부개정 등 규제 강화 대응', owner:'최태영, 전종봉' }, { item:'안무저작권 표준계약서 제정 지원', owner:'최태영, 전종봉' }, { item:'음악산업 제작비 세액 공제 적용 추진', owner:'최태영, 전종봉' }, { item:'AI 저작권 관련 업계 가이드 및 대응', owner:'최태영, 김창규' }],
+  '정책역량': [{ item:'협회 내 정책연구소 설립 추진', owner:'우승현, 최태영' }, { item:'MWM 콘퍼런스 품질 및 만족도 개선', owner:'임숙형' }, { item:'국회 정책제안 포럼 정례 개최', owner:'최태영, 전종봉' }],
+  '회원사지원': [{ item:'근로시간/노사관계 유연화 정책 대응', owner:'최광호, 김창규' }, { item:'회원사 실무자 워크숍 및 전문 교육', owner:'임숙형, 최태영' }, { item:'회원사 현장 애로사항 발굴 및 해결', owner:'최광호, 전종봉' }]
 };
 
 let currentYear = 2026;
@@ -255,8 +238,8 @@ let currentView = 'tracking';
 let currentCategory = 'kpi';
 let currentHistoryTeam = KPI_TEAMS[0];
 
-let db = JSON.parse(localStorage.getItem('k_mgmt_db') || '[]');
-let logs = JSON.parse(localStorage.getItem('k_mgmt_logs') || '[]');
+let db = JSON.parse(localStorage.getItem('k_combined_db') || '[]');
+let logs = JSON.parse(localStorage.getItem('k_combined_logs') || '[]');
 
 const rDate = new Date();
 const rY = rDate.getFullYear();
@@ -266,10 +249,10 @@ function toggleNavGroup(id) { document.getElementById(id).classList.toggle('clos
 
 function addHistoryLog(action, category, team, item, details) {
   const now = new Date();
-  const uid = sessionStorage.getItem('k_auth_id') || 'System';
+  const uid = sessionStorage.getItem('k_auth_id') || 'User';
   const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   logs.unshift({ time: timeStr, action, category: category.toUpperCase(), team, kpi: item, details, user: uid });
-  localStorage.setItem('k_mgmt_logs', JSON.stringify(logs));
+  localStorage.setItem('k_combined_logs', JSON.stringify(logs));
 }
 
 function updateDateDisplays() {
@@ -287,8 +270,7 @@ function showView(view, category) {
   currentView = view; currentCategory = category;
   currentHistoryTeam = (category === 'kpi' ? KPI_TEAMS[0] : TASK_TEAMS[0]);
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  const activeBtn = document.getElementById(`m-${category}-${view}`);
-  if(activeBtn) activeBtn.classList.add('active');
+  const btn = document.getElementById(`m-${category}-${view}`); if(btn) btn.classList.add('active');
   const prefix = category === 'kpi' ? '[KPI]' : '[주요업무]';
   const titles = { 'tracking':'월별 트래킹', 'history':'연간 누적 현황', 'kpilist':'지표 가이드', 'logs':'변경 로그' };
   document.getElementById('page-title').textContent = `${prefix} ${titles[view]}`;
@@ -297,7 +279,7 @@ function showView(view, category) {
 }
 
 function render() {
-  if (!sessionStorage.getItem('k_token')) return;
+  if (!sessionStorage.getItem('k_token_v2')) return;
   const container = document.getElementById('main-content');
   const isPast = (currentYear < rY) || (currentYear === rY && currentMonth < rM);
   const dataList = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
@@ -311,7 +293,7 @@ function render() {
           <div><span class="log-tag tag-${l.action}">${l.action}</span> <span style="color:var(--text3); font-size:11px; margin-left:10px;">${l.time}</span></div>
           <span class="log-user">UID: ${l.user}</span>
         </div>
-        <div style="font-weight:800; font-size:14px; margin: 10px 0; color:var(--text);">${l.team} - ${l.kpi}</div>
+        <div class="log-title">${l.team} - ${l.kpi}</div>
         <div class="log-detail-box">${l.details}</div>
       </div>`).join('') : '<div style="text-align:center; padding:100px; color:var(--text3);">변경 기록이 없습니다.</div>';
     return;
@@ -337,7 +319,7 @@ function render() {
       const historyData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === m && d.team === currentHistoryTeam);
       if(historyData.length > 0) {
         html += `<div style="border-left:3px solid var(--orange); padding-left:25px; margin-bottom:40px;">
-          <h3 style="color:var(--orange); margin-bottom:20px; font-size:18px; font-weight:900;">${MONTHS[m]} <span class="month-text">RECORD</span></h3>
+          <h3 style="color:var(--orange); margin-bottom:20px; font-size:18px; font-weight:900;">${MONTHS[m]} <span class="month-badge">RECORD</span></h3>
           <div class="grid-2">${historyData.map(d => `
             <div class="panel">
               <div class="panel-header" style="border-bottom:none; font-size:13px; color:var(--accent2);">${d.kpi}</div>
@@ -355,7 +337,7 @@ function render() {
   container.innerHTML = `<div class="grid-2">${teams.map(team => `
     <div class="panel" style="border-top: 3px solid var(--color-${team} || var(--accent));">
       <div class="panel-header">
-        <span>${team} <span class="month-text">${MONTHS[currentMonth]}</span></span>
+        <span>${team} <span class="month-badge">${MONTHS[currentMonth]}</span></span>
         <button class="btn-reg" onclick="openModal(null, '${team}')">+ 등록</button>
       </div>
       <div class="panel-body">
@@ -378,8 +360,8 @@ function openModal(id = null, teamHint = null, kpiHint = null) {
   const teams = (currentCategory === 'kpi' ? KPI_TEAMS : TASK_TEAMS);
   fMonth.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
   fTeam.innerHTML = teams.map(t => `<option value="${t}">${t}</option>`).join('');
-  document.getElementById('label-team-type').textContent = (currentCategory === 'kpi' ? '팀명' : '카테고리');
-  document.getElementById('label-item-type').textContent = (currentCategory === 'kpi' ? '연계 KPI 지표' : '세부 업무항목');
+  document.getElementById('label-team-type').textContent = (currentCategory === 'kpi' ? '팀명' : '분류');
+  document.getElementById('label-item-type').textContent = (currentCategory === 'kpi' ? '연계 KPI 항목' : '세부 업무항목');
 
   if (id && id !== '') {
     const d = db.find(x => String(x.id) === String(id));
@@ -399,11 +381,7 @@ function openModal(id = null, teamHint = null, kpiHint = null) {
 }
 
 function updateModalLabels() { const m = parseInt(document.getElementById('f-month').value); document.getElementById('label-last').innerHTML = `${m === 0 ? '12월' : m + '월'} 실적`; document.getElementById('label-this').innerHTML = `${MONTHS[m]} 계획`; }
-function updateKpiOptions() { 
-  const t = document.getElementById('f-team').value; 
-  const list = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
-  document.getElementById('f-kpi').innerHTML = list[t].map(k => `<option value="${k.item}">${k.item}</option>`).join(''); 
-}
+function updateKpiOptions() { const t = document.getElementById('f-team').value; const list = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL); document.getElementById('f-kpi').innerHTML = list[t].map(k => `<option value="${k.item}">${k.item}</option>`).join(''); }
 
 function saveData() {
   const id = document.getElementById('f-id').value;
@@ -416,22 +394,42 @@ function saveData() {
 
   if (old) {
     let diff = "";
-    if(old.lastDone !== last) diff += `[실적] 변경전: ${old.lastDone} → 변경후: ${last}\n`;
-    if(old.thisPlan !== plan) diff += `[계획] 변경전: ${old.thisPlan} → 변경후: ${plan}`;
+    if(old.lastDone !== last) diff += `<span class="log-diff-label">[실적 변경]</span> 변경전: ${old.lastDone} → 변경후: ${last}\n`;
+    if(old.thisPlan !== plan) diff += `<span class="log-diff-label">[계획 변경]</span> 변경전: ${old.thisPlan} → 변경후: ${plan}`;
     addHistoryLog('수정', currentCategory, team, kpi, diff || "단순 저장");
   } else {
-    addHistoryLog('등록', currentCategory, team, kpi, `[실적] ${last}\n[계획] ${plan}`);
+    addHistoryLog('등록', currentCategory, team, kpi, `<span class="log-diff-label">[초기 실적]</span> ${last}\n<span class="log-diff-label">[초기 계획]</span> ${plan}`);
   }
 
   const entry = { id: id || Date.now(), type: currentCategory, year: currentYear, month: m, team, kpi, lastDone: last, thisPlan: plan };
   db = db.filter(d => String(d.id) !== String(entry.id)); db.push(entry);
-  localStorage.setItem('k_mgmt_db', JSON.stringify(db));
+  localStorage.setItem('k_combined_db', JSON.stringify(db));
   currentMonth = m; updateDateDisplays(); closeModal(); render();
 }
 
 function deleteData() {
   const id = document.getElementById('f-id').value;
   const d = db.find(x => String(x.id) === String(id));
-  if(confirm('정말 삭제하시겠습니까?')) {
-    addHistoryLog('삭제', currentCategory, d.team, d.kpi, `실적: ${d.lastDone}\n계획: ${d.thisPlan}`);
-    db = db.
+  if(confirm('삭제하시겠습니까?')) {
+    addHistoryLog('삭제', currentCategory, d.team, d.kpi, `[삭제 내용] 실적: ${d.lastDone} / 계획: ${d.thisPlan}`);
+    db = db.filter(x => String(x.id) !== String(id)); localStorage.setItem('k_combined_db', JSON.stringify(db));
+    closeModal(); render();
+  }
+}
+
+function exportToExcel() {
+  let csv = "Group,Year,Month,Category,Item,Result,Plan\n";
+  db.sort((a,b)=>a.month - b.month).forEach(d => { csv += `${d.type.toUpperCase()},${d.year},${d.month + 1},${d.team},"${d.kpi}","${d.lastDone.replace(/"/g, '""')}","${d.thisPlan.replace(/"/g, '""')}"\n`; });
+  const b = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `KPIA_MGMT_DB.csv`; a.click();
+}
+
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function handleLogout() { sessionStorage.clear(); location.reload(); }
+function togglePopup(e, id) { e.stopPropagation(); document.querySelectorAll('.selector-grid-popup').forEach(p => { if(p.id !== id) p.style.display = 'none'; }); const t = document.getElementById(id); t.style.display = t.style.display === 'grid' ? 'none' : 'grid'; }
+function closeAllPopups(e) { if (!e.target.closest('.date-selectors')) document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); }
+
+window.onload = checkAuth;
+</script>
+</body>
+</html>
