@@ -17,86 +17,110 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Pretendard', sans-serif; height: 100vh; overflow: hidden; }
 
-.app { display: flex; height: 100vh; }
+/* 로그인 화면 스타일 */
+#login-screen {
+  position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.login-box {
+  background: var(--bg2); border: 1px solid var(--border); padding: 40px; border-radius: 16px; width: 360px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+.login-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; text-align: center; color: var(--accent2); }
+.login-input { 
+  width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; 
+  color: var(--text); margin-bottom: 12px; outline: none; transition: border-color 0.2s;
+}
+.login-input:focus { border-color: var(--accent); }
+.btn-login { 
+  width: 100%; background: var(--accent); color: white; border: none; padding: 14px; border-radius: 8px; 
+  font-weight: 700; cursor: pointer; transition: background 0.2s;
+}
+.btn-login:hover { background: var(--accent2); }
+
+/* 메인 앱 레이아웃 (로그인 전 숨김) */
+#main-app { display: none; height: 100vh; }
+.app-container { display: flex; height: 100vh; }
 .sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
 .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
 
+/* 기존 스타일 유지 */
 .logo { padding: 24px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 .logo-title { font-size: 16px; font-weight: 700; color: var(--accent2); }
-
 .nav { padding: 12px 0; flex: 1; }
 .nav-item { display: flex; align-items: center; gap: 10px; padding: 12px 20px; font-size: 14px; color: var(--text2); cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
 .nav-item:hover { background: var(--bg3); color: var(--text); }
 .nav-item.active { background: rgba(91,124,255,0.1); color: var(--accent2); border-left-color: var(--accent); }
-
 .topbar { padding: 20px 28px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg); position: sticky; top: 0; z-index: 10; }
 .month-nav { display: flex; align-items: center; gap: 12px; background: var(--bg3); padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); }
 .month-nav button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 18px; }
-
 .content { padding: 24px 28px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; }
 .panel-header { padding: 14px 20px; border-bottom: 1px solid var(--border); font-weight: 700; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
 .panel-body { padding: 16px 20px; }
-
 .log-card { background: var(--bg3); border-radius: 8px; padding: 14px; margin-bottom: 12px; border-left: 4px solid var(--accent); cursor: pointer; }
-.log-card:hover { border-color: white; background: #252940; }
 .log-text { font-size: 13px; line-height: 1.6; color: var(--text2); white-space: pre-wrap; }
 .kpi-tag { display: inline-block; padding: 2px 8px; background: rgba(91,124,255,0.15); border-radius: 4px; font-size: 10px; color: var(--accent2); font-weight: 600; margin-top: 8px; }
-
 .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; font-size: 12px; }
 .btn-primary { background: var(--accent); color: white; }
-.btn-add { padding: 4px 10px; font-size: 11px; }
 .btn-download { background: var(--text3); color: white; padding: 5px 10px; font-size: 10px; border-radius: 4px; }
-
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(4px); }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1100; backdrop-filter: blur(4px); }
 .modal { background: var(--bg2); width: 550px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
-.modal-body { padding: 20px; }
-
 .form-group { margin-bottom: 18px; }
 .form-label { display: block; font-size: 12px; color: var(--text3); margin-bottom: 8px; font-weight: 600; }
 .form-select, .form-textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 12px; color: var(--text); font-family: inherit; outline: none; }
 .form-textarea { height: 100px; resize: none; }
-
-/* 연계 KPI 강조 디자인 */
-.kpi-select-wrap {
-  border: 1px solid var(--accent);
-  border-radius: 6px;
-  background: rgba(91, 124, 255, 0.05);
-  transition: all 0.2s;
-}
-.kpi-select-wrap:focus-within {
-  background: rgba(91, 124, 255, 0.1);
-  box-shadow: 0 0 0 2px rgba(91, 124, 255, 0.2);
-}
+.kpi-select-wrap { border: 1px solid var(--accent); border-radius: 6px; background: rgba(91, 124, 255, 0.05); }
 .required-mark { color: var(--red); margin-left: 4px; }
+.history-item { border-left: 2px solid var(--border); padding-left: 20px; position: relative; margin-bottom: 30px; }
+.history-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+.history-month { font-size: 16px; font-weight: 700; color: var(--accent2); margin-bottom: 15px; }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <nav class="sidebar">
-    <div class="logo">
-      <div class="logo-title">성과 관리</div>
-      <button class="btn-download" onclick="downloadSelf()">파일 저장</button>
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-title">KPI 관리 시스템 접속</div>
+    <input type="text" id="login-id" class="login-input" placeholder="아이디">
+    <input type="password" id="login-pw" class="login-input" placeholder="비밀번호">
+    <button class="btn-login" onclick="handleLogin()">로그인</button>
+    <div id="login-error" style="color:var(--red); font-size:12px; margin-top:10px; text-align:center; display:none;">
+      계정 정보가 일치하지 않습니다.
     </div>
-    <div class="nav">
-      <div id="m-log" class="nav-item" onclick="showView('log')">📋 업무 로그</div>
-      <div id="m-input" class="nav-item active" onclick="showView('input')">✍ 실적-계획 입력</div>
-    </div>
-  </nav>
+  </div>
+</div>
 
-  <div class="main">
-    <div class="topbar">
-      <h2 id="page-title" style="font-size: 18px;">월별 실적-계획 입력</h2>
-      <div class="month-nav">
-        <button onclick="changeMonth(-1)">‹</button>
-        <span id="month-display">1월</span>
-        <button onclick="changeMonth(1)">›</button>
+<div id="main-app">
+  <div class="app-container">
+    <nav class="sidebar">
+      <div class="logo">
+        <div class="logo-title">성과 관리</div>
+        <button class="btn-download" onclick="downloadSelf()">파일 저장</button>
       </div>
+      <div class="nav">
+        <div id="m-log" class="nav-item" onclick="showView('log')">📋 업무 로그</div>
+        <div id="m-input" class="nav-item active" onclick="showView('input')">✍ 실적-계획 입력</div>
+        <div id="m-history" class="nav-item" onclick="showView('history')">📅 월별 실적 보기</div>
+        <div class="nav-item" onclick="handleLogout()" style="margin-top: 20px; color: var(--red);">🔓 로그아웃</div>
+      </div>
+    </nav>
+
+    <div class="main">
+      <div class="topbar">
+        <h2 id="page-title" style="font-size: 18px;">월별 실적-계획 입력</h2>
+        <div class="month-nav" id="top-month-nav">
+          <button onclick="changeMonth(-1)">‹</button>
+          <span id="month-display">1월</span>
+          <button onclick="changeMonth(1)">›</button>
+        </div>
+        <div id="top-team-filter" style="display:none;">
+          <select id="history-team-select" class="form-select" style="padding: 6px 12px; font-size: 13px;" onchange="render()">
+          </select>
+        </div>
+      </div>
+      <div class="content" id="main-content"></div>
     </div>
-    <div class="content" id="main-content"></div>
   </div>
 </div>
 
@@ -106,9 +130,8 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
       <h3 id="modal-title" style="font-size: 15px;">업무 등록</h3>
       <button onclick="closeModal()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:20px;">✕</button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" id="modal-content">
       <input type="hidden" id="f-id">
-      
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 18px;">
         <div>
           <label class="form-label">대상 월</label>
@@ -119,14 +142,12 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
           <select id="f-team" class="form-select" onchange="updateKpiOptions()"></select>
         </div>
       </div>
-
       <div class="form-group">
         <label class="form-label">연계 KPI<span class="required-mark">*</span></label>
         <div class="kpi-select-wrap">
           <select id="f-kpi" class="form-select" style="border:none; background:transparent;"></select>
         </div>
       </div>
-      
       <div class="form-group">
         <label class="form-label" id="label-last">전달 주요 실적</label>
         <textarea id="f-last" class="form-textarea" placeholder="주요 실적을 입력하세요"></textarea>
@@ -144,6 +165,46 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 </div>
 
 <script>
+// 인증 정보
+const AUTH = { id: "KPIA_KPI", pw: "KPI2026!" };
+
+function handleLogin() {
+  const idInput = document.getElementById('login-id').value;
+  const pwInput = document.getElementById('login-pw').value;
+  const errorMsg = document.getElementById('login-error');
+
+  if (idInput === AUTH.id && pwInput === AUTH.pw) {
+    sessionStorage.setItem('kpi_auth', 'true'); // 세션 스토리지 사용
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    render();
+  } else {
+    errorMsg.style.display = 'block';
+  }
+}
+
+function handleLogout() {
+  sessionStorage.removeItem('kpi_auth');
+  location.reload();
+}
+
+// 초기 로드 시 인증 체크
+window.onload = function() {
+  if (sessionStorage.getItem('kpi_auth') === 'true') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    render();
+  }
+};
+
+// 엔터 키 로그인 지원
+document.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') {
+    handleLogin();
+  }
+});
+
+// --- 이하 기존 로직 동일 (TEAMS, KPI_LIST, db 관리 등) ---
 const TEAMS = ['기획홍보', '대외정책', '차트운영', '개발파트'];
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 const KPI_LIST = {
@@ -155,13 +216,29 @@ const KPI_LIST = {
 
 let currentMonth = new Date().getMonth();
 let currentView = 'input'; 
+let currentHistoryTeam = TEAMS[0];
 let db = JSON.parse(localStorage.getItem('kpi_task_db') || '[]');
 
 function showView(view) {
   currentView = view;
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   document.getElementById('m-' + view).classList.add('active');
-  document.getElementById('page-title').textContent = view === 'log' ? '팀별 업무 로그' : '월별 실적-계획 입력';
+  
+  const monthNav = document.getElementById('top-month-nav');
+  const teamFilter = document.getElementById('top-team-filter');
+  const title = document.getElementById('page-title');
+
+  if (view === 'history') {
+    title.textContent = '월별 누적 실적 보기';
+    monthNav.style.display = 'none';
+    teamFilter.style.display = 'block';
+    const select = document.getElementById('history-team-select');
+    select.innerHTML = TEAMS.map(t => `<option value="${t}" ${t === currentHistoryTeam ? 'selected' : ''}>${t}</option>`).join('');
+  } else {
+    title.textContent = view === 'log' ? '팀별 업무 로그' : '월별 실적-계획 입력';
+    monthNav.style.display = 'flex';
+    teamFilter.style.display = 'none';
+  }
   render();
 }
 
@@ -172,47 +249,33 @@ function changeMonth(d) {
 }
 
 function render() {
+  if (sessionStorage.getItem('kpi_auth') !== 'true') return; // 인증되지 않으면 렌더링 스킵
   const container = document.getElementById('main-content');
+  if (currentView === 'history') {
+    currentHistoryTeam = document.getElementById('history-team-select').value;
+    let html = `<div style="max-width: 800px; margin: 0 auto;">`;
+    for(let m = 0; m < 12; m++) {
+      const monthData = db.filter(d => d.month === m && d.team === currentHistoryTeam);
+      if(monthData.length > 0) {
+        html += `<div class="history-item"><div class="history-month">${MONTHS[m]}</div><div class="grid-2">${monthData.map(d => `<div class="panel" style="margin-bottom: 10px;"><div class="panel-body"><div class="log-label" style="color:var(--green); font-size:11px; font-weight:700; margin-bottom:8px;">✓ 실적 (${m === 0 ? '12월' : m + '월'})</div><div class="log-text" style="margin-bottom:10px;">${d.lastDone}</div><div class="log-label" style="color:var(--accent); font-size:11px; font-weight:700; margin-bottom:8px;">→ 계획 (${MONTHS[m]})</div><div class="log-text">${d.thisPlan}</div><div class="kpi-tag">${d.kpi}</div></div></div>`).join('')}</div></div>`;
+      }
+    }
+    if(db.filter(d => d.team === currentHistoryTeam).length === 0) html += `<div style="text-align:center; padding: 50px; color:var(--text3);">등록된 데이터가 없습니다.</div>`;
+    html += `</div>`;
+    container.innerHTML = html;
+    return;
+  }
+
   const monthData = db.filter(item => item.month === currentMonth);
-  
   if (currentView === 'log') {
     container.innerHTML = `<div class="grid-2">${TEAMS.map(team => {
       const teamData = monthData.filter(d => d.team === team);
-      return `
-        <div class="panel">
-          <div class="panel-header" style="color:var(--accent2)">${team}</div>
-          <div class="panel-body">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-              <div>
-                <div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:10px;">✓ 실적 (${currentMonth === 0 ? '12월' : currentMonth + '월'})</div>
-                ${teamData.map(d => `<div class="log-text" style="margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.03); padding-bottom:8px;">• ${d.lastDone}<br><span class="kpi-tag">${d.kpi}</span></div>`).join('') || '<div class="log-text">내용 없음</div>'}
-              </div>
-              <div>
-                <div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:10px;">→ 계획 (${MONTHS[currentMonth]})</div>
-                ${teamData.map(d => `<div class="log-text" style="margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.03); padding-bottom:8px;">• ${d.thisPlan}</div>`).join('') || '<div class="log-text">내용 없음</div>'}
-              </div>
-            </div>
-          </div>
-        </div>`;
+      return `<div class="panel"><div class="panel-header" style="color:var(--accent2)">${team}</div><div class="panel-body"><div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;"><div><div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:10px;">✓ 실적 (${currentMonth === 0 ? '12월' : currentMonth + '월'})</div>${teamData.map(d => `<div class="log-text" style="margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.03); padding-bottom:8px;">• ${d.lastDone}<br><span class="kpi-tag">${d.kpi}</span></div>`).join('') || '<div class="log-text">내용 없음</div>'}</div><div><div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:10px;">→ 계획 (${MONTHS[currentMonth]})</div>${teamData.map(d => `<div class="log-text" style="margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.03); padding-bottom:8px;">• ${d.thisPlan}</div>`).join('') || '<div class="log-text">내용 없음</div>'}</div></div></div></div>`;
     }).join('')}</div>`;
   } else {
     container.innerHTML = `<div class="grid-2">${TEAMS.map(team => {
       const teamData = monthData.filter(d => d.team === team);
-      return `
-        <div class="panel">
-          <div class="panel-header">
-            <span>${team} 입력 현황</span>
-            <button class="btn btn-primary btn-add" onclick="openModal(null, '${team}')">+ 업무등록</button>
-          </div>
-          <div class="panel-body">
-            ${teamData.map(d => `
-              <div class="log-card" onclick="openModal('${d.id}')">
-                <div class="log-text"><strong>실적:</strong> ${d.lastDone.substring(0,30)}...</div>
-                <div class="log-text"><strong>계획:</strong> ${d.thisPlan.substring(0,30)}...</div>
-                <div class="kpi-tag">${d.kpi}</div>
-              </div>`).join('') || '<div style="color:var(--text3); font-size:12px; text-align:center; padding:10px 0;">등록된 내용이 없습니다.</div>'}
-          </div>
-        </div>`;
+      return `<div class="panel"><div class="panel-header"><span>${team} 입력 현황</span><button class="btn btn-primary btn-add" onclick="openModal(null, '${team}')">+ 업무등록</button></div><div class="panel-body">${teamData.map(d => `<div class="log-card" onclick="openModal('${d.id}')"><div class="log-text"><strong>실적:</strong> ${d.lastDone.substring(0,30)}...</div><div class="log-text"><strong>계획:</strong> ${d.thisPlan.substring(0,30)}...</div><div class="kpi-tag">${d.kpi}</div></div>`).join('') || '<div style="color:var(--text3); font-size:12px; text-align:center; padding:10px 0;">등록된 내용이 없습니다.</div>'}</div></div>`;
     }).join('')}</div>`;
   }
 }
@@ -220,10 +283,8 @@ function render() {
 function openModal(id = null, teamHint = null) {
   const fMonth = document.getElementById('f-month');
   const fTeam = document.getElementById('f-team');
-  
   fMonth.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
   fTeam.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join('');
-  
   if (id) {
     const data = db.find(d => d.id == id);
     document.getElementById('f-id').value = data.id;
@@ -245,18 +306,14 @@ function openModal(id = null, teamHint = null) {
     document.getElementById('del-btn').style.display = 'none';
     document.getElementById('modal-title').textContent = '업무 등록';
   }
-  
   updateModalLabels();
   document.getElementById('modal').style.display = 'flex';
 }
 
 function updateModalLabels() {
-  const selectedMonthIdx = parseInt(document.getElementById('f-month').value);
-  const prevMonthName = selectedMonthIdx === 0 ? '12월' : selectedMonthIdx + '월';
-  const currMonthName = MONTHS[selectedMonthIdx];
-  
-  document.getElementById('label-last').innerHTML = `${prevMonthName} 주요 실적 (필수)`;
-  document.getElementById('label-this').innerHTML = `${currMonthName} 주요 업무 (필수)`;
+  const idx = parseInt(document.getElementById('f-month').value);
+  document.getElementById('label-last').innerHTML = `${idx === 0 ? '12월' : idx + '월'} 주요 실적 (필수)`;
+  document.getElementById('label-this').innerHTML = `${MONTHS[idx]} 주요 업무 (필수)`;
 }
 
 function updateKpiOptions() {
@@ -268,20 +325,10 @@ function saveData() {
   const last = document.getElementById('f-last').value.trim();
   const tPlan = document.getElementById('f-this').value.trim();
   if (!last || !tPlan) return alert('모든 내용을 입력해주세요.');
-
   const id = document.getElementById('f-id').value;
-  const entry = { 
-    id: id || Date.now(), 
-    month: parseInt(document.getElementById('f-month').value), 
-    team: document.getElementById('f-team').value, 
-    kpi: document.getElementById('f-kpi').value, 
-    lastDone: last, 
-    thisPlan: tPlan 
-  };
-
+  const entry = { id: id || Date.now(), month: parseInt(document.getElementById('f-month').value), team: document.getElementById('f-team').value, kpi: document.getElementById('f-kpi').value, lastDone: last, thisPlan: tPlan };
   if (id) db = db.map(d => d.id == id ? entry : d);
   else db.push(entry);
-
   localStorage.setItem('kpi_task_db', JSON.stringify(db));
   closeModal();
   render();
@@ -304,9 +351,6 @@ function downloadSelf() {
   a.download = 'KPI_Task_Dashboard.html';
   a.click();
 }
-
-document.getElementById('month-display').textContent = MONTHS[currentMonth];
-render();
 </script>
 </body>
 </html>
