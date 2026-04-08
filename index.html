@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KPIA KPI 성과 관리 시스템</title>
+<title>KPIA 성과 및 업무 관리 시스템</title>
 <link rel="icon" type="image/png" href="https://www.k-mca.or.kr/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -25,90 +25,93 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
 .login-box { background: var(--bg2); border: 1px solid var(--border); padding: 50px; border-radius: 20px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
 
-/* SVG 기반 고화질 로고 (제공해주신 CI 디자인 복제) */
 .kpia-logo-svg { width: 105px; height: auto; display: block; margin: 0 auto 10px; }
 .kpia-logo-svg text { font-family: 'Pretendard', sans-serif; font-weight: 200; fill: #ffffff; letter-spacing: -1px; }
 .kpia-logo-svg circle { fill: var(--orange); }
 
 #main-app { display: none; height: 100vh; }
 .app-container { display: flex; height: 100vh; }
-.sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
+
+/* 사이드바 메뉴 그룹핑 */
+.sidebar { width: 250px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
 .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; }
 
-.logo-section { padding: 40px 20px; border-bottom: 1px solid var(--border); text-align: center; }
+.logo-section { padding: 30px 20px; border-bottom: 1px solid var(--border); text-align: center; }
 .logo-sub { font-size: 9px; font-weight: 700; color: var(--text3); letter-spacing: 1.5px; margin-top: 5px; }
 
-.nav { padding: 15px 0; flex: 1; overflow-y: auto; }
-.nav-item { display: flex; align-items: center; gap: 12px; padding: 16px 24px; font-size: 14px; color: var(--text2); cursor: pointer; transition: 0.2s; border-left: 4px solid transparent; }
-.nav-item:hover { background: var(--bg3); color: var(--text); }
-.nav-item.active { background: rgba(91,124,255,0.1); color: var(--accent2); border-left-color: var(--accent); font-weight: 800; }
+.nav { padding: 10px 0; flex: 1; overflow-y: auto; }
+.nav-group { margin-bottom: 5px; }
+.nav-group-header { 
+  padding: 12px 20px; font-size: 12px; font-weight: 800; color: var(--text3); 
+  display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  background: rgba(255,255,255,0.02); transition: 0.2s;
+}
+.nav-group-header:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-group-header i { font-style: normal; font-size: 10px; transition: transform 0.3s; }
+.nav-group.closed .nav-group-content { display: none; }
+.nav-group.closed .nav-group-header i { transform: rotate(-90deg); }
 
-/* 상단바 중앙 정렬 레이아웃 */
+.nav-item { 
+  display: flex; align-items: center; gap: 10px; padding: 12px 25px; 
+  font-size: 13px; color: var(--text2); cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; 
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: rgba(91,124,255,0.1); color: var(--accent2); border-left-color: var(--accent); font-weight: 700; }
+
+/* 상단바 중앙 정렬 */
 .topbar { 
-  padding: 18px 30px; border-bottom: 1px solid var(--border); 
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; 
+  padding: 15px 30px; border-bottom: 1px solid var(--border); 
+  display: grid; grid-template-columns: 1.2fr auto 1.2fr; align-items: center; 
   background: var(--bg); position: sticky; top: 0; z-index: 100; 
 }
-.topbar h2 { font-size: 18px; font-weight: 800; white-space: nowrap; }
+.topbar h2 { font-size: 16px; font-weight: 800; color: var(--text); }
+.date-selectors { display: flex; gap: 10px; position: relative; justify-content: center; }
+.grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 15px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text); }
 
-.date-selectors { display: flex; gap: 12px; position: relative; justify-content: center; }
-.grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text); border: 1px solid var(--border); }
-
-/* 바둑판 팝업 */
-.selector-grid-popup { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 1000; width: 260px; }
-.grid-item { padding: 12px; text-align: center; border-radius: 6px; background: var(--bg3); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text2); }
+.selector-grid-popup { position: absolute; top: 45px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 1000; width: 260px; }
+.grid-item { padding: 10px; text-align: center; border-radius: 6px; background: var(--bg3); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text2); }
 .grid-item.active { background: var(--accent); color: white; }
 
-.content { padding: 24px 30px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 24px; overflow: hidden; }
-.panel-header { padding: 18px 22px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
+.content { padding: 25px 30px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+.panel-header { padding: 15px 20px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
 
-/* 로그 히스토리 상세 스타일 */
-.log-item { background: var(--bg3); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--text3); }
-.log-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-.log-tag { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 900; }
+/* 로그 카드 */
+.log-item { background: var(--bg3); border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--text3); }
+.log-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.log-tag { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 900; }
 .tag-등록 { background: rgba(34,197,94,0.15); color: var(--green); }
 .tag-수정 { background: rgba(91,124,255,0.15); color: var(--accent2); }
 .tag-삭제 { background: rgba(239,68,68,0.15); color: var(--red); }
-.log-user { font-size: 11px; color: var(--accent2); font-weight: 800; }
-.log-title { font-weight: 800; color: var(--text); margin: 10px 0; font-size: 14px; }
-.log-detail-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 15px; white-space: pre-wrap; word-break: break-all; color: var(--text2); font-size: 13px; line-height: 1.8; border: 1px solid var(--border); }
-.log-diff-label { color: var(--orange); font-weight: 800; font-size: 11px; display: block; margin-top: 5px; }
+.log-detail-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px; white-space: pre-wrap; color: var(--text2); font-size: 12px; line-height: 1.7; }
 
-/* 테이블 규격 고정 */
-.kpi-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 900px; }
-.kpi-table th, .kpi-table td { padding: 14px 10px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: center; word-break: keep-all; }
-.col-item { text-align: left !important; width: 160px; } .col-goal { text-align: left !important; width: 200px; }
+/* 테이블 및 카드 */
+.kpi-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 800px; }
+.kpi-table th, .kpi-table td { padding: 12px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: center; }
+.tracking-card { background: var(--bg3); border-radius: 10px; padding: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; }
+.tracking-card:hover { transform: translateX(5px); background: #252a40; }
+.tracking-card.locked { cursor: default; opacity: 0.6; border-left-style: dotted; }
 
-/* 트래킹 카드 */
-.tracking-card { background: var(--bg3); border-radius: 12px; padding: 22px; margin-bottom: 12px; border-left: 5px solid var(--accent); cursor: pointer; transition: 0.2s; position: relative; }
-.tracking-card.locked { cursor: default; opacity: 0.65; border-left-style: dotted; }
-
-.history-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 35px; }
-.history-team-btn { padding: 20px; border-radius: 15px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 900; text-align: center; cursor: pointer; transition: 0.2s; font-size: 15px; }
+.history-team-btn { padding: 15px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; font-size: 13px; }
 .history-team-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-.btn-reg { background: var(--accent); color: white; padding: 8px 14px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; font-size: 12px; }
 
 /* 모달 */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1500; backdrop-filter: blur(5px); }
 .modal { background: var(--bg2); width: 620px; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 40px 80px rgba(0,0,0,0.5); overflow: hidden; }
-.modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px; color: var(--text); margin-bottom: 15px; outline: none; }
+.modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); margin-bottom: 15px; outline: none; }
+.btn-reg { background: var(--accent); color: white; padding: 7px 12px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; font-size: 11px; }
 </style>
 </head>
 <body onclick="closeAllPopups(event)">
 
 <div id="login-screen">
   <div class="login-box">
-    <svg class="kpia-logo-svg" viewBox="0 0 100 35">
-      <text x="0" y="28" font-size="28">KPIA</text>
-      <circle cx="78" cy="22" r="3.5" />
-    </svg>
-    <div style="font-size:16px; font-weight:900; margin-bottom:25px; color:var(--text); letter-spacing: 1px;">KPI PERFORMANCE LOGIN</div>
+    <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
+    <div style="font-size:15px; font-weight:900; margin-bottom:25px; color:var(--text); letter-spacing: 1px;">MANAGEMENT SYSTEM LOGIN</div>
     <input type="text" id="login-id" class="modal-input" placeholder="ID">
     <input type="password" id="login-pw" class="modal-input" placeholder="PASSWORD">
-    <button class="btn-reg" style="width:100%; padding:16px; font-size:14px;" onclick="handleLogin()">AUTHENTICATE</button>
+    <button class="btn-reg" style="width:100%; padding:15px; font-size:13px;" onclick="handleLogin()">AUTHENTICATE</button>
   </div>
 </div>
 
@@ -116,19 +119,32 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
   <div class="app-container">
     <nav class="sidebar">
       <div class="logo-section">
-        <svg class="kpia-logo-svg" viewBox="0 0 100 35">
-          <text x="0" y="28" font-size="28">KPIA</text>
-          <circle cx="78" cy="22" r="3.5" />
-        </svg>
-        <div class="logo-sub">PERFORMANCE TRACKER</div>
-        <button class="btn-reg" style="font-size:10px; margin-top:25px; width:100%; opacity:0.8;" onclick="exportToExcel()">📊 EXCEL EXPORT</button>
+        <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
+        <div class="logo-sub">PERFORMANCE & TASKS</div>
+        <button class="btn-reg" style="font-size:10px; margin-top:20px; width:100%; opacity:0.7;" onclick="exportToExcel()">📊 EXCEL EXPORT</button>
       </div>
+      
       <div class="nav">
-        <div id="m-tracking" class="nav-item active" onclick="showView('tracking')">📊 월별 트래킹</div>
-        <div id="m-history" class="nav-item" onclick="showView('history')">📅 연간 누적 현황</div>
-        <div id="m-kpilist" class="nav-item" onclick="showView('kpilist')">📋 KPI 한눈에 보기</div>
-        <div id="m-logs" class="nav-item" onclick="showView('logs')">📜 변경 로그 (History)</div>
-        <div class="nav-item" onclick="handleLogout()" style="margin-top: 30px; color: var(--red);">🔓 LOGOUT</div>
+        <div class="nav-group" id="group-kpi">
+          <div class="nav-group-header" onclick="toggleNavGroup('group-kpi')"><span>KPI 성과 관리</span> <i>▼</i></div>
+          <div class="nav-group-content">
+            <div id="m-kpi-tracking" class="nav-item active" onclick="showView('tracking', 'kpi')">📊 월별 트래킹</div>
+            <div id="m-kpi-history" class="nav-item" onclick="showView('history', 'kpi')">📅 연간 누적 현황</div>
+            <div id="m-kpi-list" class="nav-item" onclick="showView('kpilist', 'kpi')">📋 KPI 한눈에 보기</div>
+            <div id="m-kpi-logs" class="nav-item" onclick="showView('logs', 'kpi')">📜 변경 로그 (History)</div>
+          </div>
+        </div>
+
+        <div class="nav-group" id="group-task">
+          <div class="nav-group-header" onclick="toggleNavGroup('group-task')"><span>연간 주요 업무</span> <i>▼</i></div>
+          <div class="nav-group-content">
+            <div id="m-task-tracking" class="nav-item" onclick="showView('tracking', 'task')">📊 월별 트래킹</div>
+            <div id="m-task-history" class="nav-item" onclick="showView('history', 'task')">📅 연간 누적 현황</div>
+            <div id="m-task-logs" class="nav-item" onclick="showView('logs', 'task')">📜 변경 로그 (History)</div>
+          </div>
+        </div>
+
+        <div class="nav-item" onclick="handleLogout()" style="margin-top: 20px; color: var(--red); font-weight: 800;">🔓 LOGOUT</div>
       </div>
     </nav>
 
@@ -154,33 +170,33 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 
 <div id="modal" class="modal-overlay">
   <div class="modal">
-    <div class="panel-header" style="padding:18px 25px;">
-      <h3 id="modal-title" style="font-size:16px;">데이터 입력/수정</h3>
-      <button onclick="closeModal()" style="background:none; border:none; color:var(--text3); cursor:pointer; font-size:24px;">✕</button>
+    <div class="panel-header" style="padding:15px 25px;">
+      <h3 id="modal-title" style="font-size:15px;">데이터 입력/수정</h3>
+      <button onclick="closeModal()" style="background:none; border:none; color:var(--text3); cursor:pointer; font-size:20px;">✕</button>
     </div>
-    <div class="modal-body" style="padding:28px;">
+    <div class="modal-body" style="padding:25px;">
       <input type="hidden" id="f-id">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
         <div><label style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">대상 월</label><select id="f-month" class="modal-input" style="margin-bottom:0;" onchange="updateModalLabels()"></select></div>
-        <div><label style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">팀명</label><select id="f-team" class="modal-input" style="margin-bottom:0;" onchange="updateKpiOptions()"></select></div>
+        <div><label id="label-team-type" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">팀명</label><select id="f-team" class="modal-input" style="margin-bottom:0;" onchange="updateKpiOptions()"></select></div>
       </div>
-      <div style="margin-bottom:25px;">
-        <label style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">연계 KPI 지표</label>
+      <div style="margin-bottom:20px;">
+        <label id="label-item-type" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">항목</label>
         <select id="f-kpi" class="modal-input" style="margin-bottom:0; border:1px solid var(--accent); font-weight:700; color:var(--accent2);"></select>
       </div>
-      <div style="margin-bottom:25px;"><label id="label-last" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">실적</label><textarea id="f-last" class="modal-input" style="height:110px; margin-bottom:0; line-height:1.6;"></textarea></div>
-      <div style="margin-bottom:25px;"><label id="label-this" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">계획</label><textarea id="f-this" class="modal-input" style="height:110px; margin-bottom:0; line-height:1.6;"></textarea></div>
+      <div style="margin-bottom:20px;"><label id="label-last" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">실적</label><textarea id="f-last" class="modal-input" style="height:100px; margin-bottom:0; line-height:1.6;"></textarea></div>
+      <div style="margin-bottom:20px;"><label id="label-this" style="display:block; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:700;">계획</label><textarea id="f-this" class="modal-input" style="height:100px; margin-bottom:0; line-height:1.6;"></textarea></div>
       <div id="modal-footer" style="display:flex; gap:12px;">
-        <button class="btn-reg" style="flex:2; padding:16px; background:var(--accent); color:white; border:none; border-radius:8px; font-weight:800; cursor:pointer;" onclick="saveData()">SAVE CHANGES</button>
+        <button class="btn-reg" style="flex:2; padding:15px;" onclick="saveData()">SAVE CHANGES</button>
         <button id="del-btn" class="btn-reg" style="flex:1; background:var(--red);" onclick="deleteData()">DELETE</button>
       </div>
-      <div id="lock-msg" style="display:none; color:var(--red); font-size:13px; font-weight:700; text-align:center;">마감된 월은 수정이 불가합니다.</div>
+      <div id="lock-msg" style="display:none; color:var(--red); font-size:12px; font-weight:700; text-align:center;">마감된 월은 수정이 불가합니다.</div>
     </div>
   </div>
 </div>
 
 <script>
-/** 보안 인증 (kpia_kpi / kpi2026!) **/
+/** 보안 및 기초 데이터 **/
 const _0xV1 = [108, 119, 110, 102, 88, 108, 119, 110];
 const _0xV2 = [108, 119, 110, 53, 55, 53, 49, 38]; 
 const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
@@ -188,16 +204,14 @@ const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
 function handleLogin() {
   const i = document.getElementById('login-id').value.toLowerCase();
   const p = document.getElementById('login-pw').value;
-  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) {
-    sessionStorage.setItem('k_auth_id', i);
-    sessionStorage.setItem('k_auth_key', btoa(Date.now()));
-    checkAuth();
-  } else { alert("인증 정보가 틀립니다."); }
+  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) { sessionStorage.setItem('k_auth_id', i); sessionStorage.setItem('k_token', btoa(Date.now())); checkAuth(); } else { alert("인증 실패"); }
 }
-function checkAuth() { if (sessionStorage.getItem('k_auth_key')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
+function checkAuth() { if (sessionStorage.getItem('k_token')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
 
-const TEAMS = ['기획홍보', '대외정책', '차트운영', '개발파트'];
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
+// KPI 기준 데이터
+const KPI_TEAMS = ['기획홍보', '대외정책', '차트운영', '개발파트'];
 const KPI_DATA_FULL = {
   '기획홍보': [{ item:'신규 사업 개발', weight:0.35, goal:'신규 사업 런칭', s:'300점↑', a:'200-299', b:'100-199', c:'100↓' }, { item:'협회 언론 대응', weight:0.25, goal:'보도자료 배포', s:'16건↑', a:'13-15', b:'10-12', c:'9↓' }, { item:'최소 보도량 달성률', weight:0.05, goal:'보조지표', s:'80%↑', a:'70-80', b:'60-70', c:'60↓' }, { item:'MWM 콘퍼런스', weight:0.20, goal:'만족도 제고', s:'90점↑', a:'80-90', b:'70-80', c:'70↓' }, { item:'써클차트 브랜딩', weight:0.15, goal:'유입량 증가', s:'30%↑', a:'15%', b:'0', c:'감소' }],
   '대외정책': [{ item:'정책파트너십 강화', weight:0.2, goal:'파트너십 리포트', s:'주 2회', a:'1.5회', b:'1회', c:'미달' }, { item:'이슈 공론화', weight:0.3, goal:'공청회 개최', s:'3건', a:'2건', b:'1건', c:'0건' }, { item:'법안 입법관리', weight:0.2, goal:'입법 대응', s:'2건↑', a:'1건', b:'0건', c:'마이너스' }, { item:'정책 아이템 개발', weight:0.3, goal:'이슈 발굴', s:'2건↑', a:'2건', b:'1건', c:'0건' }],
@@ -205,23 +219,36 @@ const KPI_DATA_FULL = {
   '개발파트': [{ item:'시스템 안정 운영', weight:0.3, goal:'장애복구/SOP', s:'0건', a:'2h↓', b:'4h↓', c:'4h↑' }, { item:'시스템 개선', weight:0.2, goal:'SLA 준수', s:'4건↑', a:'3건', b:'2건', c:'1건↓' }, { item:'시스템 클라우드 이전', weight:0.25, goal:'마일스톤', s:'완료', a:'테스트', b:'기획서', c:'정체' }, { item:'정산분배 시스템 런칭', weight:0.25, goal:'납기/안정화', s:'0건', a:'3건↓', b:'적기', c:'지연' }]
 };
 
+// 주요태스크 기준 데이터 (카테고리 기반)
+const TASK_TEAMS = ['사업개발', '입법대응', '정책역량', '회원사지원'];
+const TASK_DATA_FULL = {
+  '사업개발': [{ item:'정부 대중음악 전담 조직 추진', owner:'우승현, 최태영' }, { item:'K-뮤직 펀드 조성', owner:'우승현, 전종봉' }, { item:'음악관련 예산 증대 및 아이템 발굴', owner:'임숙형, 전종봉' }, { item:'음반·MD 수출 지원 정책 개발', owner:'우승현, 김창규' }],
+  '입법대응': [{ item:'대중법 일부개정 규제 대응', owner:'최태영, 전종봉' }, { item:'안무저작권 표준계약서 제정', owner:'최태영, 전종봉' }, { item:'음악산업 제작비 세액 공제 적용', owner:'최태영, 전종봉' }, { item:'AI 저작권 관련 대응', owner:'최태영, 김창규' }],
+  '정책역량': [{ item:'협회내 정책연구소 설립 추진', owner:'우승현, 최태영' }, { item:'MWM 콘퍼런스 개선', owner:'임숙형' }, { item:'국회 정책제안 포럼 개최', owner:'최태영, 전종봉' }],
+  '회원사지원': [{ item:'근로시간/노사관계 유연화 대응', owner:'최광호, 김창규' }, { item:'회원사 실무자 워크숍/교육', owner:'임숙형, 최태영' }, { item:'회원사 애로사항 발굴 및 해결', owner:'최광호, 전종봉' }]
+};
+
 let currentYear = 2026;
 let currentMonth = new Date().getMonth();
 let currentView = 'tracking';
-let currentHistoryTeam = TEAMS[0];
-let db = JSON.parse(localStorage.getItem('kpi_task_db') || '[]');
-let logs = JSON.parse(localStorage.getItem('kpi_history_logs') || '[]');
+let currentCategory = 'kpi'; // 'kpi' or 'task'
+let currentHistoryTeam = KPI_TEAMS[0];
 
-const rNow = new Date();
-const rY = rNow.getFullYear();
-const rM = rNow.getMonth();
+let db = JSON.parse(localStorage.getItem('kpi_combined_db') || '[]');
+let logs = JSON.parse(localStorage.getItem('kpi_combined_logs') || '[]');
 
-function addHistoryLog(action, team, kpi, details) {
+const rDate = new Date();
+const rY = rDate.getFullYear();
+const rM = rDate.getMonth();
+
+function toggleNavGroup(id) { document.getElementById(id).classList.toggle('closed'); }
+
+function addHistoryLog(action, category, team, kpi, details) {
   const now = new Date();
   const uid = sessionStorage.getItem('k_auth_id') || 'Unknown';
   const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-  logs.unshift({ time: timeStr, action, team, kpi, details, user: uid });
-  localStorage.setItem('kpi_history_logs', JSON.stringify(logs));
+  logs.unshift({ time: timeStr, action, category: category.toUpperCase(), team, kpi, details, user: uid });
+  localStorage.setItem('kpi_combined_logs', JSON.stringify(logs));
 }
 
 function updateDateDisplays() {
@@ -235,43 +262,50 @@ function updateDateDisplays() {
   document.getElementById('month-grid').innerHTML = MONTHS.map((m,i)=>`<div class="grid-item ${i===currentMonth?'active':''}" onclick="event.stopPropagation();currentMonth=${i};updateDateDisplays();render();">${m}</div>`).join('');
 }
 
-function showView(view) {
+function showView(view, category) {
   currentView = view;
+  currentCategory = category;
+  currentHistoryTeam = (category === 'kpi' ? KPI_TEAMS[0] : TASK_TEAMS[0]);
+  
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  const target = document.getElementById('m-' + view);
-  if(target) target.classList.add('active');
-  const titles = { 'tracking':'월별 트래킹', 'history':'연간 누적 현황', 'kpilist':'KPI 한눈에 보기', 'logs':'변경 로그 히스토리' };
-  document.getElementById('page-title').textContent = titles[view];
+  document.getElementById(`m-${category}-${view}`).classList.add('active');
+  
+  const prefix = category === 'kpi' ? '[KPI]' : '[주요업무]';
+  const titles = { 'tracking':'월별 트래킹', 'history':'연간 누적 현황', 'kpilist':'KPI 지표 가이드', 'logs':'변경 로그' };
+  document.getElementById('page-title').textContent = `${prefix} ${titles[view]}`;
   document.getElementById('date-controls').style.display = (view === 'tracking') ? 'flex' : 'none';
   render();
 }
 
 function render() {
-  if (!sessionStorage.getItem('k_auth_key')) return;
+  if (!sessionStorage.getItem('k_token')) return;
   const container = document.getElementById('main-content');
   const isPast = (currentYear < rY) || (currentYear === rY && currentMonth < rM);
+  const dataList = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
+  const teams = (currentCategory === 'kpi' ? KPI_TEAMS : TASK_TEAMS);
 
   if (currentView === 'logs') {
-    container.innerHTML = logs.length > 0 ? logs.map(l => `
+    const filteredLogs = logs.filter(l => l.category === currentCategory.toUpperCase());
+    container.innerHTML = filteredLogs.length > 0 ? filteredLogs.map(l => `
       <div class="log-item">
         <div class="log-header">
           <div><span class="log-tag tag-${l.action}">${l.action}</span> <span style="color:var(--text3); font-size:11px; margin-left:10px;">${l.time}</span></div>
           <span class="log-user">UID: ${l.user}</span>
         </div>
-        <div class="log-title">${l.team} - ${l.kpi}</div>
+        <div style="font-weight:800; font-size:14px; margin: 10px 0; color:var(--text);">${l.team} - ${l.kpi}</div>
         <div class="log-detail-box">${l.details}</div>
       </div>`).join('') : '<div style="text-align:center; padding:100px; color:var(--text3);">기록이 없습니다.</div>';
     return;
   }
 
   if (currentView === 'kpilist') {
-    container.innerHTML = TEAMS.map(team => `
+    container.innerHTML = KPI_TEAMS.map(team => `
       <div class="panel">
-        <div class="panel-header"><strong style="color:var(--color-${team})">${team} KPI 가이드</strong></div>
+        <div class="panel-header"><strong>${team} KPI 가이드</strong></div>
         <div class="panel-body" style="overflow-x:auto;">
           <table class="kpi-table">
-            <thead><tr><th style="width:40px;">NO</th><th class="col-item">항목</th><th style="width:60px;">가중치</th><th class="col-goal">목표</th><th>S</th><th>A</th><th>B</th><th>C</th></tr></thead>
-            <tbody>${KPI_DATA_FULL[team].map((k,idx) => `<tr><td>${idx+1}</td><td style="font-weight:700; color:var(--text); text-align:left;">${k.item}</td><td style="color:var(--orange); font-weight:700;">${Math.round(k.weight*100)}%</td><td style="text-align:left;">${k.goal}</td><td>${k.s}</td><td>${k.a}</td><td>${k.b}</td><td>${k.c}</td></tr>`).join('')}</tbody>
+            <thead><tr><th style="width:160px;">항목</th><th style="width:60px;">가중치</th><th>목표</th><th>S</th><th>A</th><th>B</th><th>C</th></tr></thead>
+            <tbody>${KPI_DATA_FULL[team].map(k => `<tr><td style="font-weight:700; text-align:left;">${k.item}</td><td style="color:var(--orange); font-weight:700;">${Math.round(k.weight*100)}%</td><td style="text-align:left;">${k.goal}</td><td>${k.s}</td><td>${k.a}</td><td>${k.b}</td><td>${k.c}</td></tr>`).join('')}</tbody>
           </table>
         </div>
       </div>`).join('');
@@ -279,40 +313,36 @@ function render() {
   }
 
   if (currentView === 'history') {
-    let html = `<div style="max-width: 1100px; margin: 0 auto;"><div class="history-team-grid">${TEAMS.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}</div>`;
+    let html = `<div style="max-width: 1100px; margin: 0 auto;"><div class="history-team-grid">${teams.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}</div>`;
     for(let m = 0; m < 12; m++) {
-      const data = db.filter(d => (d.year || 2026) === currentYear && d.month === m && d.team === currentHistoryTeam);
-      const isLocked = (currentYear < rY) || (currentYear === rY && m < rM);
-      if(data.length > 0) {
+      const historyData = db.filter(d => d.type === currentCategory && (d.year || 2026) === currentYear && d.month === m && d.team === currentHistoryTeam);
+      if(historyData.length > 0) {
         html += `<div style="border-left:3px solid var(--orange); padding-left:25px; margin-bottom:40px;">
-          <h3 style="color:var(--orange); margin-bottom:20px; font-size:20px; font-weight:900;">${MONTHS[m]} RECORD</h3>
-          <div class="grid-2">${data.map(d => {
-            const kpi = KPI_DATA_FULL[currentHistoryTeam].find(k => k.item === d.kpi);
-            return `<div class="panel" style="${isLocked ? 'opacity:0.8;' : ''}">
-              <div class="panel-header" style="border-bottom:none;"><span style="color:var(--accent2); font-weight:900; font-size:14px;">${d.kpi} <span style="opacity:0.5; font-size:11px;">(${Math.round((kpi?kpi.weight:0)*100)}%)</span></span></div>
-              <div class="panel-body" onclick="${isLocked ? '' : `openModal('${d.id}')`}" style="cursor:${isLocked ? 'default' : 'pointer'}; padding:0 20px 20px;">
-                <div style="margin-bottom:15px;"><div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:5px;">✓ ${m === 0 ? '12월' : m + '월'} 실적</div><div style="font-size:13px; line-height:1.6;">${d.lastDone}</div></div>
-                <div><div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:5px;">→ ${MONTHS[m]} 계획</div><div style="font-size:13px; line-height:1.6;">${d.thisPlan}</div></div>
-              </div></div>`;
-          }).join('')}</div></div>`;
+          <h3 style="color:var(--orange); margin-bottom:20px; font-size:18px; font-weight:900;">${MONTHS[m]} RECORD</h3>
+          <div class="grid-2">${historyData.map(d => `
+            <div class="panel">
+              <div class="panel-header" style="border-bottom:none; font-size:13px; color:var(--accent2);">${d.kpi}</div>
+              <div class="panel-body" onclick="${(currentYear < rY || (currentYear === rY && m < rM)) ? '' : `openModal('${d.id}')`}" style="cursor:pointer; padding:0 20px 20px;">
+                <div style="margin-bottom:12px;"><div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:5px;">✓ 실적</div><div style="font-size:13px; line-height:1.6;">${d.lastDone}</div></div>
+                <div><div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:5px;">→ 계획</div><div style="font-size:13px; line-height:1.6;">${d.thisPlan}</div></div>
+              </div></div>`).join('')}</div></div>`;
       }
     }
     container.innerHTML = html + "</div>";
     return;
   }
 
-  const monthData = db.filter(d => (d.year || 2026) === currentYear && d.month === currentMonth);
-  const pName = currentMonth === 0 ? '12월' : currentMonth + '월';
-  container.innerHTML = `<div class="grid-2">${TEAMS.map(team => `
-    <div class="panel" style="border-top: 3px solid var(--color-${team});">
+  const monthData = db.filter(d => d.type === currentCategory && (d.year || 2026) === currentYear && d.month === currentMonth);
+  container.innerHTML = `<div class="grid-2">${teams.map(team => `
+    <div class="panel" style="border-top: 3px solid var(--color-${team} || var(--accent));">
       <div class="panel-header"><span>${team} ${MONTHS[currentMonth]}</span><button class="btn-reg" onclick="openModal(null, '${team}')">+ 등록</button></div>
       <div class="panel-body">
-        ${KPI_DATA_FULL[team].map(k => {
+        ${dataList[team].map(k => {
           const entry = monthData.find(d => String(d.team) === String(team) && String(d.kpi) === String(k.item));
-          return `<div class="tracking-card ${isPast ? 'locked' : ''}" style="border-left-color:var(--color-${team})" onclick="${isPast ? '' : `openModal('${entry?entry.id:''}','${team}','${k.item}')`}">
-            <div style="font-size:13px; font-weight:900; color:var(--accent2); margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px;">${k.item} <span style="font-weight:400; opacity:0.5; font-size:11px;">(${Math.round(k.weight*100)}%)</span></div>
+          return `<div class="tracking-card ${isPast ? 'locked' : ''}" onclick="${isPast ? '' : `openModal('${entry?entry.id:''}','${team}','${k.item}')`}">
+            <div style="font-size:13px; font-weight:900; color:var(--accent2); margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px;">${k.item} ${k.owner ? `<span style="font-weight:400; font-size:10px; color:var(--text3); float:right;">[${k.owner}]</span>` : ''}</div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; font-size:12px;">
-              <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${pName} 실적:</span>${entry?entry.lastDone:'-'}</div>
+              <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${currentMonth === 0 ? '12월' : currentMonth + '월'} 실적:</span>${entry?entry.lastDone:'-'}</div>
               <div><span style="color:var(--accent); font-weight:700; display:block; margin-bottom:4px;">${MONTHS[currentMonth]} 계획:</span>${entry?entry.thisPlan:'-'}</div>
             </div>
           </div>`;
@@ -323,8 +353,13 @@ function render() {
 function openModal(id = null, teamHint = null, kpiHint = null) {
   const fMonth = document.getElementById('f-month'); const fTeam = document.getElementById('f-team');
   const lockMsg = document.getElementById('lock-msg'); const footer = document.getElementById('modal-footer');
+  const teams = (currentCategory === 'kpi' ? KPI_TEAMS : TASK_TEAMS);
+
   fMonth.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
-  fTeam.innerHTML = TEAMS.map(t => `<option value="${t}">${t}</option>`).join('');
+  fTeam.innerHTML = teams.map(t => `<option value="${t}">${t}</option>`).join('');
+  document.getElementById('label-team-type').textContent = (currentCategory === 'kpi' ? '팀명' : '카테고리');
+  document.getElementById('label-item-type').textContent = (currentCategory === 'kpi' ? '연계 KPI 지표' : '세부 업무항목');
+
   if (id && id !== '') {
     const d = db.find(x => String(x.id) === String(id));
     document.getElementById('f-id').value = d.id; fMonth.value = d.month; fTeam.value = d.team;
@@ -332,7 +367,7 @@ function openModal(id = null, teamHint = null, kpiHint = null) {
     document.getElementById('f-last').value = d.lastDone; document.getElementById('f-this').value = d.thisPlan;
     document.getElementById('del-btn').style.display = 'block';
   } else {
-    document.getElementById('f-id').value = ''; fMonth.value = currentMonth; fTeam.value = teamHint || TEAMS[0];
+    document.getElementById('f-id').value = ''; fMonth.value = currentMonth; fTeam.value = teamHint || teams[0];
     updateKpiOptions(); if(kpiHint) document.getElementById('f-kpi').value = kpiHint;
     document.getElementById('f-last').value = ''; document.getElementById('f-this').value = '';
     document.getElementById('del-btn').style.display = 'none';
@@ -343,7 +378,11 @@ function openModal(id = null, teamHint = null, kpiHint = null) {
 }
 
 function updateModalLabels() { const m = parseInt(document.getElementById('f-month').value); document.getElementById('label-last').innerHTML = `${m === 0 ? '12월' : m + '월'} 실적`; document.getElementById('label-this').innerHTML = `${MONTHS[m]} 계획`; }
-function updateKpiOptions() { const t = document.getElementById('f-team').value; document.getElementById('f-kpi').innerHTML = KPI_DATA_FULL[t].map(k => `<option value="${k.item}">${k.item}</option>`).join(''); }
+function updateKpiOptions() { 
+  const t = document.getElementById('f-team').value; 
+  const list = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
+  document.getElementById('f-kpi').innerHTML = list[t].map(k => `<option value="${k.item}">${k.item}</option>`).join(''); 
+}
 
 function saveData() {
   const id = document.getElementById('f-id').value;
@@ -356,16 +395,16 @@ function saveData() {
 
   if (old) {
     let diff = "";
-    if(old.lastDone !== last) diff += `<span class="log-diff-label">[실적 변경]</span>\n변경 전: ${old.lastDone}\n→ 변경 후: ${last}\n\n`;
-    if(old.thisPlan !== plan) diff += `<span class="log-diff-label">[계획 변경]</span>\n변경 전: ${old.thisPlan}\n→ 변경 후: ${plan}`;
-    addHistoryLog('수정', team, kpi, diff || "단순 저장 (내용 변경 없음)");
+    if(old.lastDone !== last) diff += `[실적] 변경전: ${old.lastDone} → 변경후: ${last}\n`;
+    if(old.thisPlan !== plan) diff += `[계획] 변경전: ${old.thisPlan} → 변경후: ${plan}`;
+    addHistoryLog('수정', currentCategory, team, kpi, diff || "단순 저장");
   } else {
-    addHistoryLog('등록', team, kpi, `<span class="log-diff-label">[초기 실적]</span>\n${last}\n\n<span class="log-diff-label">[초기 계획]</span>\n${plan}`);
+    addHistoryLog('등록', currentCategory, team, kpi, `[실적] ${last}\n[계획] ${plan}`);
   }
 
-  const entry = { id: id || Date.now(), year: currentYear, month: m, team, kpi, lastDone: last, thisPlan: plan };
+  const entry = { id: id || Date.now(), type: currentCategory, year: currentYear, month: m, team, kpi, lastDone: last, thisPlan: plan };
   db = db.filter(d => String(d.id) !== String(entry.id)); db.push(entry);
-  localStorage.setItem('kpi_task_db', JSON.stringify(db));
+  localStorage.setItem('kpi_combined_db', JSON.stringify(db));
   currentMonth = m; updateDateDisplays(); closeModal(); render();
 }
 
@@ -373,18 +412,18 @@ function deleteData() {
   const id = document.getElementById('f-id').value;
   const d = db.find(x => String(x.id) === String(id));
   if(confirm('정말 삭제하시겠습니까?')) {
-    addHistoryLog('삭제', d.team, d.kpi, `<span style="color:var(--red); font-weight:800;">[삭제된 데이터 정보]</span>\n대상월: ${d.year}년 ${d.month+1}월\n실적: ${d.lastDone}\n계획: ${d.thisPlan}`);
+    addHistoryLog('삭제', currentCategory, d.team, d.kpi, `실적: ${d.lastDone}\n계획: ${d.thisPlan}`);
     db = db.filter(x => String(x.id) !== String(id));
-    localStorage.setItem('kpi_task_db', JSON.stringify(db));
+    localStorage.setItem('kpi_combined_db', JSON.stringify(db));
     closeModal(); render();
   }
 }
 
 function exportToExcel() {
-  let csv = "Year,Month,Team,KPI,Result,Plan\n";
-  db.sort((a,b)=>a.month - b.month).forEach(d => { csv += `${d.year || 2026},${d.month + 1},${d.team},"${d.kpi}","${d.lastDone.replace(/"/g, '""')}","${d.thisPlan.replace(/"/g, '""')}"\n`; });
+  let csv = "Group,Year,Month,Team/Category,Item,Result,Plan\n";
+  db.sort((a,b)=>a.month - b.month).forEach(d => { csv += `${d.type.toUpperCase()},${d.year || 2026},${d.month + 1},${d.team},"${d.kpi}","${d.lastDone.replace(/"/g, '""')}","${d.thisPlan.replace(/"/g, '""')}"\n`; });
   const b = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `KPIA_KPI_DB.csv`; a.click();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `KPIA_MANAGEMENT_DATA.csv`; a.click();
 }
 
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
