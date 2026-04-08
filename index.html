@@ -15,8 +15,6 @@
   --accent: #5b7cff; --accent2: #7b9aff;
   --orange: #ff6b00;
   --green: #22c55e; --red: #ef4444;
-  --color-기획홍보팀: #ff9f0a; --color-대외정책팀: #ffd60a;
-  --color-차트운영팀: #ff375f; --color-개발파트: #bf5af2;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: 'Pretendard', sans-serif; height: 100vh; overflow: hidden; }
@@ -25,7 +23,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
 .login-box { background: var(--bg2); border: 1px solid var(--border); padding: 55px; border-radius: 28px; width: 400px; text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.7); }
 
-/* 무왜곡 정밀 SVG 로고 */
 .kpia-logo-svg { width: 110px; height: auto; display: block; margin: 0 auto 15px; overflow: visible; }
 .kpia-logo-svg text { font-family: 'Pretendard', sans-serif; font-weight: 200; fill: #ffffff; letter-spacing: -1.8px; }
 .kpia-logo-svg circle { fill: var(--orange); }
@@ -33,7 +30,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 #main-app { display: none; height: 100vh; }
 .app-container { display: flex; height: 100vh; }
 
-/* 사이드바 아코디언 */
 .sidebar { width: 265px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
 .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; scroll-behavior: smooth; }
 .logo-section { padding: 35px 20px; border-bottom: 1px solid var(--border); text-align: center; }
@@ -55,19 +51,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .nav-item:hover { background: var(--bg3); color: var(--text); }
 .nav-item.active { background: rgba(91,124,255,0.1); color: var(--accent2); border-left-color: var(--accent); font-weight: 800; }
 
-/* 상단바 */
 .topbar { padding: 18px 30px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1.2fr auto 1.2fr; align-items: center; background: var(--bg); position: sticky; top: 0; z-index: 100; }
 .topbar h2 { font-size: 18px; font-weight: 800; color: var(--text); }
 .date-selectors { display: flex; gap: 12px; position: relative; justify-content: center; }
-.grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text); border: 1px solid var(--border); }
+.grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text); }
 
-/* 월 배지 스타일 */
-.month-badge { font-size: 11px; color: var(--accent); font-weight: 800; margin-left: 8px; padding: 2px 8px; background: rgba(91,124,255,0.12); border-radius: 5px; vertical-align: middle; border: 1px solid rgba(91,124,255,0.2); }
+.month-badge { font-size: 11px; color: var(--accent); font-weight: 800; margin-left: 8px; padding: 2px 8px; background: rgba(91,124,255,0.12); border-radius: 5px; border: 1px solid rgba(91,124,255,0.2); }
 
-/* 업무 영역 바로가기 */
 .shortcut-wrapper { margin-bottom: 30px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid var(--border); }
 .shortcut-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.shortcut-btn { padding: 12px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); border-radius: 10px; font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shortcut-btn { padding: 12px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); border-radius: 10px; font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; overflow: hidden; text-overflow: ellipsis; }
 .shortcut-btn:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
 
 .content { padding: 30px; }
@@ -75,8 +68,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 25px; overflow: hidden; }
 .panel-header { padding: 18px 22px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
 
-/* 로그 상세 스타일 */
-.log-item { background: var(--bg3); border-radius: 14px; padding: 22px; margin-bottom: 18px; border-left: 5px solid var(--text3); border: 1px solid var(--border); }
+.log-item { background: var(--bg3); border-radius: 14px; padding: 22px; margin-bottom: 18px; border: 1px solid var(--border); }
 .log-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
 .log-tag { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 900; }
 .tag-등록 { background: rgba(34,197,94,0.15); color: var(--green); }
@@ -89,10 +81,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .tracking-card:hover { transform: translateX(8px); background: #252a40; }
 .tracking-card.locked { cursor: default; opacity: 0.6; border-left-style: dotted; }
 
-.history-team-btn { padding: 20px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; font-size: 13px; }
+.history-team-grid { display: grid; gap: 10px; margin-bottom: 30px; }
+.history-team-btn { padding: 15px; border-radius: 10px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; font-size: 12px; }
 .history-team-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-/* 모달 */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1500; backdrop-filter: blur(6px); }
 .modal { background: var(--bg2); width: 640px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 50px 100px rgba(0,0,0,0.6); overflow: hidden; }
 .modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; color: var(--text); margin-bottom: 15px; outline: none; }
@@ -178,22 +170,30 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 </div>
 
 <script>
-/** 보안 인증 **/
-const _0xV1 = [108, 119, 110, 102, 88, 108, 119, 110];
-const _0xV2 = [108, 119, 110, 53, 55, 53, 49, 38]; 
-const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
-
+/* 보안 및 인증 로직 수정 */
 function handleLogin() {
   const i = document.getElementById('login-id').value.toLowerCase();
   const p = document.getElementById('login-pw').value;
-  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) {
-    sessionStorage.setItem('k_uid', i); sessionStorage.setItem('k_token_vfinal', btoa(Date.now())); checkAuth();
-  } else { alert("인증 실패: 정보를 다시 확인하세요."); }
+  // ID: kpia / PW: kpia123!
+  if (i === 'kpia' && p === 'kpia123!') {
+    sessionStorage.setItem('k_uid', i);
+    sessionStorage.setItem('k_token_vfinal', btoa(Date.now()));
+    checkAuth();
+  } else {
+    alert("인증 실패: 정보를 다시 확인하세요.");
+  }
 }
-function checkAuth() { if (sessionStorage.getItem('k_token_vfinal')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
+
+function checkAuth() {
+  if (sessionStorage.getItem('k_token_vfinal')) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    updateDateDisplays();
+    render();
+  }
+}
 
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-
 const KPI_TEAMS = ['기획홍보팀', '대외정책팀', '차트운영팀', '개발파트'];
 const KPI_DATA_FULL = {
   '기획홍보팀': [{ item:'신규 사업 개발' }, { item:'협회 언론 대응' }, { item:'최소 보도량 달성률' }, { item:'MWM 콘퍼런스' }, { item:'써클차트 브랜딩' }],
@@ -202,8 +202,7 @@ const KPI_DATA_FULL = {
   '개발파트': [{ item:'시스템 안정 운영' }, { item:'시스템 개선' }, { item:'시스템 클라우드 이전' }, { item:'정산분배 시스템 런칭' }]
 };
 
-// 7개 카테고리 / 29개 세부 업무 전체 반영 (최광호 삭제)
-const TASK_TEAMS = ['음악산업 지원확대', '입법 대응', '정책 기능 강화', '회원사 권익보호', '써클차트 활성화', '협회 운영 소통', '신규 수익 개발'];
+const TASK_TEAMS = ['음악산업 지원확대', '입법 대응', '정책 기능 강화', '회원사 권익보호', '회원사 지원교류', '저작권 투명성 IT', '협회 자체 사업', '압도적 투명성 운영'];
 const TASK_DATA_FULL = {
   '음악산업 지원확대': [
     { item:'정부의 대중음악 전담 조직 추진', owner:'우승현, 최태영' },
@@ -211,43 +210,43 @@ const TASK_DATA_FULL = {
     { item:'음악관련 예산 증대 및 아이템 발굴', owner:'임숙형, 전종봉' },
     { item:'음반·MD 수출 관련 지원 정책 개발', owner:'우승현, 김창규' }
   ],
-  '사업환경개선1-입법 대응': [
+  '입법 대응': [
     { item:'대중법 일부개정 등 규제 강화 대응', owner:'최태영, 전종봉' },
     { item:'안무저작권 표준계약서 제정 지원', owner:'최태영, 전종봉' },
     { item:'음악산업 제작비 세액 공제 적용 추진', owner:'최태영, 전종봉' },
     { item:'AI 저작권 관련 업계 가이드 및 대응', owner:'최태영, 김창규' }
   ],
-  '사업환경개선2-정책 기능 강화': [
+  '정책 기능 강화': [
     { item:'협회 내 정책연구소 설립 추진', owner:'우승현, 최태영' },
     { item:'MWM 콘퍼런스 개선 진행', owner:'임숙형' },
-    { item:'국회 정책제안 포럼 개최', owner:'최태영, 전종봉' },
+    { item:'국회 정책제안 포럼 개최', owner:'최태영, 전종봉' }
   ],
   '회원사 권익보호': [
     { item:'근로시간 52시간 유연 적용 추진', owner:'최태영, 김창규' },
     { item:'전송서비스 사용료 징수규정 개정 대응', owner:'최태영, 김창규' },
     { item:'숏폼콘텐츠 사용료 징수규정 개정 대응', owner:'최태영, 김창규' },
-    { item:'시상식 가이드라인 제정_발효', owner:'최태영, 전종봉' }
+    { item:'시상식 가이드라인 제정_발효', owner:'최태영, 전종봉' },
     { item:'음반 제작∙판매에 대한 조세특례 추진', owner:'최태영, 전종봉' }
   ],
   '회원사 지원교류': [
     { item:'대중음악 특성 인력 양성', owner:'최태영, 전종봉' },
     { item:'음악산업 리브랜딩 전략 수립', owner:'임숙형' },
     { item:'업계와 회원사를 위한 사업 활동 기획', owner:'임숙형' },
-    { item:'건강검진 단체계약', owner:'???' },
+    { item:'건강검진 단체계약', owner:'지원파트' }
   ],
   '저작권 투명성 IT': [
     { item:'방송 사용음악 모니터링 시스템 운영', owner:'최태영, 김창규' },
     { item:'음원-권리정보 통합DB 운영', owner:'최태영, 김창규' },
     { item:'라이브러리음악 UCI 발급시스템',owner:'최태영, 김창규' },
-    { item:'K-팝 음원코드 체계 정비', owner:'최태영, 김창규' },
+    { item:'K-팝 음원코드 체계 정비', owner:'최태영, 김창규' }
   ],
   '협회 자체 사업': [
     { item:'써클차트 운영', owner:'정다운' },
-    { item:'기K-팝 번역지원서비스 지원사업', owner:'정다운' },
+    { item:'K-팝 번역지원서비스 지원사업', owner:'정다운' }
   ],
-    '압도적 투명성 운영'
-    { item:'감사제도 도입 및 내부 회계 제도 정비', owner:'우승현,이충근' },
-    { item:'회계 컨설팅 진행 및 외감/세무기장', owner:'이충근,최지원' }
+  '압도적 투명성 운영': [
+    { item:'감사제도 도입 및 내부 회계 제도 정비', owner:'우승현, 이충근' },
+    { item:'회계 컨설팅 진행 및 외감/세무기장', owner:'이충근, 최지원' }
   ]
 };
 
@@ -292,7 +291,6 @@ function showView(view, category) {
 }
 
 function render() {
-  if (!sessionStorage.getItem('k_token_v6')) { sessionStorage.setItem('k_token_v6', btoa(Date.now())); }
   const container = document.getElementById('main-content');
   const teams = (currentCategory === 'kpi' ? KPI_TEAMS : TASK_TEAMS);
   const dataList = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
@@ -307,7 +305,7 @@ function render() {
   }
 
   if (currentView === 'history') {
-    let html = `<div style="max-width: 1100px; margin: 0 auto;"><div class="history-team-grid" style="grid-template-columns: repeat(${teams.length > 4 ? 4 : teams.length}, 1fr);">${teams.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}</div>`;
+    let html = `<div style="max-width: 1100px; margin: 0 auto;"><div class="history-team-grid" style="grid-template-columns: repeat(4, 1fr);">${teams.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}</div>`;
     for(let m = 0; m < 12; m++) {
       const hData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === m && d.team === currentHistoryTeam);
       if(hData.length > 0) {
@@ -328,10 +326,10 @@ function render() {
 
   const mData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === currentMonth);
   trackingHtml += `<div class="grid-2">${teams.map((team, idx) => `
-    <div class="panel" id="sec-${idx}" style="border-top: 3px solid var(--color-${team} || var(--accent));">
+    <div class="panel" id="sec-${idx}">
       <div class="panel-header"><span>${team} <span class="month-badge">${MONTHS[currentMonth]}</span></span><button class="btn-reg" onclick="openModal(null, '${team}')">+ 등록</button></div>
       <div class="panel-body">
-        ${dataList[team].map(k => {
+        ${dataList[team] ? dataList[team].map(k => {
           const entry = mData.find(d => String(d.team) === String(team) && String(d.item) === String(k.item));
           return `<div class="tracking-card ${isPast ? 'locked' : ''}" onclick="${isPast ? '' : `openModal('${entry?entry.id:''}','${team}','${k.item}')`}">
             <div style="font-size:13px; font-weight:900; color:var(--accent2); margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px;">${k.item} ${k.owner ? `<span style="font-weight:400; font-size:10px; color:var(--text3); float:right;">[${k.owner}]</span>` : ''}</div>
@@ -339,7 +337,7 @@ function render() {
               <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${currentMonth === 0 ? '12월' : currentMonth + '월'} 실적:</span>${entry?entry.lastDone:'-'}</div>
               <div><span style="color:var(--accent); font-weight:700; display:block; margin-bottom:4px;">${MONTHS[currentMonth]} 계획:</span>${entry?entry.thisPlan:'-'}</div>
             </div></div>`;
-        }).join('')}
+        }).join('') : ''}
       </div></div>`).join('')}</div>`;
   
   container.innerHTML = trackingHtml;
@@ -371,7 +369,7 @@ function openModal(id = null, teamHint = null, itemHint = null) {
 }
 
 function updateModalLabels() { const m = parseInt(document.getElementById('f-month').value); document.getElementById('label-last').innerHTML = `${m === 0 ? '12월' : m + '월'} 실적`; document.getElementById('label-this').innerHTML = `${MONTHS[m]} 계획`; }
-function updateKpiOptions() { const t = document.getElementById('f-team').value; const list = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL); document.getElementById('f-kpi').innerHTML = list[t].map(k => `<option value="${k.item}">${k.item}</option>`).join(''); }
+function updateKpiOptions() { const t = document.getElementById('f-team').value; const list = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL); document.getElementById('f-kpi').innerHTML = list[t] ? list[t].map(k => `<option value="${k.item}">${k.item}</option>`).join('') : ''; }
 
 function saveData() {
   const id = document.getElementById('f-id').value, team = document.getElementById('f-team').value, item = document.getElementById('f-kpi').value;
