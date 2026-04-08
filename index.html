@@ -25,7 +25,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
 .login-box { background: var(--bg2); border: 1px solid var(--border); padding: 50px; border-radius: 20px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
 
-/* 로고 이미지 고정 (ce72a7 고화질 선명도 강화) */
+/* 로고 이미지 고정 (제공된 ce72a7 고화질) */
 .kpia-logo-img { 
   width: 100px; height: auto; 
   filter: brightness(0) invert(1);
@@ -65,32 +65,30 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 24px; overflow: hidden; }
 .panel-header { padding: 18px 22px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; }
 
-/* 큰 팀 버튼 */
-.history-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 35px; }
-.history-team-btn { padding: 20px; border-radius: 15px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 900; text-align: center; cursor: pointer; transition: 0.2s; font-size: 15px; }
-.history-team-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-/* 로그 강화 디자인 */
-.log-item { background: var(--bg3); border-radius: 12px; padding: 22px; margin-bottom: 15px; border-left: 4px solid var(--text3); }
-.log-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
+/* 로그 강화 스타일 */
+.log-item { background: var(--bg2); border-radius: 12px; padding: 22px; margin-bottom: 15px; border: 1px solid var(--border); border-left: 4px solid var(--text3); }
+.log-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
 .log-tag { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 900; }
 .tag-등록 { background: rgba(34,197,94,0.15); color: var(--green); }
 .tag-수정 { background: rgba(91,124,255,0.15); color: var(--accent2); }
 .tag-삭제 { background: rgba(239,68,68,0.15); color: var(--red); }
-.log-body { font-size: 13px; line-height: 1.7; }
-.log-title { font-weight: 800; color: var(--text); margin-bottom: 10px; display: block; font-size: 14px; }
-.log-detail-box { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 15px; border: 1px solid var(--border); white-space: pre-wrap; word-break: break-all; color: var(--text2); }
-.log-diff-label { color: var(--orange); font-weight: 800; margin-right: 6px; font-size: 11px; }
+.log-user { font-size: 11px; color: var(--accent2); font-weight: 800; }
+.log-title { font-weight: 800; color: var(--text); margin: 10px 0; font-size: 15px; display: block; }
+.log-detail-box { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 15px; white-space: pre-wrap; word-break: break-all; color: var(--text2); font-size: 13px; line-height: 1.8; }
+.log-diff-label { color: var(--orange); font-weight: 800; font-size: 11px; display: block; margin-top: 5px; }
 
-/* 테이블 고정 */
+/* 테이블 규격 고정 */
 .kpi-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 900px; }
 .kpi-table th, .kpi-table td { padding: 14px 10px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: center; word-break: keep-all; }
 .col-item { text-align: left !important; width: 160px; } .col-goal { text-align: left !important; width: 200px; }
 
 /* 트래킹 카드 */
 .tracking-card { background: var(--bg3); border-radius: 12px; padding: 22px; margin-bottom: 12px; border-left: 5px solid var(--accent); cursor: pointer; transition: 0.2s; position: relative; }
-.tracking-card:hover { transform: translateX(8px); background: #252a40; }
 .tracking-card.locked { cursor: default; opacity: 0.65; border-left-style: dotted; }
+
+.history-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 35px; }
+.history-team-btn { padding: 20px; border-radius: 15px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 900; text-align: center; cursor: pointer; transition: 0.2s; font-size: 15px; }
+.history-team-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
 .btn-reg { background: var(--accent); color: white; padding: 8px 14px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; font-size: 12px; }
 
@@ -185,16 +183,20 @@ const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
 function handleLogin() {
   const i = document.getElementById('login-id').value.toLowerCase();
   const p = document.getElementById('login-pw').value;
-  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) { sessionStorage.setItem('kpia_auth_v4', btoa(Date.now())); checkAuth(); } else { alert("인증 실패"); }
+  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) {
+    sessionStorage.setItem('k_auth_id', i);
+    sessionStorage.setItem('k_auth_key', btoa(Date.now()));
+    checkAuth();
+  } else { alert("인증 실패"); }
 }
-function checkAuth() { if (sessionStorage.getItem('kpia_auth_v4')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
+function checkAuth() { if (sessionStorage.getItem('k_auth_key')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
 
 const TEAMS = ['기획홍보', '대외정책', '차트운영', '개발파트'];
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 const KPI_DATA_FULL = {
   '기획홍보': [{ item:'신규 사업 개발', weight:0.35, goal:'신규 사업 런칭', s:'300점↑', a:'200-299', b:'100-199', c:'100↓' }, { item:'협회 언론 대응', weight:0.25, goal:'보도자료 배포', s:'16건↑', a:'13-15', b:'10-12', c:'9↓' }, { item:'최소 보도량 달성률', weight:0.05, goal:'보조지표', s:'80%↑', a:'70-80', b:'60-70', c:'60↓' }, { item:'MWM 콘퍼런스', weight:0.20, goal:'만족도 제고', s:'90점↑', a:'80-90', b:'70-80', c:'70↓' }, { item:'써클차트 브랜딩', weight:0.15, goal:'유입량 증가', s:'30%↑', a:'15%', b:'0', c:'감소' }],
   '대외정책': [{ item:'정책파트너십 강화', weight:0.2, goal:'파트너십 리포트', s:'주 2회', a:'1.5회', b:'1회', c:'미달' }, { item:'이슈 공론화', weight:0.3, goal:'공청회 개최', s:'3건', a:'2건', b:'1건', c:'0건' }, { item:'법안 입법관리', weight:0.2, goal:'입법 대응', s:'2건↑', a:'1건', b:'0건', c:'마이너스' }, { item:'정책 아이템 개발', weight:0.3, goal:'이슈 발굴', s:'2건↑', a:'2건', b:'1건', c:'0건' }],
-  '차트운영': [{ item:'클린 데이터 선행관리', weight:0.3, goal:'오류 감소', s:'20건↓', a:'26건', b:'32건', c:'38건' }, { item:'운영 효율화', weight:0.3, goal:'업무량 감소', s:'2.5FTE', a:'3.0', b:'3.5', c:'전년동일' }, { no:3, item:'브랜딩', goal:'유입 증가', weight:0.15, s:'30%↑', a:'15%', b:'0', c:'감소' }, { item:'파트너십 수익 증대', weight:0.25, goal:'차트 매출', s:'+25%', a:'+10%', b:'0%', c:'감소' }],
+  '차트운영': [{ item:'클린 데이터 선행관리', weight:0.3, goal:'오류 감소', s:'20건↓', a:'26건', b:'32건', c:'38건' }, { item:'운영 효율화', weight:0.3, goal:'업무량 감소', s:'2.5FTE', a:'3.0', b:'3.5', c:'전년동일' }, { item:'브랜딩', weight:0.15, goal:'유입 증가', s:'30%↑', a:'15%', b:'0', c:'감소' }, { item:'파트너십 수익 증대', weight:0.25, goal:'차트 매출', s:'+25%', a:'+10%', b:'0%', c:'감소' }],
   '개발파트': [{ item:'시스템 안정 운영', weight:0.3, goal:'장애복구/SOP', s:'0건', a:'2h↓', b:'4h↓', c:'4h↑' }, { item:'시스템 개선', weight:0.2, goal:'SLA 준수', s:'4건↑', a:'3건', b:'2건', c:'1건↓' }, { item:'시스템 클라우드 이전', weight:0.25, goal:'마일스톤', s:'완료', a:'테스트', b:'기획서', c:'정체' }, { item:'정산분배 시스템 런칭', weight:0.25, goal:'납기/안정화', s:'0건', a:'3건↓', b:'적기', c:'지연' }]
 };
 
@@ -211,8 +213,9 @@ const rM = rDate.getMonth();
 
 function addHistoryLog(action, team, kpi, details) {
   const now = new Date();
-  const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-  logs.unshift({ time: timeStr, action, team, kpi, details });
+  const uid = sessionStorage.getItem('k_auth_id') || 'System';
+  const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  logs.unshift({ time: timeStr, action, team, kpi, details, user: uid });
   localStorage.setItem('kpi_history_logs', JSON.stringify(logs));
 }
 
@@ -232,14 +235,14 @@ function showView(view) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   const target = document.getElementById('m-' + view);
   if(target) target.classList.add('active');
-  const titles = { 'tracking': '월별 트래킹', 'history': '연간 누적 현황', 'kpilist': 'KPI 한눈에 보기', 'logs': '변경 로그 히스토리' };
+  const titles = { 'tracking':'월별 트래킹', 'history':'연간 누적 현황', 'kpilist':'KPI 한눈에 보기', 'logs':'변경 로그 히스토리' };
   document.getElementById('page-title').textContent = titles[view];
   document.getElementById('date-controls').style.display = (view === 'tracking') ? 'flex' : 'none';
   render();
 }
 
 function render() {
-  if (!sessionStorage.getItem('kpia_auth_v4')) return;
+  if (!sessionStorage.getItem('k_auth_key')) return;
   const container = document.getElementById('main-content');
   const isPast = (currentYear < rY) || (currentYear === rY && currentMonth < rM);
 
@@ -247,12 +250,12 @@ function render() {
     container.innerHTML = logs.length > 0 ? logs.map(l => `
       <div class="log-item">
         <div class="log-header">
-          <span class="log-tag tag-${l.action}">${l.action}</span>
-          <span class="log-time">${l.time}</span>
+          <div><span class="log-tag tag-${l.action}">${l.action}</span> <span style="color:var(--text3); font-size:11px;">${l.time}</span></div>
+          <span class="log-user">UID: ${l.user}</span>
         </div>
         <span class="log-title">${l.team} - ${l.kpi}</span>
         <div class="log-detail-box">${l.details}</div>
-      </div>`).join('') : '<div style="text-align:center; padding:100px; color:var(--text3);">변경 기록이 없습니다.</div>';
+      </div>`).join('') : '<div style="text-align:center; padding:100px; color:var(--text3);">기록이 없습니다.</div>';
     return;
   }
 
@@ -275,18 +278,15 @@ function render() {
     for(let m = 0; m < 12; m++) {
       const data = db.filter(d => (d.year || 2026) === currentYear && d.month === m && d.team === currentHistoryTeam);
       const isLocked = (currentYear < rY) || (currentYear === rY && m < rM);
-      const prevM = m === 0 ? '12월' : m + '월';
       if(data.length > 0) {
         html += `<div style="border-left:3px solid var(--orange); padding-left:25px; margin-bottom:40px;">
           <h3 style="color:var(--orange); margin-bottom:20px; font-size:20px; font-weight:900;">${MONTHS[m]} RECORD</h3>
           <div class="grid-2">${data.map(d => {
             const kpi = KPI_DATA_FULL[currentHistoryTeam].find(k => k.item === d.kpi);
             return `<div class="panel" style="${isLocked ? 'opacity:0.8;' : ''}">
-              <div class="panel-header" style="border-bottom:none;">
-                <span style="color:var(--accent2); font-weight:900; font-size:14px; border-bottom:1px solid var(--border); width:100%; display:block; padding-bottom:8px;">${d.kpi} <span style="opacity:0.5; font-size:11px;">(${Math.round((kpi?kpi.weight:0)*100)}%)</span></span>
-              </div>
-              <div class="panel-body" onclick="${isLocked ? '' : `openModal('${d.id}')`}" style="cursor:${isLocked ? 'default' : 'pointer'}; padding-top:10px;">
-                <div style="margin-bottom:15px;"><div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:5px;">✓ ${prevM} 실적</div><div style="font-size:13px; line-height:1.6;">${d.lastDone}</div></div>
+              <div class="panel-header" style="border-bottom:none;"><span style="color:var(--accent2); font-weight:900; font-size:14px;">${d.kpi} <span style="opacity:0.5; font-size:11px;">(${Math.round((kpi?kpi.weight:0)*100)}%)</span></span></div>
+              <div class="panel-body" onclick="${isLocked ? '' : `openModal('${d.id}')`}" style="cursor:${isLocked ? 'default' : 'pointer'}; padding:0 20px 20px;">
+                <div style="margin-bottom:15px;"><div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:5px;">✓ ${m === 0 ? '12월' : m + '월'} 실적</div><div style="font-size:13px; line-height:1.6;">${d.lastDone}</div></div>
                 <div><div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:5px;">→ ${MONTHS[m]} 계획</div><div style="font-size:13px; line-height:1.6;">${d.thisPlan}</div></div>
               </div></div>`;
           }).join('')}</div></div>`;
@@ -297,7 +297,6 @@ function render() {
   }
 
   const monthData = db.filter(d => (d.year || 2026) === currentYear && d.month === currentMonth);
-  const pName = currentMonth === 0 ? '12월' : currentMonth + '월';
   container.innerHTML = `<div class="grid-2">${TEAMS.map(team => `
     <div class="panel" style="border-top: 3px solid var(--color-${team});">
       <div class="panel-header"><span>${team} ${MONTHS[currentMonth]}</span><button class="btn-reg" onclick="openModal(null, '${team}')">+ 등록</button></div>
@@ -305,9 +304,9 @@ function render() {
         ${KPI_DATA_FULL[team].map(k => {
           const entry = monthData.find(d => String(d.team) === String(team) && String(d.kpi) === String(k.item));
           return `<div class="tracking-card ${isPast ? 'locked' : ''}" style="border-left-color:var(--color-${team})" onclick="${isPast ? '' : `openModal('${entry?entry.id:''}','${team}','${k.item}')`}">
-            <div class="kpi-title-box">${k.item} <span style="font-weight:400; opacity:0.5; font-size:11px;">(${Math.round(k.weight*100)}%)</span></div>
+            <div style="font-size:13px; font-weight:900; color:var(--accent2); margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px;">${k.item} <span style="font-weight:400; opacity:0.5; font-size:11px;">(${Math.round(k.weight*100)}%)</span></div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; font-size:12px;">
-              <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${pName} 실적:</span>${entry?entry.lastDone:'-'}</div>
+              <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${currentMonth === 0 ? '12월' : currentMonth + '월'} 실적:</span>${entry?entry.lastDone:'-'}</div>
               <div><span style="color:var(--accent); font-weight:700; display:block; margin-bottom:4px;">${MONTHS[currentMonth]} 계획:</span>${entry?entry.thisPlan:'-'}</div>
             </div>
           </div>`;
@@ -347,9 +346,7 @@ function saveData() {
   const last = document.getElementById('f-last').value;
   const plan = document.getElementById('f-this').value;
   const m = parseInt(document.getElementById('f-month').value);
-
   const old = db.find(x => String(x.id) === String(id));
-  const entry = { id: id || Date.now(), year: currentYear, month: m, team, kpi, lastDone: last, thisPlan: plan };
 
   if (old) {
     let diff = "";
@@ -360,6 +357,7 @@ function saveData() {
     addHistoryLog('등록', team, kpi, `<span class="log-diff-label">[초기 실적]</span>\n${last}\n\n<span class="log-diff-label">[초기 계획]</span>\n${plan}`);
   }
 
+  const entry = { id: id || Date.now(), year: currentYear, month: m, team, kpi, lastDone: last, thisPlan: plan };
   db = db.filter(d => String(d.id) !== String(entry.id)); db.push(entry);
   localStorage.setItem('kpi_task_db', JSON.stringify(db));
   currentMonth = m; updateDateDisplays(); closeModal(); render();
@@ -368,8 +366,8 @@ function saveData() {
 function deleteData() {
   const id = document.getElementById('f-id').value;
   const d = db.find(x => String(x.id) === String(id));
-  if(confirm('정말 삭제하시겠습니까? 삭제된 기록은 변경 로그에서 확인 가능합니다.')) {
-    addHistoryLog('삭제', d.team, d.kpi, `<span style="color:var(--red); font-weight:800;">[삭제된 데이터 정보]</span>\n대상월: ${d.year}년 ${d.month+1}월\n실적: ${d.lastDone}\n계획: ${d.thisPlan}`);
+  if(confirm('삭제하시겠습니까?')) {
+    addHistoryLog('삭제', d.team, d.kpi, `<span style="color:var(--red); font-weight:800;">[삭제된 데이터]</span>\n대상월: ${d.year}년 ${d.month+1}월\n실적: ${d.lastDone}\n계획: ${d.thisPlan}`);
     db = db.filter(x => String(x.id) !== String(id));
     localStorage.setItem('kpi_task_db', JSON.stringify(db));
     closeModal(); render();
@@ -380,11 +378,11 @@ function exportToExcel() {
   let csv = "Year,Month,Team,KPI,Result,Plan\n";
   db.sort((a,b)=>a.month - b.month).forEach(d => { csv += `${d.year || 2026},${d.month + 1},${d.team},"${d.kpi}","${d.lastDone.replace(/"/g, '""')}","${d.thisPlan.replace(/"/g, '""')}"\n`; });
   const b = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `KPIA_KPI_DATABASE_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `KPIA_KPI_DB.csv`; a.click();
 }
 
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
-function handleLogout() { sessionStorage.removeItem('kpia_auth_v4'); location.reload(); }
+function handleLogout() { sessionStorage.clear(); location.reload(); }
 function togglePopup(e, id) { e.stopPropagation(); document.querySelectorAll('.selector-grid-popup').forEach(p => { if(p.id !== id) p.style.display = 'none'; }); const t = document.getElementById(id); t.style.display = t.style.display === 'grid' ? 'none' : 'grid'; }
 function closeAllPopups(e) { if (!e.target.closest('.date-selectors')) document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); }
 
