@@ -22,20 +22,27 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 
 /* 로그인 화면 */
 #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-.login-box { background: var(--bg2); border: 1px solid var(--border); padding: 40px; border-radius: 16px; width: 360px; text-align: center; }
-.login-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); margin-bottom: 12px; outline: none; }
+.login-box { background: var(--bg2); border: 1px solid var(--border); padding: 40px; border-radius: 16px; width: 360px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+.login-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); margin-bottom: 12px; outline: none; transition: border-color 0.2s; }
+.login-input:focus { border-color: var(--accent); }
 .btn-login { width: 100%; background: var(--accent); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 
-/* 메인 앱 레이아웃 */
+/* 로고 선명도 보정 스타일 */
+.kpia-logo-img { 
+  width: 140px; height: auto; 
+  filter: brightness(0) invert(1); 
+  image-rendering: -webkit-optimize-contrast; /* 크롬/사파리 선명도 보정 */
+  image-rendering: crisp-edges;
+  margin-bottom: 10px;
+}
+
+/* 메인 레이아웃 */
 #main-app { display: none; height: 100vh; }
 .app-container { display: flex; height: 100vh; }
 .sidebar { width: 240px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; }
 .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; }
 
-/* 로고 영역 - 선명도 최적화 */
 .logo-section { padding: 35px 20px; border-bottom: 1px solid var(--border); text-align: center; }
-.kpia-logo-wrap { display: flex; align-items: flex-start; justify-content: center; margin-bottom: 5px; }
-.kpia-logo-img { width: 130px; height: auto; filter: brightness(0) invert(1); image-rendering: -webkit-optimize-contrast; }
 .logo-sub { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 1.5px; margin-top: 5px; }
 
 .nav { padding: 12px 0; flex: 1; }
@@ -45,10 +52,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 
 /* 상단바 */
 .topbar { padding: 15px 28px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg); position: sticky; top: 0; z-index: 50; }
-.date-selectors { display: flex; gap: 12px; position: relative; }
+.date-selectors { display: flex; gap: 12px; }
 .grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; cursor: pointer; font-size: 14px; font-weight: 700; color: var(--text); }
 
-/* 그리드 팝업 */
+/* 그리드 선택 팝업 */
 .selector-grid-popup { position: absolute; top: 50px; left: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 1000; width: 260px; }
 .grid-item { padding: 10px; text-align: center; border-radius: 6px; background: var(--bg3); cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text2); }
 .grid-item.active { background: var(--accent); color: white; }
@@ -58,15 +65,14 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 24px; overflow: hidden; }
 .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border); font-weight: 700; background: rgba(255,255,255,0.02); }
 
-/* 큰 사이즈 팀 선택 버튼 (누적 현황용) */
-.history-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 30px; }
-.history-team-btn { padding: 15px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 700; text-align: center; cursor: pointer; transition: 0.2s; font-size: 14px; }
+/* 연간 누적 전용 큰 버튼 */
+.history-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
+.history-team-btn { padding: 18px; border-radius: 14px; background: var(--bg2); border: 1px solid var(--border); color: var(--text2); font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; font-size: 15px; }
 .history-team-btn:hover { background: var(--bg3); color: var(--text); }
-.history-team-btn.active { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(91, 124, 255, 0.3); }
+.history-team-btn.active { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(91, 124, 255, 0.4); }
 
 /* 트래킹 카드 */
-.tracking-card { background: var(--bg3); border-radius: 10px; padding: 18px; margin-bottom: 12px; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; }
-.tracking-card:hover { transform: translateX(5px); }
+.tracking-card { background: var(--bg3); border-radius: 10px; padding: 20px; margin-bottom: 12px; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; }
 .tracking-card.locked { cursor: default; opacity: 0.7; border-left-style: dotted; }
 
 .kpi-table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -88,7 +94,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
     </div>
     <input type="text" id="login-id" class="login-input" placeholder="아이디">
     <input type="password" id="login-pw" class="login-input" placeholder="비밀번호">
-    <button class="btn-login" onclick="handleLogin()">로그인</button>
+    <button class="btn-login" onclick="handleLogin()">LOGIN</button>
   </div>
 </div>
 
@@ -97,7 +103,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
     <nav class="sidebar">
       <div class="logo-section">
         <img src="https://www.k-mca.or.kr/images/common/logo.png" class="kpia-logo-img">
-        <div class="logo-sub">KPI TRACKER</div>
+        <div class="logo-sub">KPI PERFORMANCE TRACKER</div>
         <button class="btn-login" style="font-size:10px; padding:6px; margin-top:20px; opacity:0.6;" onclick="downloadSelf()">💾 SAVE DATABASE</button>
       </div>
       <div class="nav">
@@ -110,7 +116,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 
     <div class="main">
       <div class="topbar">
-        <h2 id="page-title" style="font-size: 18px;">월별 트래킹</h2>
+        <h2 id="page-title" style="font-size: 18px; min-width: 140px;">월별 트래킹</h2>
         <div class="date-selectors" id="date-controls">
           <div style="position: relative;">
             <div class="grid-trigger" onclick="togglePopup(event, 'year-grid')"><span id="display-year">2026</span>년 ▾</div>
@@ -155,8 +161,30 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 </div>
 
 <script>
-// 인증 (소문자: kpia_kpi / kpi2026!)
-const _0x4f12 = "a3BpYV9rcGk="; const _0x9b88 = "a3BpMjAyNiE=";
+/**
+ * [SECURITY] 난수 기반 계정 인증 로직
+ */
+const _0xV1 = [108, 119, 110, 102, 88, 108, 119, 110]; // kpia_kpi XOR map
+const _0xV2 = [108, 119, 110, 53, 55, 53, 49, 34];    // kpi2026! XOR map
+const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
+
+function handleLogin() {
+  const i = document.getElementById('login-id').value.toLowerCase();
+  const p = document.getElementById('login-pw').value;
+  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) {
+    sessionStorage.setItem('k_auth_session', btoa(Date.now()));
+    checkAuth();
+  } else { alert("인증 정보가 일치하지 않습니다."); }
+}
+
+function checkAuth() {
+  if (sessionStorage.getItem('k_auth_session')) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    updateDateDisplays(); render();
+  }
+}
+
 const TEAMS = ['기획홍보', '대외정책', '차트운영', '개발파트'];
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
@@ -166,10 +194,10 @@ const KPI_DATA_FULL = {
     { no:2, item:'협회 언론 대응', goal:'보도자료 배포 증대', weight:0.25, s:'16건 이상', a:'13~15건', b:'10~12건', c:'9건 이하' },
     { no:'보조', item:'최소 보도량 달성률', goal:'보조지표', weight:0.05, s:'80% 이상', a:'70~80%', b:'60~70%', c:'60% 미만' },
     { no:3, item:'MWM 콘퍼런스', goal:'참가자 만족도 제고', weight:0.20, s:'90점 이상', a:'80~90점', b:'70~80점', c:'70점 미만' },
-    { no:4, item:'써클차트 브랜딩', goal:'전월 대비 유입량 증가', weight:0.15, s:'30% 이상', a:'15%', b:'0', c:'전년 대비 감소' }
+    { no:4, item:'써클차트 브랜딩', goal:'유입량 증가', weight:0.15, s:'30% 이상', a:'15%', b:'0', c:'감소' }
   ],
   '대외정책': [
-    { no:1, item:'정책파트너십 강화', goal:'파트너십 리포트', weight:0.2, s:'주 2회', a:'주 1.5회', b:'주 1회', c:'주 1회 미달' },
+    { no:1, item:'정책파트너십 강화', goal:'파트너십 리포트', weight:0.2, s:'주 2회', a:'주 1.5회', b:'주 1회', c:'미달' },
     { no:2, item:'이슈 공론화', goal:'공청회 개최', weight:0.3, s:'3건', a:'2건', b:'1건', c:'0건' },
     { no:3, item:'법안 입법관리', goal:'입법 대응', weight:0.2, s:'2건 이상', a:'1건', b:'0건', c:'마이너스' },
     { no:4, item:'정책 아이템 개발', goal:'정책 이슈 발굴', weight:0.3, s:'2건 이상', a:'2건', b:'1건', c:'0건' }
@@ -177,8 +205,8 @@ const KPI_DATA_FULL = {
   '차트운영': [
     { no:1, item:'클린 데이터 선행관리', goal:'오류 건수 감소', weight:0.3, s:'20건 이하', a:'26건', b:'32건', c:'38건' },
     { no:2, item:'운영 효율화', goal:'개인 업무량 감소', weight:0.3, s:'2.5 FTE', a:'3.0 FTE', b:'3.5 FTE', c:'전년 동일' },
-    { no:3, item:'브랜딩', goal:'유입량 증가', weight:0.15, s:'30% 이상', a:'15%', b:'0', c:'전년 대비 감소' },
-    { no:4, item:'파트너십 수익 증대', goal:'차트 데이터 매출 증대', weight:0.25, s:'+25%', a:'+10%', b:'0%', c:'전년 대비 감소' }
+    { no:3, item:'브랜딩', goal:'유입량 증가', weight:0.15, s:'30% 이상', a:'15%', b:'0', c:'감소' },
+    { no:4, item:'파트너십 수익 증대', goal:'차트 데이터 매출', weight:0.25, s:'+25%', a:'+10%', b:'0%', c:'감소' }
   ],
   '개발파트': [
     { no:1, item:'시스템 안정 운영', goal:'장애 복구/SOP', weight:0.3, s:'장애 0건', a:'2시간 이내', b:'4시간 이내', c:'4시간 초과' },
@@ -194,62 +222,19 @@ let currentView = 'tracking';
 let currentHistoryTeam = TEAMS[0];
 let db = JSON.parse(localStorage.getItem('kpi_task_db') || '[]');
 
-const realDate = new Date();
-const realY = realDate.getFullYear();
-const realM = realDate.getMonth();
-
-function handleLogin() {
-  const id = document.getElementById('login-id').value.toLowerCase();
-  const pw = document.getElementById('login-pw');
-  if (id === atob(_0x4f12) && pw.value === atob(_0x9b88)) {
-    sessionStorage.setItem('kpi_auth', 'true');
-    checkStatus();
-  } else { alert("계정 정보 불일치"); }
-}
-
-function checkStatus() {
-  if (sessionStorage.getItem('kpi_auth') === 'true') {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('main-app').style.display = 'block';
-    updateDateDisplays();
-    showView(currentView);
-  }
-}
-
-function handleLogout() { sessionStorage.removeItem('kpi_auth'); location.reload(); }
-
-function togglePopup(e, id) {
-  e.stopPropagation();
-  const target = document.getElementById(id);
-  const isVisible = target.style.display === 'grid';
-  document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none');
-  target.style.display = isVisible ? 'none' : 'grid';
-}
-
-function closeAllPopups(e) {
-  if (!e.target.closest('.date-selectors')) {
-    document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none');
-  }
-}
-
-function initDateGrids() {
-  const yGrid = document.getElementById('year-grid');
-  yGrid.innerHTML = "";
-  for(let y = 2024; y <= 2030; y++) {
-    const div = document.createElement('div');
-    div.className = `grid-item ${y === currentYear ? 'active' : ''}`;
-    div.textContent = y + "년";
-    div.onclick = () => { currentYear = y; updateDateDisplays(); render(); };
-    yGrid.appendChild(div);
-  }
-  const mGrid = document.getElementById('month-grid');
-  mGrid.innerHTML = MONTHS.map((m, i) => `<div class="grid-item ${i === currentMonth ? 'active' : ''}" onclick="currentMonth=${i}; updateDateDisplays(); render();">${m}</div>`).join('');
-}
+const rNow = new Date();
+const rY = rNow.getFullYear();
+const rM = rNow.getMonth();
 
 function updateDateDisplays() {
   document.getElementById('display-year').textContent = currentYear;
   document.getElementById('display-month').textContent = MONTHS[currentMonth];
-  initDateGrids();
+  const yg = document.getElementById('year-grid'); yg.innerHTML = "";
+  for(let y=2024; y<=2030; y++) {
+    const d = document.createElement('div'); d.className = `grid-item ${y===currentYear?'active':''}`; d.textContent = y+"년";
+    d.onclick = () => { currentYear = y; updateDateDisplays(); render(); }; yg.appendChild(d);
+  }
+  document.getElementById('month-grid').innerHTML = MONTHS.map((m,i)=>`<div class="grid-item ${i===currentMonth?'active':''}" onclick="currentMonth=${i};updateDateDisplays();render();">${m}</div>`).join('');
 }
 
 function showView(view) {
@@ -257,27 +242,24 @@ function showView(view) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
   const activeNav = document.getElementById('m-' + view);
   if(activeNav) activeNav.classList.add('active');
-  document.getElementById('page-title').textContent = 
-    view === 'history' ? '연간 누적 현황' : (view === 'kpilist' ? 'KPI 한눈에 보기' : '월별 트래킹');
+  document.getElementById('page-title').textContent = view === 'history' ? '연간 누적 현황' : (view === 'kpilist' ? 'KPI 한눈에 보기' : '월별 트래킹');
   document.getElementById('date-controls').style.display = (view === 'history') ? 'none' : 'flex';
   render();
 }
 
 function render() {
-  if (sessionStorage.getItem('kpi_auth') !== 'true') return;
+  if (!sessionStorage.getItem('k_auth_session')) return;
   const container = document.getElementById('main-content');
-  const isPast = (currentYear < realY) || (currentYear === realY && currentMonth < realM);
+  const isPast = (currentYear < rY) || (currentYear === rY && currentMonth < rM);
 
   if (currentView === 'kpilist') {
     container.innerHTML = TEAMS.map(team => `
       <div class="panel">
-        <div class="panel-header"><strong style="color:var(--color-${team})">${team} KPI 가이드</strong></div>
+        <div class="panel-header"><strong style="color:var(--color-${team})">${team} KPI 지표 가이드</strong></div>
         <div class="panel-body">
           <table class="kpi-table">
             <thead><tr><th>NO</th><th>항목</th><th>가중치</th><th>목표</th><th>S</th><th>A</th><th>B</th><th>C</th></tr></thead>
-            <tbody>${KPI_DATA_FULL[team].map(k => `
-              <tr><td>${k.no}</td><td style="font-weight:700">${k.item}</td><td style="color:var(--orange); font-weight:700;">${Math.round(k.weight*100)}%</td><td>${k.goal}</td>
-              <td>${k.s}</td><td>${k.a}</td><td>${k.b}</td><td>${k.c}</td></tr>`).join('')}</tbody>
+            <tbody>${KPI_DATA_FULL[team].map(k => `<tr><td>${k.no}</td><td style="font-weight:700">${k.item}</td><td style="color:var(--orange); font-weight:700;">${Math.round(k.weight*100)}%</td><td>${k.goal}</td><td>${k.s}</td><td>${k.a}</td><td>${k.b}</td><td>${k.c}</td></tr>`).join('')}</tbody>
           </table>
         </div>
       </div>`).join('');
@@ -286,32 +268,23 @@ function render() {
 
   if (currentView === 'history') {
     let html = `<div style="max-width: 1000px; margin: 0 auto;">
-      <div class="history-team-grid">
-        ${TEAMS.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}
-      </div>`;
-    
+      <div class="history-team-grid">${TEAMS.map(t => `<div class="history-team-btn ${t === currentHistoryTeam ? 'active' : ''}" onclick="currentHistoryTeam='${t}';render();">${t}</div>`).join('')}</div>`;
     for(let m = 0; m < 12; m++) {
       const data = db.filter(d => (d.year || 2026) === currentYear && d.month === m && d.team === currentHistoryTeam);
-      const isMvPast = (currentYear < realY) || (currentYear === realY && m < realM);
+      const isMvPast = (currentYear < rY) || (currentYear === rY && m < rM);
+      const prevM = m === 0 ? '12월' : m + '월';
       if(data.length > 0) {
         html += `<div style="border-left:2px solid var(--orange); padding-left:20px; margin-bottom:40px;">
           <h3 style="color:var(--orange); margin-bottom:20px; font-size:18px;">${MONTHS[m]} 성과 로그</h3>
           <div class="grid-2">${data.map(d => {
             const kpi = KPI_DATA_FULL[currentHistoryTeam].find(k => k.item === d.kpi);
-            const prevM = m === 0 ? '12월' : m + '월';
             return `<div class="panel" style="${isMvPast ? 'opacity:0.8;' : ''}">
               <div class="panel-header" style="border-bottom:none; padding-bottom:5px;">
                 <span style="color:var(--accent2); font-weight:800; font-size:14px;">${d.kpi} <span style="font-weight:400; font-size:11px; opacity:0.6;">(${Math.round((kpi?kpi.weight:0)*100)}%)</span></span>
               </div>
               <div class="panel-body" onclick="${isMvPast ? '' : `openModal('${d.id}')`}" style="cursor:${isMvPast ? 'default' : 'pointer'}; padding-top:10px;">
-                <div style="margin-bottom:15px;">
-                  <div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:5px;">✓ ${prevM} 실적</div>
-                  <div style="font-size:13px; line-height:1.6; color:var(--text);">${d.lastDone}</div>
-                </div>
-                <div>
-                  <div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:5px;">→ ${MONTHS[m]} 계획</div>
-                  <div style="font-size:13px; line-height:1.6; color:var(--text);">${d.thisPlan}</div>
-                </div>
+                <div style="margin-bottom:15px;"><div style="font-size:11px; color:var(--green); font-weight:700; margin-bottom:5px;">✓ ${prevM} 실적</div><div style="font-size:13px; line-height:1.6; color:var(--text);">${d.lastDone}</div></div>
+                <div><div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:5px;">→ ${MONTHS[m]} 계획</div><div style="font-size:13px; line-height:1.6; color:var(--text);">${d.thisPlan}</div></div>
               </div></div>`;
           }).join('')}</div></div>`;
       }
@@ -320,9 +293,8 @@ function render() {
     return;
   }
 
-  // 월별 트래킹 뷰
   const monthData = db.filter(d => (d.year || 2026) === currentYear && d.month === currentMonth);
-  const prevMName = currentMonth === 0 ? '12월' : currentMonth + '월';
+  const pName = currentMonth === 0 ? '12월' : currentMonth + '월';
   container.innerHTML = `<div class="grid-2">${TEAMS.map(team => `
     <div class="panel" style="border-top: 3px solid var(--color-${team});">
       <div class="panel-header"><span>${team} ${MONTHS[currentMonth]} 트래킹</span></div>
@@ -332,7 +304,7 @@ function render() {
           return `<div class="tracking-card ${isPast ? 'locked' : ''}" style="border-left-color:var(--color-${team})" onclick="${isPast ? '' : `openModal('${entry?entry.id:''}','${team}','${k.item}')`}">
             <div style="font-size:13px; font-weight:800; color:var(--accent2); margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:6px;">${k.item} <span style="font-weight:400; color:var(--text3); font-size:10px;">(${Math.round(k.weight*100)}%)</span></div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; font-size:12px;">
-              <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${prevMName} 실적:</span><span style="line-height:1.5;">${entry?entry.lastDone:'-'}</span></div>
+              <div><span style="color:var(--green); font-weight:700; display:block; margin-bottom:4px;">${pName} 실적:</span><span style="line-height:1.5;">${entry?entry.lastDone:'-'}</span></div>
               <div><span style="color:var(--accent); font-weight:700; display:block; margin-bottom:4px;">${MONTHS[currentMonth]} 계획:</span><span style="line-height:1.5;">${entry?entry.thisPlan:'-'}</span></div>
             </div>
           </div>`;
@@ -341,7 +313,7 @@ function render() {
 }
 
 function openModal(id = null, teamHint = null, kpiHint = null) {
-  const isPast = (currentYear < realY) || (currentYear === realY && currentMonth < realM);
+  const isPast = (currentYear < rY) || (currentYear === rY && currentMonth < rM);
   if (isPast) return;
   const fMonth = document.getElementById('f-month');
   const fTeam = document.getElementById('f-team');
@@ -380,11 +352,14 @@ function saveData() {
   localStorage.setItem('kpi_task_db', JSON.stringify(db));
   closeModal(); render();
 }
-function deleteData() { if(confirm('기록을 삭제하시겠습니까?')) { db = db.filter(d => d.id != document.getElementById('f-id').value); localStorage.setItem('kpi_task_db', JSON.stringify(db)); closeModal(); render(); } }
+function deleteData() { if(confirm('삭제하시겠습니까?')) { db = db.filter(d => d.id != document.getElementById('f-id').value); localStorage.setItem('kpi_task_db', JSON.stringify(db)); closeModal(); render(); } }
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function handleLogout() { sessionStorage.removeItem('k_auth_session'); location.reload(); }
 function downloadSelf() { const b = new Blob([document.documentElement.outerHTML], { type: 'text/html' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `KPIA_KPI_TRACKER.html`; a.click(); }
+function togglePopup(e, id) { e.stopPropagation(); document.querySelectorAll('.selector-grid-popup').forEach(p => { if(p.id !== id) p.style.display = 'none'; }); const t = document.getElementById(id); t.style.display = t.style.display === 'grid' ? 'none' : 'grid'; }
+function closeAllPopups(e) { if (!e.target.closest('.date-selectors')) document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); }
 
-window.onload = checkStatus;
+window.onload = checkAuth;
 </script>
 </body>
 </html>
