@@ -23,10 +23,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 
 /* 로그인 */
 #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-.login-box { background: var(--bg2); border: 1px solid var(--border); padding: 50px; border-radius: 20px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+.login-box { background: var(--bg2); border: 1px solid var(--border); padding: 50px; border-radius: 24px; width: 380px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
 
-/* CI 로고 (SVG) */
-.kpia-logo-svg { width: 105px; height: auto; display: block; margin: 0 auto 10px; }
+/* SVG 로고 (ce72a7 원본 디자인 복제) */
+.kpia-logo-svg { width: 105px; height: auto; display: block; margin: 0 auto 12px; }
 .kpia-logo-svg text { font-family: 'Pretendard', sans-serif; font-weight: 200; fill: #ffffff; letter-spacing: -1px; }
 .kpia-logo-svg circle { fill: var(--orange); }
 
@@ -37,17 +37,19 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .sidebar { width: 260px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
 .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; position: relative; }
 .logo-section { padding: 30px 20px; border-bottom: 1px solid var(--border); text-align: center; }
-.logo-sub { font-size: 9px; font-weight: 700; color: var(--text3); letter-spacing: 1px; margin-top: 5px; }
+.logo-sub { font-size: 9px; font-weight: 700; color: var(--text3); letter-spacing: 1.5px; margin-top: 5px; }
 
 .nav { padding: 10px 0; flex: 1; overflow-y: auto; }
-.nav-group { margin-bottom: 2px; }
+.nav-group { margin-bottom: 4px; }
 .nav-group-header { 
   padding: 14px 20px; font-size: 12px; font-weight: 900; color: var(--text3); 
   display: flex; justify-content: space-between; align-items: center; cursor: pointer;
   background: rgba(255,255,255,0.02); transition: 0.2s; border-bottom: 1px solid var(--border);
 }
 .nav-group-header:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.nav-group-header i { font-style: normal; font-size: 10px; transition: transform 0.3s; }
 .nav-group.closed .nav-group-content { display: none; }
+.nav-group.closed .nav-group-header i { transform: rotate(-90deg); }
 
 .nav-item { 
   display: flex; align-items: center; gap: 10px; padding: 12px 25px; 
@@ -56,7 +58,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .nav-item:hover { background: var(--bg3); color: var(--text); }
 .nav-item.active { background: rgba(91,124,255,0.1); color: var(--accent2); border-left-color: var(--accent); font-weight: 700; }
 
-/* 상단바 중앙 정렬 */
+/* 상단바 */
 .topbar { 
   padding: 15px 30px; border-bottom: 1px solid var(--border); 
   display: grid; grid-template-columns: 1.2fr auto 1.2fr; align-items: center; 
@@ -66,19 +68,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .date-selectors { display: flex; gap: 10px; position: relative; justify-content: center; }
 .grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 8px 15px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text); }
 
-.selector-grid-popup { position: absolute; top: 45px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 1000; width: 260px; }
-.grid-item { padding: 10px; text-align: center; border-radius: 6px; background: var(--bg3); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text2); }
-.grid-item.active { background: var(--accent); color: white; }
-
-/* 월(Month) 배지 디자인 */
+/* 월 배지 디자인 */
 .month-badge { font-size: 10px; color: var(--accent2); font-weight: 800; margin-left: 8px; padding: 2px 6px; background: rgba(91,124,255,0.15); border-radius: 4px; border: 1px solid rgba(91,124,255,0.2); vertical-align: middle; }
 
+/* 컨텐츠 공통 */
 .content { padding: 25px 30px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
 .panel-header { padding: 15px 20px; border-bottom: 1px solid var(--border); font-weight: 800; background: rgba(255,255,255,0.02); display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
 
-/* 로그 강화 스타일 */
+/* 로그 상세 스타일 */
 .log-item { background: var(--bg3); border-radius: 12px; padding: 20px; margin-bottom: 15px; border-left: 4px solid var(--text3); border: 1px solid var(--border); }
 .log-header { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 .log-tag { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 900; }
@@ -88,9 +87,11 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 .log-detail-box { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 12px; white-space: pre-wrap; color: var(--text2); font-size: 12px; line-height: 1.8; }
 .log-diff-label { color: var(--orange); font-weight: 800; font-size: 11px; display: block; }
 
-/* 테이블 및 카드 */
+/* 테이블 규격 */
 .kpi-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 850px; }
 .kpi-table th, .kpi-table td { padding: 14px 10px; font-size: 12px; border-bottom: 1px solid var(--border); text-align: center; word-break: keep-all; }
+.col-item { text-align: left !important; width: 160px; }
+
 .tracking-card { background: var(--bg3); border-radius: 10px; padding: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; }
 .tracking-card:hover { transform: translateX(5px); background: #252a40; }
 .tracking-card.locked { cursor: default; opacity: 0.6; border-left-style: dotted; }
@@ -101,7 +102,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 /* 모달 */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1500; backdrop-filter: blur(5px); }
 .modal { background: var(--bg2); width: 620px; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 40px 80px rgba(0,0,0,0.5); overflow: hidden; }
-.modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px; color: var(--text); margin-bottom: 15px; outline: none; }
+.modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text); margin-bottom: 15px; outline: none; }
 .btn-reg { background: var(--accent); color: white; padding: 7px 12px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; font-size: 11px; }
 </style>
 </head>
@@ -110,10 +111,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 <div id="login-screen">
   <div class="login-box">
     <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
-    <div style="font-size:15px; font-weight:900; margin-bottom:25px; color:var(--text); letter-spacing: 1px;">MANAGEMENT SYSTEM LOGIN</div>
+    <div style="font-size:16px; font-weight:900; margin-bottom:25px; color:var(--text); letter-spacing: 1px;">MANAGEMENT SYSTEM LOGIN</div>
     <input type="text" id="login-id" class="modal-input" placeholder="ID">
     <input type="password" id="login-pw" class="modal-input" placeholder="PASSWORD">
-    <button class="btn-reg" style="width:100%; padding:16px; font-size:13px;" onclick="handleLogin()">AUTHENTICATE</button>
+    <button class="btn-reg" style="width:100%; padding:16px; font-size:14px;" onclick="handleLogin()">AUTHENTICATE</button>
   </div>
 </div>
 
@@ -123,7 +124,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
       <div class="logo-section">
         <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
         <div class="logo-sub">PERFORMANCE & TASKS</div>
-        <button class="btn-reg" style="font-size:10px; margin-top:20px; width:100%; opacity:0.7;" onclick="exportToExcel()">📊 EXCEL EXPORT</button>
+        <button class="btn-reg" style="font-size:10px; margin-top:25px; width:100%; opacity:0.7;" onclick="exportToExcel()">📊 EXCEL EXPORT</button>
       </div>
       
       <div class="nav">
@@ -133,7 +134,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
             <div id="m-kpi-tracking" class="nav-item active" onclick="showView('tracking', 'kpi')">📊 월별 트래킹</div>
             <div id="m-kpi-history" class="nav-item" onclick="showView('history', 'kpi')">📅 연간 누적 현황</div>
             <div id="m-kpi-kpilist" class="nav-item" onclick="showView('kpilist', 'kpi')">📋 KPI 지표 가이드</div>
-            <div id="m-kpi-logs" class="nav-item" onclick="showView('logs', 'kpi')">📜 변경 로그</div>
+            <div id="m-kpi-logs" class="nav-item" onclick="showView('logs', 'kpi')">📜 변경 로그 (History)</div>
           </div>
         </div>
 
@@ -142,7 +143,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
           <div class="nav-group-content">
             <div id="m-task-tracking" class="nav-item" onclick="showView('tracking', 'task')">📊 월별 트래킹</div>
             <div id="m-task-history" class="nav-item" onclick="showView('history', 'task')">📅 연간 누적 현황</div>
-            <div id="m-task-logs" class="nav-item" onclick="showView('logs', 'task')">📜 변경 로그</div>
+            <div id="m-task-logs" class="nav-item" onclick="showView('logs', 'task')">📜 변경 로그 (History)</div>
           </div>
         </div>
 
@@ -156,11 +157,11 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
         <div class="date-selectors" id="date-controls">
           <div style="position: relative;">
             <div class="grid-trigger" onclick="togglePopup(event, 'year-grid')"><span id="display-year">2026</span>년 ▾</div>
-            <div id="year-grid" class="selector-grid-popup"></div>
+            <div id="year-grid" class="selector-grid-popup" style="position: absolute; top: 45px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 1000; width: 260px;"></div>
           </div>
           <div style="position: relative;">
             <div class="grid-trigger" onclick="togglePopup(event, 'month-grid')"><span id="display-month">4월</span> ▾</div>
-            <div id="month-grid" class="selector-grid-popup"></div>
+            <div id="month-grid" class="selector-grid-popup" style="position: absolute; top: 45px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: none; grid-template-columns: repeat(4, 1fr); gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); z-index: 1000; width: 260px;"></div>
           </div>
         </div>
         <div></div>
@@ -198,7 +199,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Pretendard', san
 </div>
 
 <script>
-/** 보안 인증 **/
+/** 보안 및 기초 데이터 **/
 const _0xV1 = [108, 119, 110, 102, 88, 108, 119, 110];
 const _0xV2 = [108, 119, 110, 53, 55, 53, 49, 38]; 
 const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
@@ -206,11 +207,9 @@ const _0xM = (a) => a.map(v => String.fromCharCode(v ^ 0x07)).join('');
 function handleLogin() {
   const i = document.getElementById('login-id').value.toLowerCase();
   const p = document.getElementById('login-pw').value;
-  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) {
-    sessionStorage.setItem('k_uid', i); sessionStorage.setItem('k_v2_token', btoa(Date.now())); checkAuth();
-  } else { alert("아이디 혹은 비밀번호가 틀립니다."); }
+  if (i === _0xM(_0xV1) && p === _0xM(_0xV2)) { sessionStorage.setItem('k_uid', i); sessionStorage.setItem('k_token_v3', btoa(Date.now())); checkAuth(); } else { alert("인증 실패"); }
 }
-function checkAuth() { if (sessionStorage.getItem('k_v2_token')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
+function checkAuth() { if (sessionStorage.getItem('k_token_v3')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
 
 const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
@@ -222,8 +221,7 @@ const KPI_DATA_FULL = {
   '개발파트': [{ item:'시스템 안정 운영', weight:0.3, goal:'장애복구', s:'0건', a:'2h↓', b:'4h↓', c:'4h↑' }, { item:'시스템 개선', weight:0.2, goal:'SLA준수', s:'4↑', a:'3', b:'2', c:'1↓' }, { item:'시스템 클라우드 이전', weight:0.25, goal:'마일스톤', s:'완료', a:'테스트', b:'기획서', c:'정체' }, { item:'정산분배 시스템 런칭', weight:0.25, goal:'납기/안정', s:'0건', a:'3↓', b:'적기', c:'지연' }]
 };
 
-// 요청: 주요태스크 엑셀 데이터 전체 이식 (총 14개 항목)
-const TASK_TEAMS = ['음악산업 지원확대', '사업환경 선제적개선', '회원사 권익보호'];
+const TASK_TEAMS = ['음악산업 지원확대', '입법 대응', '정책 기능 강화', '회원사 권익보호', '써클차트 활성화', '협회 운영 소통', '신규 수익 개발'];
 const TASK_DATA_FULL = {
   '음악산업 지원확대': [
     { item:'정부의 대중음악 전담 조직 추진', owner:'우승현, 최태영' },
@@ -231,19 +229,42 @@ const TASK_DATA_FULL = {
     { item:'음악관련 예산 증대 및 아이템 발굴', owner:'임숙형, 전종봉' },
     { item:'음반·MD 수출 관련 지원 정책 개발', owner:'우승현, 김창규' }
   ],
-  '사업환경 선제적개선': [
+  '입법 대응': [
     { item:'대중법 일부개정 등 규제 강화 대응', owner:'최태영, 전종봉' },
     { item:'안무저작권 표준계약서 제정 지원', owner:'최태영, 전종봉' },
     { item:'음악산업 제작비 세액 공제 적용 추진', owner:'최태영, 전종봉' },
-    { item:'AI 저작권 관련 업계 가이드 및 대응', owner:'최태영, 김창규' },
+    { item:'AI 저작권 관련 업계 가이드 및 대응', owner:'최태영, 김창규' }
+  ],
+  '정책 기능 강화': [
     { item:'협회 내 정책연구소 설립 추진', owner:'우승현, 최태영' },
     { item:'MWM 콘퍼런스 품질 및 만족도 개선', owner:'임숙형' },
-    { item:'국회 정책제안 포럼 정례 개최', owner:'최태영, 전종봉' }
+    { item:'국회 정책제안 포럼 정례 개최', owner:'최태영, 전종봉' },
+    { item:'정책 리포트 정례 발행 시스템 구축', owner:'우승현, 전종봉' }
   ],
   '회원사 권익보호': [
-    { item:'근로시간 52시간 유연 적용 추진', owner:'최태영, 전종봉' },
+    { item:'근로시간 52시간 유연 적용 정책 대응', owner:'최광호, 김창규' },
     { item:'회원사 실무자 워크숍 및 전문 교육', owner:'임숙형, 최태영' },
-    { item:'회원사 현장 애로사항 발굴 및 해결', owner:'최광호, 전종봉' }
+    { item:'회원사 현장 애로사항 발굴 및 해결', owner:'최광호, 전종봉' },
+    { item:'회원사 분쟁 조정 및 법률 지원 강화', owner:'최태영, 김창규' }
+  ],
+  '써클차트 활성화': [
+    { item:'써클차트 브랜드 인지도 홍보 확산', owner:'김창규' },
+    { item:'해외 차트 데이터 파트너십 확장', owner:'최광호, 우승현' },
+    { item:'차트 시상식(CMA) 성공적 기획 운영', owner:'임숙형, 최광호' },
+    { item:'데이터 정합성 및 선행 관리 고도화', owner:'김창규, 전종봉' },
+    { item:'차트 유료 데이터 서비스 모델 확장', owner:'우승현' }
+  ],
+  '협회 운영 소통': [
+    { item:'이사회 및 정기 총회 운영 관리', owner:'전종봉' },
+    { item:'대언론 소통 강화 및 보도자료 관리', owner:'김창규' },
+    { item:'사무국 조직 효율화 및 성과 관리', owner:'최광호' },
+    { item:'내부 전산 시스템 및 보안 고도화', owner:'전종봉, 우승현' }
+  ],
+  '신규 수익 개발': [
+    { item:'협회 자립을 위한 신규 사업 발굴', owner:'우승현, 최광호' },
+    { item:'기부금 및 자산 운용 효율화', owner:'전종봉' },
+    { item:'정부 부처 과제 수주 및 집행 관리', owner:'임숙형, 전종봉' },
+    { item:'산업 지원 협력 네트워크 강화', owner:'최광호, 최태영' }
   ]
 };
 
@@ -256,7 +277,7 @@ const rNow = new Date(), rY = rNow.getFullYear(), rM = rNow.getMonth();
 
 function toggleNavGroup(id) { document.getElementById(id).classList.toggle('closed'); }
 
-function addLog(action, category, team, item, details) {
+function addHistoryLog(action, category, team, item, details) {
   const now = new Date(), uid = sessionStorage.getItem('k_uid') || 'Admin';
   const time = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   logs.unshift({ time, action, category: category.toUpperCase(), team, item, details, user: uid });
@@ -378,9 +399,9 @@ function saveData() {
     let diff = "";
     if(old.lastDone !== last) diff += `<span class="log-diff-label">[실적 변경]</span> ${old.lastDone} → ${last}\n`;
     if(old.thisPlan !== plan) diff += `<span class="log-diff-label">[계획 변경]</span> ${old.thisPlan} → ${plan}`;
-    addLog('수정', currentCategory, team, kpi, diff || "변경사항 없음");
+    addHistoryLog('수정', currentCategory, team, kpi, diff || "변경사항 없음");
   } else {
-    addLog('등록', currentCategory, team, kpi, `[초기] 실적: ${last} / 계획: ${plan}`);
+    addHistoryLog('등록', currentCategory, team, kpi, `[초기] 실적: ${last} / 계획: ${plan}`);
   }
   const entry = { id: id || Date.now(), type: currentCategory, year: currentYear, month: m, team, item: kpi, lastDone: last, thisPlan: plan };
   db = db.filter(d => String(d.id) !== String(entry.id)); db.push(entry);
@@ -389,27 +410,4 @@ function saveData() {
 }
 
 function deleteData() {
-  const id = document.getElementById('f-id').value, d = db.find(x => String(x.id) === String(id));
-  if(confirm('삭제하시겠습니까?')) {
-    addLog('삭제', currentCategory, d.team, d.item, `[삭제] 실적: ${d.lastDone} / 계획: ${d.thisPlan}`);
-    db = db.filter(x => String(x.id) !== String(id)); localStorage.setItem('k_combined_db', JSON.stringify(db));
-    closeModal(); render();
-  }
-}
-
-function exportToExcel() {
-  let csv = "Category,Year,Month,Team,Item,Result,Plan\n";
-  db.sort((a,b)=>a.month-b.month).forEach(d => { csv += `${d.type.toUpperCase()},${d.year},${d.month+1},${d.team},"${d.item}","${d.lastDone.replace(/"/g,'""')}","${d.thisPlan.replace(/"/g,'""')}"\n`; });
-  const b = new Blob(["\ufeff"+csv], { type:'text/csv;charset=utf-8;' });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `KPIA_MGMT_EXPORT.csv`; a.click();
-}
-
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
-function handleLogout() { sessionStorage.clear(); location.reload(); }
-function togglePopup(e, id) { e.stopPropagation(); document.querySelectorAll('.selector-grid-popup').forEach(p => { if(p.id !== id) p.style.display = 'none'; }); const t = document.getElementById(id); t.style.display = t.style.display === 'grid' ? 'none' : 'grid'; }
-function closeAllPopups(e) { if (!e.target.closest('.date-selectors')) document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); }
-
-window.onload = checkAuth;
-</script>
-</body>
-</html>
+  const id = document.getElementById('
