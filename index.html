@@ -1,363 +1,135 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KPIA 성과 및 업무 통합 관리 시스템</title>
-<link rel="icon" type="image/png" href="https://www.k-mca.or.kr/favicon.ico">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Pretendard:wght@100;300;400;600;700;900&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0d0f14; --bg2: #141720; --bg3: #1c2030;
-  --surface: #1e2235; --border: rgba(255,255,255,0.08);
-  --text: #e8eaf0; --text2: #a1a8b5; --text3: #636b7f;
-  --accent: #5b7cff; --accent-light: rgba(91,124,255,0.15);
-  --orange: #ff6b00; --orange-light: rgba(255,107,0,0.15);
-  --green: #22c55e; --red: #ef4444;
-  --topbar-h: 74px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'Pretendard', sans-serif; height: 100vh; overflow: hidden; }
-
-/* 로그인 화면 */
-#login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-.login-box { background: var(--bg2); border: 1px solid var(--border); padding: 50px; border-radius: 32px; width: 420px; text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-.login-box .modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 16px; color: var(--text); margin-bottom: 15px; outline: none; }
-
-#main-app { display: none; height: 100vh; }
-.app-container { display: flex; height: 100vh; }
-
-/* 사이드바 */
-.sidebar { width: 260px; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 150; }
-.logo-section { padding: 40px 20px; border-bottom: 1px solid var(--border); text-align: center; }
-.logo-sub { font-size: 10px; font-weight: 800; color: var(--text3); letter-spacing: 2px; margin-top: 10px; }
-.nav { padding: 15px 0; flex: 1; overflow-y: auto; }
-.nav-group-header { padding: 16px 24px; font-size: 13px; font-weight: 900; color: var(--text3); text-transform: uppercase; }
-.nav-item { display: flex; align-items: center; gap: 12px; padding: 14px 30px; font-size: 14px; color: var(--text2); cursor: pointer; transition: 0.2s; margin: 2px 10px; border-radius: 12px; }
-.nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 800; }
-
-/* 메인 영역 및 상단바 고정 */
-.main { flex: 1; overflow-y: auto; background: #0a0c10; display: flex; flex-direction: column; position: relative; scroll-behavior: smooth; }
-.topbar { 
-  height: var(--topbar-h); padding: 0 40px; border-bottom: 1px solid var(--border); 
-  display: grid; grid-template-columns: 1.2fr auto 1.2fr; align-items: center; 
-  background: rgba(13, 15, 20, 0.9); backdrop-filter: blur(20px); 
-  position: sticky; top: 0; z-index: 110; 
-}
-.topbar h2 { font-size: 20px; font-weight: 900; color: #fff; }
-
-/* 스티키 LNB */
-.lnb-wrapper { 
-  position: sticky; top: var(--topbar-h); z-index: 100; 
-  padding: 15px 40px; background: rgba(10, 12, 18, 0.9); 
-  backdrop-filter: blur(15px); border-bottom: 1px solid var(--border); 
-  margin-bottom: 30px;
-}
-.lnb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; max-width: 1400px; margin: 0 auto; }
-.lnb-item { 
-  background: var(--bg3); border: 1px solid var(--border); padding: 12px; border-radius: 10px; 
-  font-size: 12px; font-weight: 800; text-align: center; cursor: pointer; transition: 0.2s; color: var(--text2); 
-}
-.lnb-item:hover, .lnb-item.active { border-color: var(--accent); color: #fff; background: var(--accent-light); }
-
-.content { padding: 0 40px 60px 40px; max-width: 1400px; margin: 0 auto; width: 100%; }
-
-/* 패널 */
-.panel { scroll-margin-top: 160px; background: var(--bg2); border: 1px solid var(--border); border-radius: 24px; margin-bottom: 50px; overflow: hidden; }
-.panel-header { padding: 22px 30px; border-bottom: 1px solid var(--border); font-weight: 900; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
-
-/* 횡형 트래킹 카드 */
-.tracking-card-wide { 
-  background: var(--bg3); border-radius: 18px; padding: 25px 30px; border: 1px solid transparent; 
-  display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: center; transition: 0.2s; margin: 20px; cursor: pointer;
-}
-.tracking-card-wide:hover { border-color: var(--accent); background: #1e243a; transform: translateY(-2px); }
-
-.data-row { display: grid; grid-template-columns: 110px 1fr; margin-bottom: 12px; }
-.data-label { font-size: 11px; font-weight: 900; color: var(--text3); text-transform: uppercase; }
-.data-val { font-size: 14.5px; color: var(--text2); line-height: 1.6; }
-
-/* KPI 그리드 박스 */
-.kpi-grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
-.kpi-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 28px; position: relative; transition: 0.3s; }
-.kpi-box:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-.kpi-weight { position: absolute; top: 24px; right: 24px; background: var(--orange-light); color: var(--orange); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 900; }
-.kpi-title { font-size: 17px; font-weight: 900; margin-bottom: 15px; color: #fff; padding-right: 60px; }
-.kpi-guide { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
-
-/* 공통 UI */
-.btn-reg { background: var(--accent); color: white; padding: 10px 20px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; }
-.date-selectors { display: flex; gap: 12px; }
-.grid-trigger { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 10px 18px; cursor: pointer; font-size: 14px; font-weight: 700; color: #fff; }
-
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1500; backdrop-filter: blur(8px); }
-.modal { background: var(--bg2); width: 680px; border-radius: 32px; border: 1px solid var(--border); overflow: hidden; }
-.modal-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 12px; padding: 16px; color: var(--text); margin-bottom: 20px; outline: none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>와인 모임 콜키지 정보 검색</title>
+    <style>
+        :root {
+            --primary-color: #800020; /* 버건디 */
+            --bg-color: #f8f9fa;
+        }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg-color); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { text-align: center; color: var(--primary-color); }
+        
+        /* 검색창 스타일 */
+        .search-box { display: flex; gap: 10px; margin-bottom: 30px; }
+        input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        
+        /* 결과 카드 스타일 */
+        .result-list { display: grid; gap: 15px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 10px 0; color: #333; display: flex; justify-content: space-between; }
+        .region { font-size: 0.8em; color: #666; font-weight: normal; }
+        .info { color: #555; line-height: 1.5; font-size: 0.95em; margin-bottom: 15px; }
+        
+        /* 버튼 스타일 */
+        .btn-naver {
+            display: inline-block;
+            background-color: #03C75A;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+    </style>
 </head>
-<body onclick="closeAllPopups(event)">
+<body>
 
-<div id="login-screen">
-  <div class="login-box">
-    <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
-    <div style="font-size:14px; font-weight:800; margin-bottom:30px; color:var(--text3);">MANAGEMENT SYSTEM</div>
-    <input type="text" id="login-id" class="modal-input" placeholder="아이디를 입력하세요">
-    <input type="password" id="login-pw" class="modal-input" placeholder="비밀번호를 입력하세요">
-    <button class="btn-reg" style="width:100%; padding:20px; font-size:15px;" onclick="handleLogin()">AUTHENTICATE</button>
-  </div>
-</div>
-
-<div id="main-app">
-  <div class="app-container">
-    <nav class="sidebar">
-      <div class="logo-section">
-        <svg class="kpia-logo-svg" viewBox="0 0 100 35"><text x="0" y="28" font-size="28">KPIA</text><circle cx="78" cy="22" r="3.5" /></svg>
-        <div class="logo-sub">PERFORMANCE HUB</div>
-      </div>
-      <div class="nav">
-        <div class="nav-group-header">성과 관리 (KPI)</div>
-        <div id="m-kpi-tracking" class="nav-item active" onclick="showView('tracking', 'kpi')">📊 월별 트래킹</div>
-        <div id="m-kpi-history" class="nav-item" onclick="showView('history', 'kpi')">📅 연간 누적 현황</div>
-        <div id="m-kpi-kpilist" class="nav-item" onclick="showView('kpilist', 'kpi')">📋 KPI 전체보기</div>
-        <div id="m-kpi-logs" class="nav-item" onclick="showView('logs', 'kpi')">📜 변경 로그</div>
-        
-        <div class="nav-group-header" style="margin-top:20px;">주요 업무 (TASK)</div>
-        <div id="m-task-tracking" class="nav-item" onclick="showView('tracking', 'task')">📊 월별 트래킹</div>
-        <div id="m-task-history" class="nav-item" onclick="showView('history', 'task')">📅 연간 누적 현황</div>
-        
-        <div class="nav-item" onclick="handleLogout()" style="margin-top: 40px; color: var(--red); opacity: 0.7;">🔓 LOGOUT</div>
-      </div>
-    </nav>
-
-    <div class="main" id="scroll-area">
-      <div class="topbar">
-        <h2 id="page-title">월별 트래킹</h2>
-        <div class="date-selectors">
-          <div style="position: relative;"><div class="grid-trigger" onclick="togglePopup(event, 'year-grid')"><span id="display-year">2026</span>년 ▾</div><div id="year-grid" class="selector-grid-popup"></div></div>
-          <div style="position: relative;"><div class="grid-trigger" onclick="togglePopup(event, 'month-grid')"><span id="display-month">4월</span> ▾</div><div id="month-grid" class="selector-grid-popup"></div></div>
+<div class="container">
+    <h1>🍷 와인 모임 장소 검색</h1>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="지역명(예: 청담, 여의도, 신사)을 입력하세요..." onkeyup="filterResults()">
+    </div>
+    
+    <div id="resultList" class="result-list">
         </div>
-        <div style="text-align: right; color: var(--text3); font-size: 11px; font-family: monospace;">KPIA_UX_v13.5</div>
-      </div>
-      <div id="sticky-lnb-area"></div>
-      <div class="content" id="main-content"></div>
-    </div>
-  </div>
-</div>
-
-<div id="modal" class="modal-overlay">
-  <div class="modal">
-    <div class="panel-header" style="padding:25px 35px;"><h3 id="modal-title">데이터 기록</h3><button onclick="closeModal()" style="background:none; border:none; color:var(--text3); cursor:pointer; font-size:28px;">✕</button></div>
-    <div class="modal-body" style="padding:35px;">
-      <input type="hidden" id="f-id">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <div><label style="display:block; font-size:12px; color:var(--text3); margin-bottom:10px; font-weight:800;">대상 월</label><select id="f-month" class="modal-input" onchange="updateModalLabels()"></select></div>
-        <div><label id="label-team-type" style="display:block; font-size:12px; color:var(--text3); margin-bottom:10px; font-weight:800;">분류</label><select id="f-team" class="modal-input" onchange="updateKpiOptions()"></select></div>
-      </div>
-      <div><label style="display:block; font-size:12px; color:var(--text3); margin-bottom:10px; font-weight:800;">항목</label><select id="f-kpi" class="modal-input"></select></div>
-      <div><label id="label-last" style="display:block; font-size:12px; color:var(--green); margin-bottom:10px; font-weight:800;">실적 (전월)</label><textarea id="f-last" class="modal-input" style="height:100px;"></textarea></div>
-      <div><label id="label-this" style="display:block; font-size:12px; color:var(--accent); margin-bottom:10px; font-weight:800;">계획 (금월)</label><textarea id="f-this" class="modal-input" style="height:100px;"></textarea></div>
-      <div id="modal-footer" style="display:flex; gap:15px; margin-top:10px;"><button class="btn-reg" style="flex:2; padding:18px;" onclick="saveData()">데이터 저장</button><button id="del-btn" class="btn-reg" style="flex:1; background:var(--red);" onclick="deleteData()">삭제</button></div>
-    </div>
-  </div>
 </div>
 
 <script>
-function handleLogin() {
-  const i = document.getElementById('login-id').value.toLowerCase();
-  const p = document.getElementById('login-pw').value;
-  if (i === 'kpia' && p === 'kpia123!') { sessionStorage.setItem('k_token_final', btoa(Date.now())); checkAuth(); }
-  else { alert("인증 정보가 올바르지 않습니다."); }
-}
-function checkAuth() { if (sessionStorage.getItem('k_token_final')) { document.getElementById('login-screen').style.display = 'none'; document.getElementById('main-app').style.display = 'block'; updateDateDisplays(); render(); } }
-
-const MONTHS = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-const KPI_TEAMS = ['기획홍보팀', '대외정책팀', '차트운영팀', '경영지원팀', '개발파트'];
-const KPI_DATA_FULL = {
-  '기획홍보팀': [{ item:'신규 사업 개발' }, { item:'협회 언론 대응' }, { item:'최소 보도량 달성률' }, { item:'MWM 콘퍼런스' }, { item:'써클차트 브랜딩' }],
-  '대외정책팀': [{ item:'정책파트너십 강화' }, { item:'이슈 공론화' }, { item:'법안 입법관리' }, { item:'정책 아이템 개발' }],
-  '차트운영팀': [{ item:'클린 데이터 선행관리' }, { item:'운영 효율화' }, { item:'브랜딩' }, { item:'파트너십 수익 증대' }],
-  '경영지원팀': [{ item:'회계 투명성 확보' }, { item:'일반 관리 효율화' }, { item:'내부 회계 통제' }, { item:'인사/노무 관리' }],
-  '개발파트': [{ item:'시스템 안정 운영' }, { item:'시스템 개선' }, { item:'시스템 클라우드 이전' }, { item:'정산분배 시스템 런칭' }]
-};
-const TASK_TEAMS = ['음악산업 지원확대', '입법 대응', '정책 기능 강화', '회원사 권익보호', '회원사 지원교류', '저작권 투명성 IT', '협회 자체 사업', '압도적 투명성 운영'];
-const TASK_DATA_FULL = {
-  '음악산업 지원확대': [{ item:'정부 대중음악 전담 조직 추진', owner:'우승현' },{ item:'K-뮤직 펀드 조성', owner:'전종봉' },{ item:'음악 예산 증대/아이템 발굴', owner:'임숙형' },{ item:'MD 수출 지원 정책 개발', owner:'김창규' }],
-  '입법 대응': [{ item:'대중법 일부개정 대응', owner:'최태영' },{ item:'안무저작권 표준계약서', owner:'전종봉' },{ item:'제작비 세액 공제 추진', owner:'최태영' },{ item:'AI 저작권 가이드 대응', owner:'김창규' }],
-  '정책 기능 강화': [{ item:'협회 정책연구소 설립', owner:'최태영' },{ item:'MWM 콘퍼런스 고도화', owner:'임숙형' },{ item:'국회 정책제안 포럼', owner:'전종봉' }],
-  '회원사 권익보호': [{ item:'52시간 유연 적용 추진', owner:'최태영' },{ item:'전송서비스 징수규정 대응', owner:'김창규' },{ item:'숏폼 징수규정 개정 대응', owner:'김창규' },{ item:'시상식 가이드라인 발효', owner:'전종봉' },{ item:'제작/판매 조세특례 추진', owner:'전종봉' }],
-  '회원사 지원교류': [{ item:'음악 특성 인력 양성', owner:'전종봉' },{ item:'음악산업 리브랜딩', owner:'임숙형' },{ item:'회원사 사업 활동 기획', owner:'임숙형' },{ item:'임직원 건강검진 지원', owner:'경영지원' }],
-  '저작권 투명성 IT': [{ item:'방송 음악 모니터링 시스템', owner:'김창규' },{ item:'음원-권리정보 통합DB', owner:'김창규' },{ item:'라이브러리 UCI 시스템',owner:'김창규' },{ item:'K-팝 음원코드 체계 정비', owner:'김창규' }],
-  '협회 자체 사업': [{ item:'써클차트 운영 및 고도화', owner:'정다운' },{ item:'K-팝 번역지원 서비스', owner:'정다운' }],
-  '압도적 투명성 운영': [{ item:'내부 회계 관리 제도 정비', owner:'이충근' },{ item:'회계 컨설팅 및 외부감사', owner:'최지원' }]
-};
-
-let currentYear = 2026, currentMonth = 3, currentView = 'tracking', currentCategory = 'kpi', currentHistoryTeam = KPI_TEAMS[0];
-let db = JSON.parse(localStorage.getItem('k_total_db_v6') || '[]');
-
-function updateDateDisplays() {
-  document.getElementById('display-year').textContent = currentYear;
-  document.getElementById('display-month').textContent = MONTHS[currentMonth];
-  const yg = document.getElementById('year-grid'), mg = document.getElementById('month-grid');
-  yg.innerHTML = ""; mg.innerHTML = "";
-  [2024, 2025, 2026, 2027].forEach(y => yg.innerHTML += `<div class="grid-item ${y===currentYear?'active':''}" onclick="currentYear=${y};updateDateDisplays();render();">${y}년</div>`);
-  MONTHS.forEach((m,i) => mg.innerHTML += `<div class="grid-item ${i===currentMonth?'active':''}" onclick="currentMonth=${i};updateDateDisplays();render();">${m}</div>`);
-}
-
-function showView(view, category) {
-  currentView = view; currentCategory = category;
-  currentHistoryTeam = (category === 'kpi' ? KPI_TEAMS : TASK_TEAMS)[0];
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  document.getElementById(`m-${category}-${view}`).classList.add('active');
-  render();
-}
-
-function render() {
-  const contentContainer = document.getElementById('main-content');
-  const lnbArea = document.getElementById('sticky-lnb-area');
-  const teams = (currentCategory === 'kpi' ? KPI_TEAMS : TASK_TEAMS);
-  const dataList = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
-  
-  lnbArea.innerHTML = "";
-
-  if (currentView === 'tracking' || currentView === 'history') {
-    lnbArea.innerHTML = `
-      <div class="lnb-wrapper">
-        <div class="lnb-grid">
-          ${teams.map((t, idx) => `
-            <div class="lnb-item ${currentView === 'history' && t === currentHistoryTeam ? 'active' : ''}" 
-                 onclick="${currentView === 'tracking' ? `document.getElementById('sec-${idx}').scrollIntoView({behavior:'smooth'})` : `currentHistoryTeam='${t}';render();`}">
-              ${t}
-            </div>`).join('')}
-        </div>
-      </div>`;
-  }
-
-  if (currentView === 'tracking') {
-    const mData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === currentMonth);
-    let html = "";
-    teams.forEach((team, idx) => {
-      html += `
-      <div class="panel" id="sec-${idx}">
-        <div class="panel-header"><span>${team} <span style="color:var(--accent); margin-left:10px;">${currentMonth+1}월</span></span><button class="btn-reg" onclick="openModal(null, '${team}', null, ${currentMonth})">+ 등록</button></div>
-        <div class="tracking-list">
-          ${dataList[team].map(k => {
-            const entry = mData.find(d => d.team === team && d.item === k.item);
-            return `
-            <div class="tracking-card-wide" onclick="openModal('${entry?entry.id:''}','${team}','${k.item}', ${currentMonth})">
-              <div style="border-right: 1px solid rgba(255,255,255,0.05); padding-right: 20px;">
-                <div style="font-weight:900; color:#fff; font-size:15px; margin-bottom:5px;">${k.item}</div>
-                ${k.owner ? `<div style="font-size:11px; color:var(--text3);">담당: ${k.owner}</div>` : ''}
-              </div>
-              <div class="card-data-stack">
-                <div class="data-row"><div class="data-label" style="color:var(--green);">[${currentMonth === 0 ? '12월' : currentMonth + '월'} 실적]</div><div class="data-val">${entry ? entry.lastDone : '<span style="opacity:0.2">기록된 실적 없음</span>'}</div></div>
-                <div class="data-row" style="margin-top:5px;"><div class="data-label" style="color:var(--accent);">[${currentMonth+1}월 계획]</div><div class="data-val">${entry ? entry.thisPlan : '<span style="opacity:0.2">수립된 계획 없음</span>'}</div></div>
-              </div>
-            </div>`;
-          }).join('')}
-        </div>
-      </div>`;
-    });
-    contentContainer.innerHTML = html;
-  }
-
-  else if (currentView === 'history') {
-    let html = "";
-    for(let m = 0; m < 12; m++) {
-      const hData = db.filter(d => d.type === currentCategory && d.year === currentYear && d.month === m && d.team === currentHistoryTeam);
-      if(hData.length > 0) {
-        html += `
-        <div style="margin-bottom:60px;">
-          <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
-            <span style="font-size:22px; font-weight:900; color:var(--orange);">${m+1}월 기록</span>
-            <div style="flex:1; height:1px; background:var(--border);"></div>
-          </div>
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-            ${hData.map(d => `
-              <div class="panel" style="margin-bottom:0;">
-                <div class="panel-header" style="border:none; font-size:14px; color:var(--accent);">${d.item}</div>
-                <div style="padding:0 25px 25px;">
-                  <div class="data-row"><div class="data-label" style="color:var(--green);">[실적]</div><div class="data-val">${d.lastDone}</div></div>
-                  <div class="data-row"><div class="data-label" style="color:var(--accent);">[계획]</div><div class="data-val">${d.thisPlan}</div></div>
-                </div>
-              </div>`).join('')}
-          </div>
-        </div>`;
-      }
-    }
-    contentContainer.innerHTML = html;
-  }
-
-  else if (currentView === 'kpilist') {
-    const kpiGuideData = [
-        { team: '기획홍보팀', item: '신규 사업 개발', weight: '35%', guide: '신규 비즈니스 모델 발굴 및 연간 목표 대비 신규 프로젝트 런칭 성과' },
-        { team: '기획홍보팀', item: '협회 언론 대응', weight: '25%', guide: '주요 이슈 대응 보도자료 배포 및 위기 관리 능력' },
-        { team: '기획홍보팀', item: '최소 보도량 달성률', weight: '5%', guide: '정기 보도자료 및 매체 노출 목표 수치 달성률' },
-        { team: '기획홍보팀', item: 'MWM 콘퍼런스', weight: '20%', guide: '콘퍼런스 기획의 전문성 및 참가자 만족도 성과' },
-        { team: '기획홍보팀', item: '써클차트 브랜딩', weight: '15%', guide: '차트 인지도 제고를 위한 마케팅 캠페인 성과' },
-        { team: '대외정책팀', item: '정책파트너십 강화', weight: '20%', guide: '유관 기관 및 국회와의 정기적 네트워크 구축 수준' },
-        { team: '대외정책팀', item: '이슈 공론화', weight: '30%', guide: '산업 내 주요 현안 공청회 개최 및 여론 주도 성과' },
-        { team: '차트운영팀', item: '클린 데이터 선행관리', weight: '30%', guide: '차트 데이터 어뷰징 필터링 및 데이터 무결성 확보' },
-        { team: '경영지원팀', item: '회계 투명성 확보', weight: '25%', guide: '외부 감사 대응 및 결산 프로세스 정확성' },
-        { team: '개발파트', item: '시스템 안정 운영', weight: '30%', guide: '서버 가동률 유지 및 장애 발생 시 복구 신속성' }
+    // 제공된 리스트 데이터화
+    const winePlaces = [
+        { region: "청담동", name: "마토", info: "1인 1메뉴 인당 1병까지. 1개" },
+        { region: "청담동", name: "가디록", info: "인당 5만원 이상 콜프" },
+        { region: "청담동", name: "다이닝무무", info: "1인당 만원. 레드잔, 화이트잔" },
+        { region: "청담동", name: "뱀파이어위캔드", info: "인당 10만원 콜키지 프리. 고급잔 병마다. 월/화 쉐프 없으면 7만원" },
+        { region: "청담동", name: "한남북엇국", info: "업장와인 1이면 콜프" },
+        { region: "청담동", name: "더라운드", info: "콜키지 프리. 적당잔. 삼성동도" },
+        { region: "삼성동", name: "조인바이트", info: "1메뉴 콜프. 잔 5천원 이상." },
+        { region: "서초동", name: "소연", info: "제한 없음 벽돌잔. 3" },
+        { region: "신사동", name: "도순", info: "대관 인당 8만원. 미니멈 48만원. 콜키지 병당 1만원" },
+        { region: "신사동", name: "에르바", info: "콜키지 프리. 잔 1. 추가잔 차지" },
+        { region: "신사동", name: "오스테리아 수", info: "2인기준 와인 1병. 최대 4병" },
+        { region: "신사동", name: "키이로", info: "대관시 50만. 업장 와인 1개 주문 필수" },
+        { region: "신사동", name: "마산옥", info: "6만원 코스 콜프. 일반 메뉴 병당 2만" },
+        { region: "신사동", name: "청초수물회", info: "인당 5천원" },
+        { region: "신사동", name: "가담", info: "중식당 병당 1만원" },
+        { region: "압구정", name: "피양옥", info: "콜프. 여의도도" },
+        { region: "역삼동", name: "마루심", info: "인당 7만원. 양호 잔. 마포, 반포도 있음." },
+        { region: "교대", name: "락희옥", info: "콜프. 방은 인당 5만원. 마포도 있음" },
+        { region: "도곡동", name: "이수부", info: "총 80만원 콜프. 맥스 8인" },
+        { region: "공덕동", name: "밀밭 정원", info: "콜프, 막잔" },
+        { region: "공덕동", name: "흰문", info: "8.8만원 4명부터. 잔 1개당 5천원" },
+        { region: "여의도", name: "플러피", info: "제한 없음. 일반잔" },
+        { region: "여의도", name: "고방채", info: "맥주 1잔 주문시 콜프. 막잔" },
+        { region: "여의도", name: "메밀단편", info: "콜키지 프리." },
+        { region: "여의도", name: "삼씨오화", info: "콜프" },
+        { region: "여의도", name: "미스터향", info: "제한 없음. 벽돌잔" },
+        { region: "여의도", name: "어만두", info: "8만원 코스. 콜프. 9시 종료" },
+        { region: "여의도", name: "을지다락", info: "병당 1만원. 이벤트시 무료" },
+        { region: "영등포", name: "태양 정육식당", info: "제한 없음. 일반잔" },
+        { region: "노량진", name: "청해진", info: "인당 7천원" },
+        { region: "망원동", name: "고덕", info: "병당 1.5만원 벽돌잔" },
+        { region: "망원동", name: "시칠리 블루스", info: "4만원 코스시 콜프. 일반 와인잔" },
+        { region: "합정동", name: "네비올로 합정", info: "병당 2만원 인당 글라스 2개" },
+        { region: "판교", name: "라비떼", info: "병당 2만원" },
+        { region: "전국", name: "청기와 타운", info: "대부분 지점 콜키지 프리" },
+        { region: "반포동", name: "로얄맨션", info: "6인 4병까지 콜프. 스테이크 주문 필수" },
+        { region: "목동", name: "이타카", info: "병당 2만원" },
+        { region: "기타", name: "해브이너프", info: "병당 1.5만원" },
+        { region: "기타", name: "도도장어", info: "2병째부터 병당 만원" },
+        { region: "영등포", name: "월화식당", info: "네이버 예약시 콜키지 프리" },
+        { region: "기타", name: "오네스타키친", info: "콜키지프리" },
+        { region: "기타", name: "이여곰탕", info: "콜키지 프리" },
+        { region: "역삼동", name: "호 사퀴테리에", info: "2인당 1병 프리 이후 병당 1만원" },
+        { region: "양재천", name: "우주", info: "잔당 5천원 코스 7.5만 잔 가져오면 프리" },
+        { region: "논현동", name: "주방류", info: "7만원 코스 콜프." },
+        { region: "가로수길", name: "까사밀", info: "2병까지 프리. 이후 병당 1만원." }
     ];
-    let html = "";
-    KPI_TEAMS.forEach(team => {
-      html += `
-      <div style="margin-bottom:40px;">
-        <div style="display:inline-block; background:var(--accent); color:#fff; font-size:12px; font-weight:900; padding:6px 16px; border-radius:30px; margin-bottom:15px; letter-spacing:1px;">${team}</div>
-        <div class="kpi-grid-container">
-          ${kpiGuideData.filter(d => d.team === team).map(k => `
-            <div class="kpi-box">
-              <div class="kpi-weight">${k.weight}</div>
-              <div class="kpi-title">${k.item}</div>
-              <div class="kpi-guide">${k.guide}</div>
-            </div>`).join('')}
-        </div>
-      </div>`;
-    });
-    contentContainer.innerHTML = html;
-  }
-}
 
-/* 데이터 처리 함수들 */
-function openModal(id = null, teamHint = null, itemHint = null, monthHint = null) {
-  const fMonth = document.getElementById('f-month'), fTeam = document.getElementById('f-team');
-  fMonth.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
-  fTeam.innerHTML = (currentCategory === 'kpi' ? KPI_TEAMS : TASK_TEAMS).map(t => `<option value="${t}">${t}</option>`).join('');
-  if (id && id !== '') {
-    const d = db.find(x => String(x.id) === String(id));
-    document.getElementById('f-id').value = d.id; fMonth.value = d.month; fTeam.value = d.team;
-    updateKpiOptions(); document.getElementById('f-kpi').value = d.item;
-    document.getElementById('f-last').value = d.lastDone; document.getElementById('f-this').value = d.thisPlan;
-  } else {
-    document.getElementById('f-id').value = ''; fMonth.value = monthHint; fTeam.value = teamHint;
-    updateKpiOptions(); if(itemHint) document.getElementById('f-kpi').value = itemHint;
-    document.getElementById('f-last').value = ''; document.getElementById('f-this').value = '';
-  }
-  document.getElementById('modal').style.display = 'flex';
-}
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
-function updateKpiOptions() {
-  const t = document.getElementById('f-team').value;
-  const list = (currentCategory === 'kpi' ? KPI_DATA_FULL : TASK_DATA_FULL);
-  document.getElementById('f-kpi').innerHTML = list[t] ? list[t].map(k => `<option value="${k.item}">${k.item}</option>`).join('') : '';
-}
-function saveData() {
-  const entry = { id: document.getElementById('f-id').value || Date.now(), type: currentCategory, year: currentYear, month: parseInt(document.getElementById('f-month').value), team: document.getElementById('f-team').value, item: document.getElementById('f-kpi').value, lastDone: document.getElementById('f-last').value, thisPlan: document.getElementById('f-this').value };
-  db = db.filter(d => String(d.id) !== String(entry.id)); db.push(entry);
-  localStorage.setItem('k_total_db_v6', JSON.stringify(db)); closeModal(); render();
-}
-function deleteData() {
-  if(confirm('삭제하시겠습니까?')) {
-    db = db.filter(d => String(d.id) !== String(document.getElementById('f-id').value));
-    localStorage.setItem('k_total_db_v6', JSON.stringify(db)); closeModal(); render();
-  }
-}
-function togglePopup(e, id) { e.stopPropagation(); document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'grid'; }
-function closeAllPopups() { document.querySelectorAll('.selector-grid-popup').forEach(p => p.style.display = 'none'); }
-function handleLogout() { sessionStorage.clear(); location.reload(); }
-window.onload = checkAuth;
+    const resultList = document.getElementById('resultList');
+
+    function filterResults() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        resultList.innerHTML = '';
+
+        const filtered = winePlaces.filter(place => 
+            place.region.includes(query) || place.name.includes(query)
+        );
+
+        filtered.forEach(place => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            // 네이버 지도 검색 URL 생성
+            const naverUrl = `https://map.naver.com/v5/search/${encodeURIComponent(place.region + ' ' + place.name)}`;
+
+            card.innerHTML = `
+                <h3>${place.name} <span class="region">${place.region}</span></h3>
+                <div class="info">📌 ${place.info}</div>
+                <a href="${naverUrl}" target="_blank" class="btn-naver">네이버 지도로 보기</a>
+            `;
+            resultList.appendChild(card);
+        });
+    }
+
+    // 초기 화면에 모든 리스트 표시
+    filterResults();
 </script>
+
 </body>
 </html>
